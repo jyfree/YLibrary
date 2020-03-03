@@ -30,8 +30,7 @@ YLibrary是使用kotlin&Java混合编写的，分为三个library：
  3. 使用主流的**RxJava2、retrofit2、RxBus、glide**框架
  4. 基于**sociallibrary**、二次封装社会化库
 
-sociallibrary和baselibrary可以单独使用
-commonlibrary依赖于sociallibrary和baselibrary
+注：sociallibrary和baselibrary可以单独使用，  commonlibrary依赖于sociallibrary和baselibrary
 
 ## 如何使用？O(∩_∩)O哈哈~比较懒不想写
 
