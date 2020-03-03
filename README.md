@@ -10,8 +10,8 @@ YLibrary是使用kotlin&Java混合编写的，分为三个library：
 一、sociallibrary（社会化库）
 
 主要包括以下功能：
- 1. 集成QQ、微博、微信登录&分享
- 2. 集成支付宝、微信支付
+ 1. 集成**QQ、微博、微信登录&分享**
+ 2. 集成**支付宝、微信支付**
 
 二、baselibrary（基础库）
 
