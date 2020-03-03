@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+
+    <color name="social_sdk_share_dialog_bgColor">#8e323232</color>
+    <color name="social_sdk_share_item_tcColor">#ffffff</color>
+    <color name="social_sdk_text_color">#364C6A</color>
+
+</resources>

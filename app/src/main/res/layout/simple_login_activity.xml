@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+    android:orientation="horizontal"
+    android:weightSum="3">
+
+    <TextView
+        android:id="@+id/login_2qq"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/social_sdk_logo_qq"
+        android:gravity="center"
+        android:onClick="onClickLogin"
+        android:text="QQ登录" />
+
+
+    <TextView
+        android:id="@+id/login_2wx"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/social_sdk_logo_wechat"
+        android:gravity="center"
+        android:onClick="onClickLogin"
+        android:text="微信登录" />
+
+
+    <TextView
+        android:id="@+id/login_2wb"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/social_sdk_logo_wb"
+        android:gravity="center"
+        android:onClick="onClickLogin"
+        android:text="微博登录" />
+
+
+</LinearLayout>

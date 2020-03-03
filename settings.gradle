@@ -1,0 +1,5 @@
+rootProject.name='YLibrary'
+include ':app'
+include ':sociallibrary'
+include ':baselibrary'
+include ':commonlibrary'

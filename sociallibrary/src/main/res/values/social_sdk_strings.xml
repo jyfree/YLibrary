@@ -1,0 +1,24 @@
+<resources>
+    <string name="social_sdk_toast_pay_succeed">支付成功</string>
+    <string name="social_sdk_toast_pay_inConfirmation">支付结果确认中</string>
+    <string name="social_sdk_toast_pay_networkFail">网络连接出错</string>
+    <string name="social_sdk_toast_pay_cancel">取消支付</string>
+    <string name="social_sdk_toast_pay_fail">支付失败</string>
+    <string name="social_sdk_pay_prompt">正在支付，请稍等&#8230;</string>
+
+    <string name="social_sdk_extLogin_channel_loging">正在登录</string>
+
+    <string name="social_sdk_toast_auth_success">授权成功</string>
+    <string name="social_sdk_toast_auth_failed">授权失败</string>
+    <string name="social_sdk_toast_auth_failed2">授权失败,错误码%1$s</string>
+    <string name="social_sdk_toast_auth_failed_notOpenId">授权失败,错误码667</string>
+    <string name="social_sdk_toast_auth_failed_unReady">授权失败,错误码668</string>
+    <string name="social_sdk_toast_auth_canceled">取消授权</string>
+
+    <string name="social_sdk_toast_share_success">分享成功</string>
+    <string name="social_sdk_toast_share_failed">分享失败,错误码%1$d</string>
+    <string name="social_sdk_toast_share_canceled">取消分享</string>
+
+    <string name="social_sdk_text">分享</string>
+
+</resources>

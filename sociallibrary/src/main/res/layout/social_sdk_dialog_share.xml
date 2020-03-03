@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/social_sdk_layout_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@id/social_sdk_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:padding="11dp"
+            android:src="@drawable/social_sdk_close" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/social_sdk_text"
+            android:textColor="@color/social_sdk_text_color"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <GridView
+        android:id="@id/social_sdk_gridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
+        android:fadingEdge="none"
+        android:gravity="center"
+        android:horizontalSpacing="1dp"
+        android:listSelector="@null"
+        android:numColumns="5"
+        android:scrollbars="none"
+        android:verticalSpacing="1dp" />
+
+
+
+</LinearLayout>

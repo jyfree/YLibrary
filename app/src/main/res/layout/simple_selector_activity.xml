@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/btn_Shadow"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Shadow" />
+
+
+    <TextView
+        android:id="@+id/btn_BgColor"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="BgColor" />
+
+    <TextView
+        android:id="@+id/tv_TextColor"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="TextColor" />
+
+    <TextView
+        android:id="@+id/iv_BgDrawable"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="BgDrawable" />
+
+    <TextView
+        android:id="@+id/iv_CDrawable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="CompoundDrawable" />
+</LinearLayout>

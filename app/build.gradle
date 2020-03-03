@@ -1,0 +1,92 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.hujiang.android-aspectjx'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        multiDexEnabled true
+        applicationId "com.jy.simple"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        flavorDimensions "versionCode"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    productFlavors {
+
+        product_test {
+            applicationId "com.jj.mitao2"
+            manifestPlaceholders = [package_name: "com.jj.mitao2", CHANNEL_VALUE: "test", UMENG_APPKEY_VALUE: "123", TENCENT_VALUE: "tencent1105229451", WX_VALUE: "wx499feadd9f2855f8"]
+        }
+    }
+
+    buildTypes {
+        release {
+            //混淆
+            minifyEnabled true
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //启用DataBinding
+    dataBinding {
+        enabled true
+    }
+
+    //支付宝需要
+    repositories {
+        flatDir {
+            dirs 'libs', rootProject.ext.socialsdklib_path
+        }
+    }
+
+}
+
+aspectjx {
+    //排除支付宝
+    exclude 'com.alipay'
+    //排除社会化库
+    exclude 'com.jy.sociallibrary'
+}
+
+android.applicationVariants.all { variant ->
+    variant.outputs.all { output ->
+        def apkName = "jy_${variant.flavorName}"
+        def fileName = "${variant.buildType.getName()}_${apkName}_${variant.versionName}.apk"
+        outputFileName = fileName
+    }
+}
+
+kapt {
+    generateStubs = true
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.dependencies.kotlin_stdlib_jdk7
+    implementation rootProject.ext.dependencies.androidx_core_ktx
+    implementation rootProject.ext.dependencies.androidx_constraintlayout
+    implementation rootProject.ext.dependencies.androidx_design
+    //multidex
+    implementation rootProject.ext.dependencies.multidex
+    //常用库
+    implementation project(':commonlibrary')
+    //blankj 混淆
+    implementation rootProject.ext.dependencies.blankj_free_proguard
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}

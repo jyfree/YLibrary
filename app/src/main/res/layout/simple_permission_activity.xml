@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="权限访问"
+        android:textSize="36sp" />
+
+    <Button
+        android:id="@+id/get_sdcard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="onClickPermission"
+        android:text="写sd卡" />
+
+    <Button
+        android:id="@+id/get_imei"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="onClickPermission"
+        android:text="读取IMEI" />
+
+    <Button
+        android:id="@+id/get_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="onClickPermission"
+        android:text="all" />
+</LinearLayout>

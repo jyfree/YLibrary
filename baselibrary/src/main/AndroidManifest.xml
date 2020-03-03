@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jy.baselibrary">
+
+    <application>
+        <activity
+            android:name=".acp.AcpActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:theme="@style/Base.Library.Theme.Transparent" />
+
+        <activity
+            android:name=".pic.PicActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:theme="@style/Base.Library.Theme.Transparent" />
+    </application>
+</manifest>

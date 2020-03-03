@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello 我是YLibrary框架"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/go_Loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="loading示例" />
+
+        <Button
+            android:id="@+id/go_RxBus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="RxBus示例" />
+
+        <Button
+            android:id="@+id/go_api"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="接口请求、图片加载示例" />
+
+        <Button
+            android:id="@+id/go_mvp_api"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="接口请求、图片加载示例(mvp)" />
+
+        <Button
+            android:id="@+id/go_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="下载示例" />
+
+        <Button
+            android:id="@+id/showDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="对话框示例" />
+
+
+        <Button
+            android:id="@+id/go_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="bar主题示例" />
+
+        <Button
+            android:id="@+id/go_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="分享示例" />
+
+        <Button
+            android:id="@+id/go_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="登录示例" />
+
+        <Button
+            android:id="@+id/go_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="支付示例" />
+
+        <Button
+            android:id="@+id/go_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="倒计时示例" />
+
+        <Button
+            android:id="@+id/go_permission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="权限申请示例" />
+
+        <Button
+            android:id="@+id/go_sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="SP示例" />
+
+        <Button
+            android:id="@+id/go_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="拍照和图库示例" />
+
+        <Button
+            android:id="@+id/go_shadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="selector示例" />
+
+        <Button
+            android:id="@+id/go_db"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="db示例" />
+
+        <Button
+            android:id="@+id/go_lazy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="懒加载示例" />
+
+        <Button
+            android:id="@+id/go_mvvm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="MVVM示例" />
+
+        <Button
+            android:id="@+id/go_mvvm_api"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="MVVM示例(api)" />
+
+        <Button
+            android:id="@+id/go_mvvm_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="MVVM示例(数据共享)" />
+
+        <Button
+            android:id="@+id/go_aop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="aop示例" />
+    </LinearLayout>
+
+</ScrollView>

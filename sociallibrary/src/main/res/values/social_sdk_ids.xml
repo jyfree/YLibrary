@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <item name="social_sdk_gridView" type="id"/>
+    <item name="social_sdk_imageView" type="id"/>
+    <item name="social_sdk_textView" type="id"/>
+    <item name="social_sdk_close" type="id"/>
+
+
+</resources>

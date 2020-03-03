@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jy.simple">
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".rxbus.RxBusSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".loading.LoadingSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".http.ApiSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".http.MvpApiSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".http.DownloadSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".bar.BarSimpleActivity"
+            android:screenOrientation="unspecified"
+            android:theme="@style/BarTheme" />
+
+        <activity
+            android:name=".social.ShareSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".social.PaySimpleActivity"
+            android:screenOrientation="unspecified">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="${WX_VALUE}" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".social.LoginSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".timer.TimerSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".permission.PermissionSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".sp.SpSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".pic.PicSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".selector.SelectorSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".db.DBSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".lazy.LazySimpleActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+
+        <activity
+            android:name=".mvvm.MvvMSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".http.MvvMApiSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".mvvm.MvvMLazySimpleActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+
+        <activity
+            android:name=".aspect.AspectSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <!--**********************************************************************-->
+
+        <!--*****************************二次封装透明activity**********************************-->
+
+        <activity
+            android:name="com.jy.commonlibrary.social.login.SDKLoginActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.Transparent" />
+
+        <activity
+            android:name="com.jy.commonlibrary.social.pay.SDKPayActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="${WX_VALUE}" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.jy.commonlibrary.social.share.SDKShareActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.Transparent" />
+
+        <!--*****************************二次封装透明activity end******************************-->
+
+        <!--***************************微信支付&登录*************************-->
+        <activity
+            android:name="com.jj.mitao2.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+        <activity
+            android:name="com.jj.mitao2.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/translucent" />
+
+        <receiver
+            android:name="com.jy.sociallibrary.wx.AppRegister"
+            android:permission="com.tencent.mm.plugin.permission.SEND">
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
+        <!--***************************微信支付&登录 end*************************-->
+
+        <!--***************************支付宝*************************-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!--***************************支付宝 end***********************-->
+
+
+        <!--***************************微博*************************-->
+
+        <!--***************************微博 end***********************-->
+
+        <!--***************************QQ*************************-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="${TENCENT_VALUE}" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--***************************QQ end*************************-->
+
+        <!--***************************下载服务*************************-->
+        <service
+            android:name="com.jy.commonlibrary.http.download.sys.DownloadServer"
+            android:process=":download" />
+
+        <!--***************************访问文件*************************-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${package_name}.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/rc_file_path" />
+        </provider>
+    </application>
+
+</manifest>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <files-path name="rc_files_path" path="." /> <!--对应getFilesDir()。-->
+    <!--<cache-path name="rc_cache_path" path="." /> &lt;!&ndash;对应getCacheDir()。&ndash;&gt;-->
+    <external-path name="rc_external_path" path="." /> <!--对应Environment.getExternalStorageDirectory()。-->
+    <!--<external-files-path name="rc_external_files_path" path="." /> &lt;!&ndash;对应getExternalFilesDir()。&ndash;&gt;-->
+    <!--<external-cache-path name="rc_external_cache_path" path="." /> &lt;!&ndash;对应getExternalCacheDir()。&ndash;&gt;-->
+</paths>

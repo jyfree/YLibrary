@@ -1,0 +1,72 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //支付宝需要
+    repositories {
+        flatDir {
+            dirs 'libs', rootProject.ext.socialsdklib_path
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //基础库
+    api project(':baselibrary')
+    //社会化库
+    api project(':sociallibrary')
+    //RxJava
+    api rootProject.ext.dependencies.rxjava
+    api rootProject.ext.dependencies.rxandroid
+    //Retrofit
+    api rootProject.ext.dependencies.retrofit_base
+    api rootProject.ext.dependencies.retrofit_converter_gson
+    api rootProject.ext.dependencies.retrofit_adapter
+    //OkHttp
+    api rootProject.ext.dependencies.okhttp
+    //Coroutines
+    api rootProject.ext.dependencies.coroutines
+    //glide
+    api(rootProject.ext.dependencies.glide) {
+        exclude group: "com.android.support"
+    }
+    //aspectjx aop
+    api rootProject.ext.dependencies.aspectj
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}

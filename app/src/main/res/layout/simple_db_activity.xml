@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/load_coroutine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onLoadDB"
+        android:text="协程查询数据库" />
+
+    <Button
+        android:id="@+id/load_def"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onLoadDB"
+        android:text="普通查询数据库" />
+
+    <Button
+        android:id="@+id/load_thread"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onLoadDB"
+        android:text="子线程查询数据库" />
+
+    <Button
+        android:id="@+id/reflect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onLoadDB"
+        android:text="反射插入和查询db" />
+</LinearLayout>
