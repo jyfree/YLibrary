@@ -10,6 +10,7 @@ import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.commonlibrary.social.share.ExtShare
 import com.jy.commonlibrary.social.share.SDKShareManager
+import com.jy.simple.Constants
 import com.jy.simple.R
 import com.jy.sociallibrary.bean.ShareInfo
 import com.jy.sociallibrary.constant.SDKShareType
@@ -86,10 +87,10 @@ class ShareSimpleActivity : Activity() {
         shareInfoVo.appName = getString(R.string.app_name)
         //图片不能超过32K
         shareInfoVo.bitmap = BitmapFactory.decodeResource(resources, R.drawable.share_icon)
-        shareInfoVo.imageUrl = "http://img.wowolive99.com/120x120.png"//分享imageUrl
+        shareInfoVo.imageUrl = Constants.URL.SHARE_IMAGE_URL//分享imageUrl
         shareInfoVo.summary = "撩起来"
         shareInfoVo.title = getString(R.string.app_name)
-        shareInfoVo.targetUrl = "http://www.wowolive99.com/activity/download_h5/index.html"//分享目标地址
+        shareInfoVo.targetUrl = Constants.URL.SHARE_TARGET_URL//分享目标地址
 
         return shareInfoVo
     }

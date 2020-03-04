@@ -8,8 +8,6 @@ ext {
             versionName      : "1.0.0"
     ]
 
-    socialsdklib_path = projectDir.getPath() + "/sociallibrary/libs"
-
     dependencies = [
             kotlin_stdlib_jdk7       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             //social
@@ -45,8 +43,13 @@ ext {
             //aspectj
             aspectj                  : 'org.aspectj:aspectjrt:1.8.9',
             //blankj混淆
-            blankj_free_proguard     : 'com.blankj:free-proguard:1.0.2'
-
+            blankj_free_proguard     : 'com.blankj:free-proguard:1.0.2',
+            //基础库
+            jy_baselibrary           : 'com.jy.baselibrary:baselibrary:1.0.1',
+            //社会化库
+            jy_sociallibrary         : 'com.jy.sociallibrary:sociallibrary:1.0.4',
+            //常用库
+            jy_commonlibrary         : 'com.jy.commonlibrary:commonlibrary:1.0.3'
 
     ]
 }

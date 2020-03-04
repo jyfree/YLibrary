@@ -2,7 +2,8 @@
 apply from: "version.gradle"
 buildscript {
     ext.kotlin_version = '1.3.61'
-    ext.aspectjx = projectDir.getPath() + "/commonlibrary/plugins"
+    ext.aspectjx = projectDir.getPath() + "/ext/plugins"
+    ext.alipay = projectDir.getPath() + "/ext/aar/alipaySdk-15.6.2-20190416165036.aar"
     repositories {
         google()
         jcenter()
@@ -16,6 +17,9 @@ buildscript {
         classpath fileTree(dir: aspectjx, include: ['*.jar'])
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        //上传到jcenter
+        classpath 'com.novoda:bintray-release:0.9.1'//上传到jcenter用到
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.18"//上传到jcenter kotlin用到
     }
 }
 
@@ -24,8 +28,25 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
-        maven { url "https://dl.bintray.com/thelasterstar/maven/" }
+        maven { url "https://dl.bintray.com/thelasterstar/maven/" }//微博
     }
+
+    tasks.withType(Javadoc) {
+        options {
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            links "http://docs.oracle.com/javase/7/docs/api"
+            linksOffline "http://d.android.com/reference", "${android.sdkDirectory}/docs/reference"
+        }
+        failOnError = false
+    }
+}
+
+
+ext {
+    userOrg = 'ljyfree'//bintray.com用户名
+    website = 'https://github.com/jyfree/YLibrary'
+    licences = ['Apache-2.0']
 }
 
 task clean(type: Delete) {
