@@ -1,9 +1,10 @@
-package com.jy.sociallibrary;
+package com.jy.sociallibrary.manager;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 
+import com.jy.sociallibrary.R;
 import com.jy.sociallibrary.listener.OnSocialSdkLoginListener;
 import com.jy.sociallibrary.qq.QQChannelManager;
 import com.jy.sociallibrary.utils.SDKLogUtils;

@@ -1,4 +1,4 @@
-package com.jy.commonlibrary.social.share
+package com.jy.sociallibrary.ext.share
 
 /**
  * @Author Administrator

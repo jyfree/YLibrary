@@ -8,12 +8,12 @@ import android.os.Bundle
 import android.view.View
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
-import com.jy.commonlibrary.social.share.ExtShare
-import com.jy.commonlibrary.social.share.SDKShareManager
 import com.jy.simple.Constants
 import com.jy.simple.R
 import com.jy.sociallibrary.bean.ShareInfo
 import com.jy.sociallibrary.constant.SDKShareType
+import com.jy.sociallibrary.ext.share.ExtShare
+import com.jy.sociallibrary.ext.share.SDKShareManager
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener
 import com.jy.sociallibrary.wx.WXListener
 

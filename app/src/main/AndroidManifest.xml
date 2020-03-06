@@ -118,13 +118,13 @@
         <!--*****************************二次封装透明activity**********************************-->
 
         <activity
-            android:name="com.jy.commonlibrary.social.login.SDKLoginActivity"
+            android:name="com.jy.sociallibrary.ext.login.SDKLoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Transparent" />
 
         <activity
-            android:name="com.jy.commonlibrary.social.pay.SDKPayActivity"
+            android:name="com.jy.sociallibrary.ext.pay.SDKPayActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Transparent">
@@ -136,7 +136,7 @@
         </activity>
 
         <activity
-            android:name="com.jy.commonlibrary.social.share.SDKShareActivity"
+            android:name="com.jy.sociallibrary.ext.share.SDKShareActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Transparent" />

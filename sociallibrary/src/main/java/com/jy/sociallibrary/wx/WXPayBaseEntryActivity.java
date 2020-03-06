@@ -1,9 +1,10 @@
 package com.jy.sociallibrary.wx;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.jy.sociallibrary.SDKConfig;
 import com.jy.sociallibrary.utils.SDKLogUtils;
@@ -15,7 +16,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 
-public abstract class SDKWXPayEntryActivity extends Activity implements IWXAPIEventHandler {
+public abstract class WXPayBaseEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
 
 
     private IWXAPI api;

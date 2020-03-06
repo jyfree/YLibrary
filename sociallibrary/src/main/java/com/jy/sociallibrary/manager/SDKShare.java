@@ -1,4 +1,4 @@
-package com.jy.sociallibrary;
+package com.jy.sociallibrary.manager;
 
 import android.content.Context;
 import android.content.Intent;

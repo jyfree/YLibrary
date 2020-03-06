@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Xml;
 
 import com.jy.sociallibrary.SDKConfig;
-import com.jy.sociallibrary.SDKThreadManager;
+import com.jy.sociallibrary.manager.SDKThreadManager;
 import com.jy.sociallibrary.utils.SDKLogUtils;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;

@@ -1,4 +1,4 @@
-package com.jy.commonlibrary.social.login
+package com.jy.sociallibrary.ext.login
 
 /**
  * @Author Administrator

@@ -1,8 +1,9 @@
-package com.jy.sociallibrary;
+package com.jy.sociallibrary.manager;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import com.jy.sociallibrary.R;
 import com.jy.sociallibrary.alipay.AliPayManager;
 import com.jy.sociallibrary.alipay.PayBean;
 import com.jy.sociallibrary.listener.OnSocialSdkPayListener;

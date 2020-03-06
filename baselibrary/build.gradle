@@ -33,7 +33,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api rootProject.ext.dependencies.androidx_appcompat
+    implementation rootProject.ext.dependencies.androidx_appcompat
     //RxLifecycle
     api rootProject.ext.dependencies.rxlifecycle2_components
     api rootProject.ext.dependencies.rxlifecycle2_kotlin

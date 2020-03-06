@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.View
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
-import com.jy.commonlibrary.social.pay.ExtPay
-import com.jy.commonlibrary.social.pay.SDKPayManager
 import com.jy.simple.R
+import com.jy.sociallibrary.ext.pay.ExtPay
+import com.jy.sociallibrary.ext.pay.SDKPayManager
 import com.jy.sociallibrary.listener.OnSocialSdkPayListener
 import com.jy.sociallibrary.wx.WXListener
 import com.jy.sociallibrary.wx.WXPayBean

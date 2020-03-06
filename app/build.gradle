@@ -77,12 +77,13 @@ dependencies {
     //blankj 混淆
     implementation rootProject.ext.dependencies.blankj_free_proguard
 
-    //常用库   maven导入方式
-    implementation rootProject.ext.dependencies.jy_commonlibrary
-    implementation files(alipay)//支付宝
+    //maven导入方式
+//    implementation rootProject.ext.dependencies.jy_commonlibrary//常用库
+//    implementation files(alipay)//支付宝
 
-    //常用库   module导入方式
-//    implementation project(':commonlibrary')
+    //module导入方式
+    implementation project(':commonlibrary')//常用库
+    implementation project(':sociallibrary')//社会化库
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

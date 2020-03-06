@@ -1,9 +1,10 @@
 package com.jy.sociallibrary.wx;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.jy.sociallibrary.SDKConfig;
 import com.jy.sociallibrary.utils.SDKLogUtils;
@@ -21,7 +22,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
  * created at 2019/9/29 13:59
  * TODO:微信分析或登录回调activity
  */
-public abstract class SDKWXEntryActivity extends Activity implements IWXAPIEventHandler {
+public abstract class WXBaseEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
 
 
     private IWXAPI api;

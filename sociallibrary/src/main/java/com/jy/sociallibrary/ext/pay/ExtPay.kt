@@ -1,4 +1,4 @@
-package com.jy.commonlibrary.social.pay
+package com.jy.sociallibrary.ext.pay
 
 /**
  * @Author Administrator

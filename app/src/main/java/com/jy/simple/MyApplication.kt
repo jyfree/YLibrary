@@ -85,6 +85,7 @@ class MyApplication : Application() {
             .wbAppID("4044733576")
             .wbRedirectUrl("https://api.weibo.com/oauth2/default.html")
             .wbScope("statuses_to_me_read")
+            .isShowLog(true)
             .build(this)
     }
 

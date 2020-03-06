@@ -1,13 +1,14 @@
-package com.jy.commonlibrary.social.pay
+package com.jy.sociallibrary.ext.pay
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.jy.baselibrary.utils.YLogUtils
-import com.jy.sociallibrary.SDKPay
+import com.jy.sociallibrary.manager.SDKPay
 import com.jy.sociallibrary.constant.SDKPayType
+import com.jy.sociallibrary.ext.data.StatusLiveData
 import com.jy.sociallibrary.listener.OnSocialSdkPayListener
+import com.jy.sociallibrary.utils.SDKLogUtils
 import com.jy.sociallibrary.wx.WXListener
 import com.jy.sociallibrary.wx.WXPayBean
 
@@ -67,24 +68,26 @@ class SDKPayManager {
 
 
     private fun initSdkPay(activity: Activity) {
-        sdkPay = SDKPay(activity, object : OnSocialSdkPayListener {
-            override fun paySuccess(type: Int, orderId: String?) {
-                onDestroy(activity)
-                payListener?.paySuccess(type, orderId)
-            }
+        sdkPay = SDKPay(
+            activity,
+            object : OnSocialSdkPayListener {
+                override fun paySuccess(type: Int, orderId: String?) {
+                    onDestroy(activity)
+                    payListener?.paySuccess(type, orderId)
+                }
 
-            override fun payFail(type: Int, error: String?) {
-                onDestroy(activity)
-                payListener?.payFail(type, error)
-            }
+                override fun payFail(type: Int, error: String?) {
+                    onDestroy(activity)
+                    payListener?.payFail(type, error)
+                }
 
-            override fun payCancel(type: Int) {
-                onDestroy(activity)
-                payListener?.payCancel(type)
-            }
-        })
+                override fun payCancel(type: Int) {
+                    onDestroy(activity)
+                    payListener?.payCancel(type)
+                }
+            })
         sdkPay?.setWxListener {
-            YLogUtils.e("未安装微信")
+            SDKLogUtils.e("未安装微信")
             onDestroy(activity)
             wxListener?.installWXAPP()
         }
@@ -94,12 +97,12 @@ class SDKPayManager {
     fun checkPay(activity: Activity, intent: Intent?) {
 
         if (intent == null) {
-            YLogUtils.e("checkPay intent is null")
+            SDKLogUtils.e("checkPay intent is null")
             onDestroy(activity)
             return
         }
         if (intent.extras == null) {
-            YLogUtils.e("checkPay extras is null")
+            SDKLogUtils.e("checkPay extras is null")
             onDestroy(activity)
             return
         }
@@ -110,7 +113,10 @@ class SDKPayManager {
                 wxPayOrderSuccess(intent.getParcelableExtra(WX_PAY_INFO))
             }
             SDKPayType.TYPE_ALI -> {
-                aliPlayOrderSuccess(intent.getStringExtra(ORDER_ID), intent.getStringExtra(ALI_PAY_INFO))
+                aliPlayOrderSuccess(
+                    intent.getStringExtra(ORDER_ID),
+                    intent.getStringExtra(ALI_PAY_INFO)
+                )
             }
         }
     }
@@ -158,5 +164,7 @@ class SDKPayManager {
     private fun onDestroy(activity: Activity?) {
         showSDKProgress(false)
         activity?.finish()
+        //因为StatusLiveData是单例，所以必须置空
+        StatusLiveData.getInstance().value = null
     }
 }

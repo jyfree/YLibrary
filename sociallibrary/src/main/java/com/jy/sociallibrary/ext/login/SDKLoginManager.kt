@@ -1,13 +1,14 @@
-package com.jy.commonlibrary.social.login
+package com.jy.sociallibrary.ext.login
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.jy.baselibrary.utils.YLogUtils
-import com.jy.sociallibrary.SDKLogin
+import com.jy.sociallibrary.manager.SDKLogin
 import com.jy.sociallibrary.constant.SDKLoginType
+import com.jy.sociallibrary.ext.data.StatusLiveData
 import com.jy.sociallibrary.listener.OnSocialSdkLoginListener
+import com.jy.sociallibrary.utils.SDKLogUtils
 import com.jy.sociallibrary.wx.WXListener
 
 
@@ -63,22 +64,24 @@ class SDKLoginManager {
     }
 
     private fun initSdkLogin(activity: Activity) {
-        sdkLogin = SDKLogin(activity, object : OnSocialSdkLoginListener {
-            override fun loginAuthSuccess(type: Int, token: String, info: String) {
-                onDestroy(activity)
-                loginListener?.loginAuthSuccess(type, token, info)
-            }
+        sdkLogin = SDKLogin(
+            activity,
+            object : OnSocialSdkLoginListener {
+                override fun loginAuthSuccess(type: Int, token: String, info: String) {
+                    onDestroy(activity)
+                    loginListener?.loginAuthSuccess(type, token, info)
+                }
 
-            override fun loginFail(type: Int, error: String) {
-                onDestroy(activity)
-                loginListener?.loginFail(type, error)
-            }
+                override fun loginFail(type: Int, error: String) {
+                    onDestroy(activity)
+                    loginListener?.loginFail(type, error)
+                }
 
-            override fun loginCancel(type: Int) {
-                onDestroy(activity)
-                loginListener?.loginCancel(type)
-            }
-        })
+                override fun loginCancel(type: Int) {
+                    onDestroy(activity)
+                    loginListener?.loginCancel(type)
+                }
+            })
         sdkLogin?.setWXListener {
             onDestroy(activity)
             wxListener?.installWXAPP()
@@ -88,12 +91,12 @@ class SDKLoginManager {
     fun checkLogin(activity: Activity, intent: Intent?) {
 
         if (intent == null) {
-            YLogUtils.e("checkLogin intent is null")
+            SDKLogUtils.e("checkLogin intent is null")
             onDestroy(activity)
             return
         }
         if (intent.extras == null) {
-            YLogUtils.e("checkLogin extras is null")
+            SDKLogUtils.e("checkLogin extras is null")
             onDestroy(activity)
             return
         }
@@ -147,5 +150,7 @@ class SDKLoginManager {
     private fun onDestroy(activity: Activity?) {
         showSDKProgress(false)
         activity?.finish()
+        //因为StatusLiveData是单例，所以必须置空
+        StatusLiveData.getInstance().value = null
     }
 }

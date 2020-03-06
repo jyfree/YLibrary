@@ -6,9 +6,9 @@ import android.view.View
 import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
-import com.jy.commonlibrary.social.login.ExtLogin
 import com.jy.simple.R
 import com.jy.sociallibrary.constant.SDKLoginType
+import com.jy.sociallibrary.ext.login.ExtLogin
 import com.jy.sociallibrary.listener.OnSocialSdkLoginListener
 import com.jy.sociallibrary.wx.WXListener
 

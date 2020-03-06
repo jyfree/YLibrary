@@ -1,6 +1,6 @@
 package com.jy.commonlibrary.http
 
-import com.jy.baselibrary.BuildConfig
+import com.jy.commonlibrary.BuildConfig
 
 
 /**

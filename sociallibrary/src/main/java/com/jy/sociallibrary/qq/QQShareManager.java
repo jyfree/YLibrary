@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.jy.sociallibrary.SDKThreadManager;
+import com.jy.sociallibrary.manager.SDKThreadManager;
 import com.jy.sociallibrary.constant.SDKShareType;
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener;
 import com.jy.sociallibrary.utils.SDKLogUtils;

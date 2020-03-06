@@ -1,17 +1,18 @@
-package com.jy.commonlibrary.social.share
+package com.jy.sociallibrary.ext.share
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.jy.baselibrary.utils.YLogUtils
-import com.jy.commonlibrary.R
-import com.jy.sociallibrary.SDKShare
+import com.jy.sociallibrary.R
+import com.jy.sociallibrary.manager.SDKShare
 import com.jy.sociallibrary.bean.SDKShareChannel
 import com.jy.sociallibrary.bean.ShareInfo
 import com.jy.sociallibrary.constant.SDKShareType
 import com.jy.sociallibrary.dialog.SDKShareDialog
+import com.jy.sociallibrary.ext.data.StatusLiveData
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener
+import com.jy.sociallibrary.utils.SDKLogUtils
 import com.jy.sociallibrary.wx.WXListener
 
 
@@ -61,22 +62,24 @@ class SDKShareManager {
     }
 
     private fun initShare(activity: Activity) {
-        sdkShare = SDKShare(activity, object : OnSocialSdkShareListener {
-            override fun shareSuccess(type: Int) {
-                onDestroy(activity)
-                shareListener?.shareSuccess(type)
-            }
+        sdkShare = SDKShare(
+            activity,
+            object : OnSocialSdkShareListener {
+                override fun shareSuccess(type: Int) {
+                    onDestroy(activity)
+                    shareListener?.shareSuccess(type)
+                }
 
-            override fun shareFail(type: Int, error: String?) {
-                onDestroy(activity)
-                shareListener?.shareFail(type, error)
-            }
+                override fun shareFail(type: Int, error: String?) {
+                    onDestroy(activity)
+                    shareListener?.shareFail(type, error)
+                }
 
-            override fun shareCancel(type: Int) {
-                onDestroy(activity)
-                shareListener?.shareCancel(type)
-            }
-        })
+                override fun shareCancel(type: Int) {
+                    onDestroy(activity)
+                    shareListener?.shareCancel(type)
+                }
+            })
         sdkShare?.setWXListener {
             onDestroy(activity)
             wxListener?.installWXAPP()
@@ -86,23 +89,53 @@ class SDKShareManager {
 
     private fun prepareShareData(context: Context) {
         sdkShareChannels = ArrayList()
-        sdkShareChannels?.add(SDKShareChannel(SDKShareType.TYPE_WX_FRIENDS, R.drawable.social_sdk_logo_wechat, context.getString(R.string.social_sdk_share_2wechat)))
-        sdkShareChannels?.add(SDKShareChannel(SDKShareType.TYPE_QQ_FRIENDS, R.drawable.social_sdk_logo_qq, context.getString(R.string.social_sdk_share_2qq)))
-        sdkShareChannels?.add(SDKShareChannel(SDKShareType.TYPE_WX_CB, R.drawable.social_sdk_logo_wechatmoments, context.getString(R.string.social_sdk_share_2wechatmoments)))
-        sdkShareChannels?.add(SDKShareChannel(SDKShareType.TYPE_QQ_QZONE, R.drawable.social_sdk_logo_qzone, context.getString(R.string.social_sdk_share_2qzone)))
-        sdkShareChannels?.add(SDKShareChannel(SDKShareType.TYPE_WB, R.drawable.social_sdk_logo_wb, context.getString(R.string.social_sdk_share_2wb)))
+        sdkShareChannels?.add(
+            SDKShareChannel(
+                SDKShareType.TYPE_WX_FRIENDS,
+                R.drawable.social_sdk_logo_wechat,
+                context.getString(R.string.social_sdk_share_2wechat)
+            )
+        )
+        sdkShareChannels?.add(
+            SDKShareChannel(
+                SDKShareType.TYPE_QQ_FRIENDS,
+                R.drawable.social_sdk_logo_qq,
+                context.getString(R.string.social_sdk_share_2qq)
+            )
+        )
+        sdkShareChannels?.add(
+            SDKShareChannel(
+                SDKShareType.TYPE_WX_CB,
+                R.drawable.social_sdk_logo_wechatmoments,
+                context.getString(R.string.social_sdk_share_2wechatmoments)
+            )
+        )
+        sdkShareChannels?.add(
+            SDKShareChannel(
+                SDKShareType.TYPE_QQ_QZONE,
+                R.drawable.social_sdk_logo_qzone,
+                context.getString(R.string.social_sdk_share_2qzone)
+            )
+        )
+        sdkShareChannels?.add(
+            SDKShareChannel(
+                SDKShareType.TYPE_WB,
+                R.drawable.social_sdk_logo_wb,
+                context.getString(R.string.social_sdk_share_2wb)
+            )
+        )
     }
 
 
     fun checkShare(activity: Activity, intent: Intent?) {
 
         if (intent == null) {
-            YLogUtils.e("checkShare intent is null")
+            SDKLogUtils.e("checkShare intent is null")
             onDestroy(activity)
             return
         }
         if (intent.extras == null) {
-            YLogUtils.e("checkShare extras is null")
+            SDKLogUtils.e("checkShare extras is null")
             onDestroy(activity)
             return
         }
@@ -118,9 +151,13 @@ class SDKShareManager {
         if (sdkShareChannels == null) {
             prepareShareData(context)
         }
-        val sdkShareDialog = SDKShareDialog(context, R.style.social_Theme_dialog, sdkShareChannels, SDKShareDialog.OnSDKShareListener {
-            requestShare(context, it.id, shareInfo)
-        })
+        val sdkShareDialog = SDKShareDialog(
+            context,
+            R.style.social_Theme_dialog,
+            sdkShareChannels,
+            SDKShareDialog.OnSDKShareListener {
+                requestShare(context, it.id, shareInfo)
+            })
         sdkShareDialog.initSystemUI()
         sdkShareDialog.show()
     }
@@ -162,5 +199,7 @@ class SDKShareManager {
      */
     private fun onDestroy(activity: Activity?) {
         activity?.finish()
+        //因为StatusLiveData是单例，所以必须置空
+        StatusLiveData.getInstance().value = null
     }
 }
