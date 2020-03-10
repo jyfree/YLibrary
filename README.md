@@ -28,9 +28,13 @@ YLibrary是使用kotlin&Java混合编写的，分为三个library：
  1. 支持Aop切面编程：**Aspect**
  2. 注解式**DB**、并支持**协程，子线程**访问
  3. 使用主流的**RxJava2、retrofit2、RxBus、glide**框架
- 4. 基于**sociallibrary**、二次封装社会化库
 
-注：sociallibrary和baselibrary可以单独使用，  commonlibrary依赖于sociallibrary和baselibrary
+## gradle引入方式
+ 1. 基础库 implementation 'com.jy.baselibrary:baselibrary:1.0.2'
+ 2. 社会化库 implementation 'com.jy.sociallibrary:sociallibrary:1.1.0'
+ 3. 常用库 implementation 'com.jy.commonlibrary:commonlibrary:1.1.0'
+
+注：三个库都可以单独使用， commonlibrary依赖于baselibrary， 引用sociallibrary需要把支付宝引入，如：implementation files("alipaySdk-15.6.2-20190416165036.aar")
 
 ## 如何使用？O(∩_∩)O哈哈~比较懒不想写
 

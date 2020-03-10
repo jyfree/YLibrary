@@ -45,11 +45,11 @@ ext {
             //blankj混淆
             blankj_free_proguard     : 'com.blankj:free-proguard:1.0.2',
             //基础库
-            jy_baselibrary           : 'com.jy.baselibrary:baselibrary:1.0.1',
+            jy_baselibrary           : 'com.jy.baselibrary:baselibrary:1.0.2',
             //社会化库
-            jy_sociallibrary         : 'com.jy.sociallibrary:sociallibrary:1.0.4',
+            jy_sociallibrary         : 'com.jy.sociallibrary:sociallibrary:1.1.0',
             //常用库
-            jy_commonlibrary         : 'com.jy.commonlibrary:commonlibrary:1.0.3'
+            jy_commonlibrary         : 'com.jy.commonlibrary:commonlibrary:1.1.0'
 
     ]
 }
