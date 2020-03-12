@@ -162,6 +162,12 @@
             android:layout_height="wrap_content"
             android:onClick="go2Act"
             android:text="aop示例" />
+        <Button
+            android:id="@+id/go_queue_api"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="api队列示例" />
     </LinearLayout>
 
 </ScrollView>

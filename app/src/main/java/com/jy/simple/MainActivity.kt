@@ -7,10 +7,7 @@ import com.jy.simple.aspect.AspectSimpleActivity
 import com.jy.simple.bar.BarSimpleActivity
 import com.jy.simple.db.DBSimpleActivity
 import com.jy.simple.dialog.DialogSimple
-import com.jy.simple.http.ApiSimpleActivity
-import com.jy.simple.http.DownloadSimpleActivity
-import com.jy.simple.http.MvpApiSimpleActivity
-import com.jy.simple.http.MvvMApiSimpleActivity
+import com.jy.simple.http.*
 import com.jy.simple.lazy.LazySimpleActivity
 import com.jy.simple.loading.LoadingSimpleActivity
 import com.jy.simple.mvvm.MvvMLazySimpleActivity
@@ -57,6 +54,7 @@ class MainActivity : BaseActivity() {
             R.id.go_mvvm_api -> MvvMApiSimpleActivity.startAct(this)
             R.id.go_mvvm_fragment -> MvvMLazySimpleActivity.startAct(this)
             R.id.go_aop -> AspectSimpleActivity.startAct(this)
+            R.id.go_queue_api -> QueueApiSimpleActivity.startAct(this)
         }
     }
 

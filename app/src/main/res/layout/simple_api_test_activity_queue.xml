@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/requestData_common"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onRequest"
+        android:text="普通请求接口" />
+
+    <Button
+        android:id="@+id/requestData_fun_single"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onRequest"
+        android:text="方法体-单任务-请求接口" />
+
+    <Button
+        android:id="@+id/requestData_fun_chain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onRequest"
+        android:text="方法体-链式任务-请求接口" />
+
+    <TextView
+        android:id="@+id/tv_msg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="显示数据" />
+</LinearLayout>

@@ -41,10 +41,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //maven导入方式
-    api rootProject.ext.dependencies.jy_baselibrary//基础库
+//    api rootProject.ext.dependencies.jy_baselibrary//基础库
 
     //module导入方式
-//    api project(':baselibrary')//基础库
+    api project(':baselibrary')//基础库
 
     //RxJava
     api rootProject.ext.dependencies.rxjava

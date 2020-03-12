@@ -113,6 +113,9 @@
             android:name=".aspect.AspectSimpleActivity"
             android:screenOrientation="unspecified" />
 
+        <activity
+            android:name=".http.QueueApiSimpleActivity"
+            android:screenOrientation="unspecified" />
         <!--**********************************************************************-->
 
         <!--*****************************二次封装透明activity**********************************-->
