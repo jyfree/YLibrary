@@ -43,7 +43,7 @@ class FunQueueTask<T> {
         val t = chainBasket.poll()
         YLogUtils.d("链式任务--消费", t)
         t?.invoke()
-        //若方法体队列已全部出列，则清空标记队列
+        //若方法体队列已全部出列，则标记为true
         if (t == null) {
             flag = true
         }
