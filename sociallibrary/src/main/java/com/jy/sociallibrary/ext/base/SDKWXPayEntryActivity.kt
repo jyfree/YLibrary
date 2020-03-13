@@ -19,7 +19,7 @@ abstract class SDKWXPayEntryActivity : WXPayBaseEntryActivity() {
         SDKLogUtils.i("微信支付--成功")
         val statusBean = StatusBean();
         statusBean.status = SDKConstants.PayStatus.WX_PAY_SUCCESS
-        StatusLiveData.getInstance().setValue(statusBean);
+        StatusLiveData.getInstance().value = statusBean;
     }
 
     override fun payCancel() {
@@ -27,7 +27,7 @@ abstract class SDKWXPayEntryActivity : WXPayBaseEntryActivity() {
         SDKLogUtils.i("微信支付--取消")
         val statusBean = StatusBean();
         statusBean.status = SDKConstants.PayStatus.WX_PAY_CANCEL
-        StatusLiveData.getInstance().setValue(statusBean);
+        StatusLiveData.getInstance().value = statusBean;
     }
 
     override fun payFail(errCode: Int) {
@@ -36,7 +36,7 @@ abstract class SDKWXPayEntryActivity : WXPayBaseEntryActivity() {
         val statusBean = StatusBean();
         statusBean.errCode = errCode
         statusBean.status = SDKConstants.PayStatus.WX_PAY_FAIL
-        StatusLiveData.getInstance().setValue(statusBean);
+        StatusLiveData.getInstance().value = statusBean;
     }
 
 

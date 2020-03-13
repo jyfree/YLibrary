@@ -5,13 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.jy.sociallibrary.R
-import com.jy.sociallibrary.manager.SDKShare
 import com.jy.sociallibrary.bean.SDKShareChannel
 import com.jy.sociallibrary.bean.ShareInfo
 import com.jy.sociallibrary.constant.SDKShareType
 import com.jy.sociallibrary.dialog.SDKShareDialog
 import com.jy.sociallibrary.ext.data.StatusLiveData
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener
+import com.jy.sociallibrary.manager.SDKShare
 import com.jy.sociallibrary.utils.SDKLogUtils
 import com.jy.sociallibrary.wx.WXListener
 
@@ -142,6 +142,10 @@ class SDKShareManager {
 
         val shareInfo = intent.getParcelableExtra<ShareInfo>(SHARE_INFO)
         val shareType = intent.getIntExtra(SHARE_TYPE, 0)
+        if (shareInfo == null) {
+            onDestroy(activity)
+            return
+        }
         onShare(shareType, shareInfo)
 
     }

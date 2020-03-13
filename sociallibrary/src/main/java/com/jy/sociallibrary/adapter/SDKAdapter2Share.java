@@ -21,8 +21,8 @@ import java.util.List;
  */
 public class SDKAdapter2Share extends BaseAdapter {
 
-    protected LayoutInflater mInflater;
-    protected List<SDKShareChannel> mData;
+    private LayoutInflater mInflater;
+    private List<SDKShareChannel> mData;
 
     public SDKAdapter2Share(Context mContext, List<SDKShareChannel> mData) {
         this.mData = mData;

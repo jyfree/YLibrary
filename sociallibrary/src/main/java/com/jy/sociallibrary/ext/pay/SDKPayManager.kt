@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.jy.sociallibrary.manager.SDKPay
 import com.jy.sociallibrary.constant.SDKPayType
 import com.jy.sociallibrary.ext.data.StatusLiveData
 import com.jy.sociallibrary.listener.OnSocialSdkPayListener
+import com.jy.sociallibrary.manager.SDKPay
 import com.jy.sociallibrary.utils.SDKLogUtils
 import com.jy.sociallibrary.wx.WXListener
 import com.jy.sociallibrary.wx.WXPayBean
@@ -107,16 +107,23 @@ class SDKPayManager {
             return
         }
 
-        val payType = intent.getIntExtra(PAY_TYPE, 0)
-        when (payType) {
+        when (intent.getIntExtra(PAY_TYPE, 0)) {
             SDKPayType.TYPE_WX -> {
-                wxPayOrderSuccess(intent.getParcelableExtra(WX_PAY_INFO))
+                val wxPayBean: WXPayBean? = intent.getParcelableExtra(WX_PAY_INFO)
+                if (wxPayBean == null) {
+                    onDestroy(activity)
+                    return
+                }
+                wxPayOrderSuccess(wxPayBean)
             }
             SDKPayType.TYPE_ALI -> {
-                aliPlayOrderSuccess(
-                    intent.getStringExtra(ORDER_ID),
-                    intent.getStringExtra(ALI_PAY_INFO)
-                )
+                val orderId = intent.getStringExtra(ORDER_ID)
+                val payInfo = intent.getStringExtra(ALI_PAY_INFO)
+                if (orderId == null || payInfo == null) {
+                    onDestroy(activity)
+                    return
+                }
+                aliPlayOrderSuccess(orderId, payInfo)
             }
         }
     }

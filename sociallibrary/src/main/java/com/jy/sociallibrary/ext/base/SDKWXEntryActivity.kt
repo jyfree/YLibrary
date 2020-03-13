@@ -22,7 +22,7 @@ abstract class SDKWXEntryActivity : WXBaseEntryActivity() {
         val statusBean = StatusBean();
         statusBean.code = code
         statusBean.status = SDKConstants.LoginStatus.WX_LOGIN_SUCCEED
-        StatusLiveData.getInstance().setValue(statusBean);
+        StatusLiveData.getInstance().value = statusBean;
     }
 
     override fun authCancel() {
@@ -30,7 +30,7 @@ abstract class SDKWXEntryActivity : WXBaseEntryActivity() {
         SDKLogUtils.i("微信登录授权--取消")
         val statusBean = StatusBean();
         statusBean.status = SDKConstants.LoginStatus.WX_LOGIN_CANCEL
-        StatusLiveData.getInstance().setValue(statusBean);
+        StatusLiveData.getInstance().value = statusBean;
     }
 
     override fun authFail(errCode: Int) {
@@ -39,7 +39,7 @@ abstract class SDKWXEntryActivity : WXBaseEntryActivity() {
         val statusBean = StatusBean();
         statusBean.errCode = errCode
         statusBean.status = SDKConstants.LoginStatus.WX_LOGIN_FAIL
-        StatusLiveData.getInstance().setValue(statusBean);
+        StatusLiveData.getInstance().value = statusBean;
     }
 
     //****************************分享***************************************
@@ -49,7 +49,7 @@ abstract class SDKWXEntryActivity : WXBaseEntryActivity() {
         SDKLogUtils.i("微信分享--成功")
         val statusBean = StatusBean();
         statusBean.status = SDKConstants.ShareStatus.WX_SHARE_SUCCESS
-        StatusLiveData.getInstance().setValue(statusBean);
+        StatusLiveData.getInstance().value = statusBean;
     }
 
     override fun shareCancel() {
@@ -57,7 +57,7 @@ abstract class SDKWXEntryActivity : WXBaseEntryActivity() {
         SDKLogUtils.i("微信分享--取消")
         val statusBean = StatusBean();
         statusBean.status = SDKConstants.ShareStatus.WX_SHARE_CANCEL
-        StatusLiveData.getInstance().setValue(statusBean);
+        StatusLiveData.getInstance().value = statusBean;
     }
 
     override fun shareFail(errCode: Int) {
@@ -66,6 +66,6 @@ abstract class SDKWXEntryActivity : WXBaseEntryActivity() {
         val statusBean = StatusBean();
         statusBean.errCode = errCode
         statusBean.status = SDKConstants.ShareStatus.WX_SHARE_FAIL
-        StatusLiveData.getInstance().setValue(statusBean);
+        StatusLiveData.getInstance().value = statusBean;
     }
 }

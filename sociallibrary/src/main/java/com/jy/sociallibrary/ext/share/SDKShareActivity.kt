@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.jy.sociallibrary.utils.SDKHandlerUtils
 import com.jy.sociallibrary.ext.SDKConstants
 import com.jy.sociallibrary.ext.data.StatusBean
 import com.jy.sociallibrary.ext.data.StatusLiveData
+import com.jy.sociallibrary.manager.SDKThreadManager
 import com.jy.sociallibrary.utils.SDKLogUtils
 
 
@@ -32,9 +32,9 @@ class SDKShareActivity : AppCompatActivity(), Observer<StatusBean> {
 
     private fun initCompleteTime() {
         window.decorView.post {
-            SDKHandlerUtils.runOnUiThread(Runnable {
+            SDKThreadManager.getMainHandler().post {
                 ExtShare.instance.sdkShareManager.checkShare(this@SDKShareActivity, intent)
-            })
+            }
         }
     }
 

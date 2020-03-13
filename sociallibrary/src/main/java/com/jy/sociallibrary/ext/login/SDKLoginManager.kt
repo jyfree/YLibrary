@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.jy.sociallibrary.manager.SDKLogin
 import com.jy.sociallibrary.constant.SDKLoginType
 import com.jy.sociallibrary.ext.data.StatusLiveData
 import com.jy.sociallibrary.listener.OnSocialSdkLoginListener
+import com.jy.sociallibrary.manager.SDKLogin
 import com.jy.sociallibrary.utils.SDKLogUtils
 import com.jy.sociallibrary.wx.WXListener
 
@@ -101,8 +101,7 @@ class SDKLoginManager {
             return
         }
 
-        val loginType = intent.getIntExtra(LOGIN_TYPE, 0)
-        when (loginType) {
+        when (intent.getIntExtra(LOGIN_TYPE, 0)) {
             SDKLoginType.TYPE_QQ -> qqLogin()
             SDKLoginType.TYPE_WB -> wbLogin()
             SDKLoginType.TYPE_WX -> wxLogin()
@@ -113,7 +112,7 @@ class SDKLoginManager {
         sdkLogin?.result2Activity(requestCode, resultCode, data)
     }
 
-    fun onResultToWXAuthSuccess(activity: Activity, message: String) {
+    fun onResultToWXAuthSuccess(activity: Activity, message: String?) {
         onDestroy(activity)
         loginListener?.loginAuthSuccess(SDKLoginType.TYPE_WX, "", message)
     }
