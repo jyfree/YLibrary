@@ -1,4 +1,4 @@
-package com.jy.sociallibrary.manager;
+package com.jy.sociallibrary.helper;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import com.jy.sociallibrary.wx.WXShareManager;
  * created at 2016/11/9 17:15
  * TODO:第三方分享
  */
-public class SDKShare {
+public class ShareHelper {
 
     public Context mContext;
     //QQ分享
@@ -30,7 +30,7 @@ public class SDKShare {
     private OnSocialSdkShareListener listener;
 
 
-    public SDKShare(Context context, OnSocialSdkShareListener listener) {
+    public ShareHelper(Context context, OnSocialSdkShareListener listener) {
         this.mContext = context;
         this.listener = listener;
         initialize();

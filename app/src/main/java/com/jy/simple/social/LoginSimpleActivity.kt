@@ -8,7 +8,7 @@ import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.simple.R
 import com.jy.sociallibrary.constant.SDKLoginType
-import com.jy.sociallibrary.ext.login.ExtLogin
+import com.jy.sociallibrary.ext.login.SDKLogin
 import com.jy.sociallibrary.listener.OnSocialSdkLoginListener
 import com.jy.sociallibrary.wx.WXListener
 
@@ -43,7 +43,7 @@ class LoginSimpleActivity : BaseActivity() {
     }
 
     private fun request(loginType: Int) {
-        ExtLogin.instance.sdkLoginManager.setLoginListener(object : OnSocialSdkLoginListener {
+        SDKLogin.instance.sdkLoginManager.setLoginListener(object : OnSocialSdkLoginListener {
             override fun loginAuthSuccess(type: Int, token: String?, info: String?) {
                 YLogUtils.i("登录授权成功--类型：", type, "token", token, "info", info)
             }

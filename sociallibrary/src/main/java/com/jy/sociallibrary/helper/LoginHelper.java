@@ -1,4 +1,4 @@
-package com.jy.sociallibrary.manager;
+package com.jy.sociallibrary.helper;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,15 +15,15 @@ import com.jy.sociallibrary.wx.WXListener;
 /**
  * Administrator
  * created at 2016/2/24 9:47
- * TODO:第三方登录sdk
+ * TODO:第三方登录
  */
-public class SDKLogin {
+public class LoginHelper {
 
     private ProgressDialog mProgressDialog;
     private Context mContext;
     private OnSocialSdkLoginListener loginListener;
 
-    public SDKLogin(Context context, OnSocialSdkLoginListener listener) {
+    public LoginHelper(Context context, OnSocialSdkLoginListener listener) {
 
         this.mContext = context;
         this.loginListener = listener;

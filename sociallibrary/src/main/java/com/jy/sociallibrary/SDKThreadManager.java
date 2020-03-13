@@ -1,4 +1,4 @@
-package com.jy.sociallibrary.manager;
+package com.jy.sociallibrary;
 
 import android.os.AsyncTask;
 import android.os.Build;

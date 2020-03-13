@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
-import com.jy.sociallibrary.manager.SDKThreadManager;
+import com.jy.sociallibrary.SDKThreadManager;
 import com.jy.sociallibrary.constant.SDKPayType;
 import com.jy.sociallibrary.listener.OnSocialSdkPayListener;
 import com.jy.sociallibrary.utils.SDKLogUtils;

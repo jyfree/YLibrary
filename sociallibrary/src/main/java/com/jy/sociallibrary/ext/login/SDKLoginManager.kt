@@ -6,8 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import com.jy.sociallibrary.constant.SDKLoginType
 import com.jy.sociallibrary.ext.data.StatusLiveData
+import com.jy.sociallibrary.helper.LoginHelper
 import com.jy.sociallibrary.listener.OnSocialSdkLoginListener
-import com.jy.sociallibrary.manager.SDKLogin
 import com.jy.sociallibrary.utils.SDKLogUtils
 import com.jy.sociallibrary.wx.WXListener
 
@@ -19,7 +19,7 @@ import com.jy.sociallibrary.wx.WXListener
  */
 class SDKLoginManager {
 
-    private var sdkLogin: SDKLogin? = null
+    private var loginHelper: LoginHelper? = null
     private var loginListener: OnSocialSdkLoginListener? = null
     private var wxListener: WXListener? = null
     private val LOGIN_TYPE = "loginType"
@@ -64,7 +64,7 @@ class SDKLoginManager {
     }
 
     private fun initSdkLogin(activity: Activity) {
-        sdkLogin = SDKLogin(
+        loginHelper = LoginHelper(
             activity,
             object : OnSocialSdkLoginListener {
                 override fun loginAuthSuccess(type: Int, token: String, info: String) {
@@ -82,7 +82,7 @@ class SDKLoginManager {
                     loginListener?.loginCancel(type)
                 }
             })
-        sdkLogin?.setWXListener {
+        loginHelper?.setWXListener {
             onDestroy(activity)
             wxListener?.installWXAPP()
         }
@@ -109,7 +109,7 @@ class SDKLoginManager {
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        sdkLogin?.result2Activity(requestCode, resultCode, data)
+        loginHelper?.result2Activity(requestCode, resultCode, data)
     }
 
     fun onResultToWXAuthSuccess(activity: Activity, message: String?) {
@@ -128,19 +128,19 @@ class SDKLoginManager {
     }
 
     private fun qqLogin() {
-        sdkLogin?.qqLogin()
+        loginHelper?.qqLogin()
     }
 
     private fun wxLogin() {
-        sdkLogin?.wxLogin()
+        loginHelper?.wxLogin()
     }
 
     private fun wbLogin() {
-        sdkLogin?.wbLogin()
+        loginHelper?.wbLogin()
     }
 
     private fun showSDKProgress(show: Boolean) {
-        sdkLogin?.showProgressDialog(show)
+        loginHelper?.showProgressDialog(show)
     }
 
     /**

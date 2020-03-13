@@ -5,16 +5,16 @@ package com.jy.sociallibrary.ext.share
  * @Date 2019/11/12-14:14
  * @TODO
  */
-class ExtShare private constructor() {
+class SDKShare private constructor() {
     val sdkShareManager: SDKShareManager = SDKShareManager()
 
     private object Holder {
-        val instance = ExtShare()
+        val instance = SDKShare()
     }
 
     companion object {
 
-        val instance: ExtShare
+        val instance: SDKShare
             @Synchronized get() = Holder.instance
     }
 }

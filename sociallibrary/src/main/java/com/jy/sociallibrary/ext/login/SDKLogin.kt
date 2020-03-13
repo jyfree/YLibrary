@@ -5,16 +5,16 @@ package com.jy.sociallibrary.ext.login
  * @Date 2019/11/12-14:14
  * @TODO
  */
-class ExtLogin private constructor() {
+class SDKLogin private constructor() {
     val sdkLoginManager: SDKLoginManager = SDKLoginManager()
 
     private object Holder {
-        val instance = ExtLogin()
+        val instance = SDKLogin()
     }
 
     companion object {
 
-        val instance: ExtLogin
+        val instance: SDKLogin
             @Synchronized get() = Holder.instance
     }
 }

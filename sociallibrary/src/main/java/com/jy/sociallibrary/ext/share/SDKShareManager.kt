@@ -10,8 +10,8 @@ import com.jy.sociallibrary.bean.ShareInfo
 import com.jy.sociallibrary.constant.SDKShareType
 import com.jy.sociallibrary.dialog.SDKShareDialog
 import com.jy.sociallibrary.ext.data.StatusLiveData
+import com.jy.sociallibrary.helper.ShareHelper
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener
-import com.jy.sociallibrary.manager.SDKShare
 import com.jy.sociallibrary.utils.SDKLogUtils
 import com.jy.sociallibrary.wx.WXListener
 
@@ -25,7 +25,7 @@ import com.jy.sociallibrary.wx.WXListener
 class SDKShareManager {
 
     private var sdkShareChannels: ArrayList<SDKShareChannel>? = null
-    private var sdkShare: SDKShare? = null
+    private var shareHelper: ShareHelper? = null
     private var shareListener: OnSocialSdkShareListener? = null
     private var wxListener: WXListener? = null
     private val SHARE_TYPE = "shareType"
@@ -62,7 +62,7 @@ class SDKShareManager {
     }
 
     private fun initShare(activity: Activity) {
-        sdkShare = SDKShare(
+        shareHelper = ShareHelper(
             activity,
             object : OnSocialSdkShareListener {
                 override fun shareSuccess(type: Int) {
@@ -80,7 +80,7 @@ class SDKShareManager {
                     shareListener?.shareCancel(type)
                 }
             })
-        sdkShare?.setWXListener {
+        shareHelper?.setWXListener {
             onDestroy(activity)
             wxListener?.installWXAPP()
         }
@@ -169,16 +169,16 @@ class SDKShareManager {
     private fun onShare(type: Int, shareInfo: ShareInfo) {
 
         shareType = type
-        sdkShare?.share(type, shareInfo)
+        shareHelper?.share(type, shareInfo)
     }
 
     fun doResultIntent(data: Intent?) {
-        sdkShare?.doResultIntent(data)
+        shareHelper?.doResultIntent(data)
     }
 
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        sdkShare?.result2Activity(requestCode, resultCode, data)
+        shareHelper?.result2Activity(requestCode, resultCode, data)
     }
 
 

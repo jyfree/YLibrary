@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import com.jy.sociallibrary.ext.SDKConstants
 import com.jy.sociallibrary.ext.data.StatusBean
 import com.jy.sociallibrary.ext.data.StatusLiveData
-import com.jy.sociallibrary.manager.SDKThreadManager
+import com.jy.sociallibrary.SDKThreadManager
 import com.jy.sociallibrary.utils.SDKLogUtils
 
 
@@ -24,14 +24,14 @@ class SDKPayActivity : AppCompatActivity(), Observer<StatusBean> {
         //不接受触摸屏事件
         window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         StatusLiveData.getInstance().observe(this, this);
-        ExtPay.instance.sdkPayManager.behavior(this, savedInstanceState)
+        SDKPay.instance.sdkPayManager.behavior(this, savedInstanceState)
         initCompleteTime()
     }
 
     private fun initCompleteTime() {
         window.decorView.post {
             SDKThreadManager.getMainHandler().post {
-                ExtPay.instance.sdkPayManager.checkPay(this@SDKPayActivity, intent)
+                SDKPay.instance.sdkPayManager.checkPay(this@SDKPayActivity, intent)
             }
         }
     }
@@ -42,16 +42,16 @@ class SDKPayActivity : AppCompatActivity(), Observer<StatusBean> {
                 SDKConstants.PayStatus.WX_PAY_SUCCESS -> {
                     SDKLogUtils.i("接收到MutableLiveData--微信支付--成功")
                     val orderId =
-                        intent.getStringExtra(ExtPay.instance.sdkPayManager.ORDER_ID) ?: ""
-                    ExtPay.instance.sdkPayManager.onResultToWXPaySuccess(this, orderId)
+                        intent.getStringExtra(SDKPay.instance.sdkPayManager.ORDER_ID) ?: ""
+                    SDKPay.instance.sdkPayManager.onResultToWXPaySuccess(this, orderId)
                 }
                 SDKConstants.PayStatus.WX_PAY_FAIL -> {
                     SDKLogUtils.e("接收到MutableLiveData--微信支付--失败--errCode", it.errCode)
-                    ExtPay.instance.sdkPayManager.onResultToWXPayFail(this, it.errCode)
+                    SDKPay.instance.sdkPayManager.onResultToWXPayFail(this, it.errCode)
                 }
                 SDKConstants.PayStatus.WX_PAY_CANCEL -> {
                     SDKLogUtils.i("接收到MutableLiveData--微信支付--取消")
-                    ExtPay.instance.sdkPayManager.onResultToWXPayCancel(this)
+                    SDKPay.instance.sdkPayManager.onResultToWXPayCancel(this)
                 }
             }
         }

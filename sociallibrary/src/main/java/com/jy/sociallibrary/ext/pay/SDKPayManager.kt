@@ -6,8 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import com.jy.sociallibrary.constant.SDKPayType
 import com.jy.sociallibrary.ext.data.StatusLiveData
+import com.jy.sociallibrary.helper.PayHelper
 import com.jy.sociallibrary.listener.OnSocialSdkPayListener
-import com.jy.sociallibrary.manager.SDKPay
 import com.jy.sociallibrary.utils.SDKLogUtils
 import com.jy.sociallibrary.wx.WXListener
 import com.jy.sociallibrary.wx.WXPayBean
@@ -20,7 +20,7 @@ import com.jy.sociallibrary.wx.WXPayBean
  */
 class SDKPayManager {
 
-    private var sdkPay: SDKPay? = null
+    private var payHelper: PayHelper? = null
     private var payListener: OnSocialSdkPayListener? = null
     private var wxListener: WXListener? = null
     private val PAY_TYPE = "payType"
@@ -68,7 +68,7 @@ class SDKPayManager {
 
 
     private fun initSdkPay(activity: Activity) {
-        sdkPay = SDKPay(
+        payHelper = PayHelper(
             activity,
             object : OnSocialSdkPayListener {
                 override fun paySuccess(type: Int, orderId: String?) {
@@ -86,7 +86,7 @@ class SDKPayManager {
                     payListener?.payCancel(type)
                 }
             })
-        sdkPay?.setWxListener {
+        payHelper?.setWxListener {
             SDKLogUtils.e("未安装微信")
             onDestroy(activity)
             wxListener?.installWXAPP()
@@ -133,7 +133,7 @@ class SDKPayManager {
      */
     private fun aliPlayOrderSuccess(orderId: String, payInfo: String) {
         showSDKProgress(true)
-        sdkPay?.aliPay(orderId, payInfo)
+        payHelper?.aliPay(orderId, payInfo)
     }
 
     /**
@@ -141,7 +141,7 @@ class SDKPayManager {
      */
     private fun wxPayOrderSuccess(wxPayBean: WXPayBean) {
         showSDKProgress(true)
-        sdkPay?.wxPay(wxPayBean)
+        payHelper?.wxPay(wxPayBean)
     }
 
 
@@ -162,7 +162,7 @@ class SDKPayManager {
 
 
     private fun showSDKProgress(show: Boolean) {
-        sdkPay?.showProgressDialog(show)
+        payHelper?.showProgressDialog(show)
     }
 
     /**

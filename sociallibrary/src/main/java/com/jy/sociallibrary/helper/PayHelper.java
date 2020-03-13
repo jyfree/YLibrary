@@ -1,4 +1,4 @@
-package com.jy.sociallibrary.manager;
+package com.jy.sociallibrary.helper;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -17,13 +17,13 @@ import com.jy.sociallibrary.wx.WXPayManager;
  * created at 2016/2/24 11:35
  * TODO:第三方支付
  */
-public class SDKPay {
+public class PayHelper {
 
     private Context mContext;
     private ProgressDialog mProgressDialog;
     private OnSocialSdkPayListener listener;
 
-    public SDKPay(Context context, OnSocialSdkPayListener listener) {
+    public PayHelper(Context context, OnSocialSdkPayListener listener) {
         this.mContext = context;
         this.listener = listener;
         initProgressDialog();

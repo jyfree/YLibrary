@@ -5,16 +5,16 @@ package com.jy.sociallibrary.ext.pay
  * @Date 2019/11/12-14:14
  * @TODO
  */
-class ExtPay private constructor() {
+class SDKPay private constructor() {
     val sdkPayManager: SDKPayManager = SDKPayManager()
 
     private object Holder {
-        val instance = ExtPay()
+        val instance = SDKPay()
     }
 
     companion object {
 
-        val instance: ExtPay
+        val instance: SDKPay
             @Synchronized get() = Holder.instance
     }
 }

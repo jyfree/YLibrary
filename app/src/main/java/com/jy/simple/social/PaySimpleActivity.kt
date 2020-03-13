@@ -7,7 +7,7 @@ import android.view.View
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.simple.R
-import com.jy.sociallibrary.ext.pay.ExtPay
+import com.jy.sociallibrary.ext.pay.SDKPay
 import com.jy.sociallibrary.ext.pay.SDKPayManager
 import com.jy.sociallibrary.listener.OnSocialSdkPayListener
 import com.jy.sociallibrary.wx.WXListener
@@ -57,7 +57,7 @@ class PaySimpleActivity : Activity() {
 
     private fun getSdkPayManager(): SDKPayManager {
         if (sdkPayManager == null) {
-            sdkPayManager = ExtPay.instance.sdkPayManager.setPayListener(object : OnSocialSdkPayListener {
+            sdkPayManager = SDKPay.instance.sdkPayManager.setPayListener(object : OnSocialSdkPayListener {
                 override fun paySuccess(type: Int, orderId: String?) {
                     YLogUtils.i("支付成功--类型：", type, "orderId", orderId)
                 }

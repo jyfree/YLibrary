@@ -12,7 +12,7 @@ import com.jy.simple.Constants
 import com.jy.simple.R
 import com.jy.sociallibrary.bean.ShareInfo
 import com.jy.sociallibrary.constant.SDKShareType
-import com.jy.sociallibrary.ext.share.ExtShare
+import com.jy.sociallibrary.ext.share.SDKShare
 import com.jy.sociallibrary.ext.share.SDKShareManager
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener
 import com.jy.sociallibrary.wx.WXListener
@@ -62,7 +62,7 @@ class ShareSimpleActivity : Activity() {
 
     private fun getSdkShareManager(): SDKShareManager {
         if (sdkShareManager == null) {
-            sdkShareManager = ExtShare.instance.sdkShareManager.setShareListener(object : OnSocialSdkShareListener {
+            sdkShareManager = SDKShare.instance.sdkShareManager.setShareListener(object : OnSocialSdkShareListener {
                 override fun shareSuccess(type: Int) {
                     YLogUtils.i("分享成功--类型：", type)
                 }
