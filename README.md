@@ -20,7 +20,8 @@ YLibrary是使用kotlin&Java混合编写的，分为三个library：
  2. 封装**权限、拍照、图库**访问
  3. 封装view圆角、变色等功能的 **selector库**
  4. 封装**sp**，使用内存缓存，子线程存储sp
- 5. 统一线程池管理
+ 5. 支持方法体任务队列（单任务、链式任务）
+ 6. 统一线程池管理
 
 ## 三、commonlibrary（常用库）
 
@@ -30,9 +31,9 @@ YLibrary是使用kotlin&Java混合编写的，分为三个library：
  3. 使用主流的**RxJava2、retrofit2、RxBus、glide**框架
 
 ## gradle引入方式
- 1. 基础库 implementation 'com.jy.baselibrary:baselibrary:1.0.2'
+ 1. 基础库 implementation 'com.jy.baselibrary:baselibrary:1.0.4'
  2. 社会化库 implementation 'com.jy.sociallibrary:sociallibrary:1.1.0'
- 3. 常用库 implementation 'com.jy.commonlibrary:commonlibrary:1.1.0'
+ 3. 常用库 implementation 'com.jy.commonlibrary:commonlibrary:1.1.2'
 
 注：三个库都可以单独使用， commonlibrary依赖于baselibrary， 引用sociallibrary需要把支付宝引入，如：implementation files("alipaySdk-15.6.2-20190416165036.aar")
 

@@ -31,11 +31,11 @@ class FunQueueTask<T> {
         YLogUtils.d("链式任务--生产", block, "成功?", isSucceed)
         //如果队列只有一个元素，则立马出列
         if (flag && isSucceed) {
+            flag = false
             val t = chainBasket.poll()
             YLogUtils.d("链式任务--队列只有一个元素，立马消费", t)
             t?.invoke()
         }
-        flag = false
         return isSucceed
     }
 
