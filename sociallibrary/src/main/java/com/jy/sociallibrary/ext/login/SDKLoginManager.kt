@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.jy.sociallibrary.constant.SDKLoginType
 import com.jy.sociallibrary.ext.data.StatusLiveData
 import com.jy.sociallibrary.helper.LoginHelper
@@ -22,6 +23,7 @@ class SDKLoginManager {
     private var loginHelper: LoginHelper? = null
     private var loginListener: OnSocialSdkLoginListener? = null
     private var wxListener: WXListener? = null
+    private var progressView: View? = null
     private val LOGIN_TYPE = "loginType"
 
 
@@ -32,6 +34,11 @@ class SDKLoginManager {
 
     fun setWXListener(wxListener: WXListener): SDKLoginManager {
         this.wxListener = wxListener
+        return this
+    }
+
+    fun setProgressView(view: View?): SDKLoginManager {
+        this.progressView = view
         return this
     }
 
@@ -59,7 +66,7 @@ class SDKLoginManager {
 
         if (savedInstanceState == null) {
             initSdkLogin(activity)
-            showSDKProgress(true)
+            showProgress(true)
         }
     }
 
@@ -139,15 +146,19 @@ class SDKLoginManager {
         loginHelper?.wbLogin()
     }
 
-    private fun showSDKProgress(show: Boolean) {
-        loginHelper?.showProgressDialog(show)
+    private fun showProgress(show: Boolean) {
+        if (progressView == null) {
+            loginHelper?.showProgressDialog(show)
+        } else {
+            progressView?.visibility = if (show) View.VISIBLE else View.GONE
+        }
     }
 
     /**
      * 摧毁本库的 SDKLoginActivity
      */
     private fun onDestroy(activity: Activity?) {
-        showSDKProgress(false)
+        showProgress(false)
         activity?.finish()
         //因为StatusLiveData是单例，所以必须置空
         StatusLiveData.getInstance().value = null

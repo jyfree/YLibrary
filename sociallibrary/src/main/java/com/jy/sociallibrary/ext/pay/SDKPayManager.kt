@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.jy.sociallibrary.constant.SDKPayType
 import com.jy.sociallibrary.ext.data.StatusLiveData
 import com.jy.sociallibrary.helper.PayHelper
@@ -23,6 +24,7 @@ class SDKPayManager {
     private var payHelper: PayHelper? = null
     private var payListener: OnSocialSdkPayListener? = null
     private var wxListener: WXListener? = null
+    private var progressView: View? = null
     private val PAY_TYPE = "payType"
     val ORDER_ID = "orderId"
     private val ALI_PAY_INFO = "aliPayInfo"
@@ -35,6 +37,11 @@ class SDKPayManager {
 
     fun setWXListener(wxListener: WXListener): SDKPayManager {
         this.wxListener = wxListener
+        return this
+    }
+
+    fun setProgressView(view: View?): SDKPayManager {
+        this.progressView = view
         return this
     }
 
@@ -62,7 +69,7 @@ class SDKPayManager {
 
         if (savedInstanceState == null) {
             initSdkPay(activity)
-            showSDKProgress(true)
+            showProgress(true)
         }
     }
 
@@ -132,7 +139,6 @@ class SDKPayManager {
      * 下单成功，调起支付宝
      */
     private fun aliPlayOrderSuccess(orderId: String, payInfo: String) {
-        showSDKProgress(true)
         payHelper?.aliPay(orderId, payInfo)
     }
 
@@ -140,7 +146,6 @@ class SDKPayManager {
      * 下单成功，调起微信
      */
     private fun wxPayOrderSuccess(wxPayBean: WXPayBean) {
-        showSDKProgress(true)
         payHelper?.wxPay(wxPayBean)
     }
 
@@ -161,15 +166,19 @@ class SDKPayManager {
     }
 
 
-    private fun showSDKProgress(show: Boolean) {
-        payHelper?.showProgressDialog(show)
+    private fun showProgress(show: Boolean) {
+        if (progressView == null) {
+            payHelper?.showProgressDialog(show)
+        } else {
+            progressView?.visibility = if (show) View.VISIBLE else View.GONE
+        }
     }
 
     /**
      * 摧毁本库的 SDKPayActivity
      */
     private fun onDestroy(activity: Activity?) {
-        showSDKProgress(false)
+        showProgress(false)
         activity?.finish()
         //因为StatusLiveData是单例，所以必须置空
         StatusLiveData.getInstance().value = null
