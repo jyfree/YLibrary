@@ -6,12 +6,12 @@ import android.content.Intent
 import android.os.Bundle
 import com.jy.sociallibrary.R
 import com.jy.sociallibrary.bean.SDKShareChannel
-import com.jy.sociallibrary.bean.ShareInfo
-import com.jy.sociallibrary.constant.SDKShareType
+import com.jy.sociallibrary.constant.SDKSharePlatform
 import com.jy.sociallibrary.dialog.SDKShareDialog
 import com.jy.sociallibrary.ext.data.StatusLiveData
 import com.jy.sociallibrary.helper.ShareHelper
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener
+import com.jy.sociallibrary.media.BaseMediaObject
 import com.jy.sociallibrary.utils.SDKLogUtils
 import com.jy.sociallibrary.wx.WXListener
 
@@ -28,9 +28,9 @@ class SDKShareManager {
     private var shareHelper: ShareHelper? = null
     private var shareListener: OnSocialSdkShareListener? = null
     private var wxListener: WXListener? = null
-    private val SHARE_TYPE = "shareType"
-    private val SHARE_INFO = "shareInfo"
-    private var shareType: Int = SDKShareType.TYPE_WX_CB
+    private val SHARE_PLATFORM = "sharePlatform"//分享平台
+    private val SHARE_MEDIA = "shareMedia"//分享媒体
+    private var sharePlatform: Int = SDKSharePlatform.WX_CB
 
     fun setShareListener(shareListener: OnSocialSdkShareListener): SDKShareManager {
         this.shareListener = shareListener
@@ -42,16 +42,16 @@ class SDKShareManager {
         return this
     }
 
-    fun requestShare(context: Context, shareType: Int, shareInfo: ShareInfo) {
+    fun requestShare(context: Context, sharePlatform: Int, media: BaseMediaObject) {
         val intent = Intent(context, SDKShareActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.putExtra(SHARE_TYPE, shareType)
-        intent.putExtra(SHARE_INFO, shareInfo)
+        intent.putExtra(SHARE_PLATFORM, sharePlatform)
+        intent.putExtra(SHARE_MEDIA, media)
         context.startActivity(intent)
     }
 
-    fun requestShare(context: Context, shareInfo: ShareInfo) {
-        showShareDialog(context, shareInfo)
+    fun requestShare(context: Context, media: BaseMediaObject) {
+        showShareDialog(context, media)
     }
 
     fun behavior(activity: Activity, savedInstanceState: Bundle?) {
@@ -65,19 +65,19 @@ class SDKShareManager {
         shareHelper = ShareHelper(
             activity,
             object : OnSocialSdkShareListener {
-                override fun shareSuccess(type: Int) {
+                override fun shareSuccess(sharePlatform: Int) {
                     onDestroy(activity)
-                    shareListener?.shareSuccess(type)
+                    shareListener?.shareSuccess(sharePlatform)
                 }
 
-                override fun shareFail(type: Int, error: String?) {
+                override fun shareFail(sharePlatform: Int, error: String?) {
                     onDestroy(activity)
-                    shareListener?.shareFail(type, error)
+                    shareListener?.shareFail(sharePlatform, error)
                 }
 
-                override fun shareCancel(type: Int) {
+                override fun shareCancel(sharePlatform: Int) {
                     onDestroy(activity)
-                    shareListener?.shareCancel(type)
+                    shareListener?.shareCancel(sharePlatform)
                 }
             })
         shareHelper?.setWXListener {
@@ -91,35 +91,35 @@ class SDKShareManager {
         sdkShareChannels = ArrayList()
         sdkShareChannels?.add(
             SDKShareChannel(
-                SDKShareType.TYPE_WX_FRIENDS,
+                SDKSharePlatform.WX_FRIENDS,
                 R.drawable.social_sdk_logo_wechat,
                 context.getString(R.string.social_sdk_share_2wechat)
             )
         )
         sdkShareChannels?.add(
             SDKShareChannel(
-                SDKShareType.TYPE_QQ_FRIENDS,
+                SDKSharePlatform.QQ_FRIENDS,
                 R.drawable.social_sdk_logo_qq,
                 context.getString(R.string.social_sdk_share_2qq)
             )
         )
         sdkShareChannels?.add(
             SDKShareChannel(
-                SDKShareType.TYPE_WX_CB,
+                SDKSharePlatform.WX_CB,
                 R.drawable.social_sdk_logo_wechatmoments,
                 context.getString(R.string.social_sdk_share_2wechatmoments)
             )
         )
         sdkShareChannels?.add(
             SDKShareChannel(
-                SDKShareType.TYPE_QQ_QZONE,
+                SDKSharePlatform.QQ_QZONE,
                 R.drawable.social_sdk_logo_qzone,
                 context.getString(R.string.social_sdk_share_2qzone)
             )
         )
         sdkShareChannels?.add(
             SDKShareChannel(
-                SDKShareType.TYPE_WB,
+                SDKSharePlatform.WB,
                 R.drawable.social_sdk_logo_wb,
                 context.getString(R.string.social_sdk_share_2wb)
             )
@@ -140,18 +140,18 @@ class SDKShareManager {
             return
         }
 
-        val shareInfo = intent.getParcelableExtra<ShareInfo>(SHARE_INFO)
-        val shareType = intent.getIntExtra(SHARE_TYPE, 0)
-        if (shareInfo == null) {
+        val mediaObject = intent.getParcelableExtra<BaseMediaObject>(SHARE_MEDIA)
+        val sharePlatform = intent.getIntExtra(SHARE_PLATFORM, 0)
+        if (mediaObject == null) {
             onDestroy(activity)
             return
         }
-        onShare(shareType, shareInfo)
+        onShare(sharePlatform, mediaObject)
 
     }
 
 
-    private fun showShareDialog(context: Context, shareInfo: ShareInfo) {
+    private fun showShareDialog(context: Context, media: BaseMediaObject) {
         if (sdkShareChannels == null) {
             prepareShareData(context)
         }
@@ -160,16 +160,16 @@ class SDKShareManager {
             R.style.social_Theme_dialog,
             sdkShareChannels,
             SDKShareDialog.OnSDKShareListener {
-                requestShare(context, it.id, shareInfo)
+                requestShare(context, it.id, media)
             })
         sdkShareDialog.initSystemUI()
         sdkShareDialog.show()
     }
 
-    private fun onShare(type: Int, shareInfo: ShareInfo) {
+    private fun onShare(platform: Int, media: BaseMediaObject) {
 
-        shareType = type
-        shareHelper?.share(type, shareInfo)
+        sharePlatform = platform
+        shareHelper?.share(platform, media)
     }
 
     fun doResultIntent(data: Intent?) {
@@ -184,17 +184,17 @@ class SDKShareManager {
 
     fun onResultToWXShareSuccess(activity: Activity) {
         onDestroy(activity)
-        shareListener?.shareSuccess(shareType)
+        shareListener?.shareSuccess(sharePlatform)
     }
 
     fun onResultToWXShareCancel(activity: Activity) {
         onDestroy(activity)
-        shareListener?.shareCancel(shareType)
+        shareListener?.shareCancel(sharePlatform)
     }
 
     fun onResultToWXShareFail(activity: Activity, errCode: Int) {
         onDestroy(activity)
-        shareListener?.shareFail(shareType, "错误码：$errCode")
+        shareListener?.shareFail(sharePlatform, "错误码：$errCode")
     }
 
 

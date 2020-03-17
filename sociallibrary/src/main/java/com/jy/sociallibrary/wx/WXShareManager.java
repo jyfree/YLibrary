@@ -2,15 +2,20 @@ package com.jy.sociallibrary.wx;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
+import com.jy.sociallibrary.constant.SDKImageType;
+import com.jy.sociallibrary.media.BaseMediaObject;
+import com.jy.sociallibrary.media.JYImage;
+import com.jy.sociallibrary.media.JYText;
+import com.jy.sociallibrary.media.JYWeb;
+import com.jy.sociallibrary.utils.JYImageUtils;
+import com.jy.sociallibrary.utils.SDKLogUtils;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXMusicObject;
 import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
-
-import java.net.URL;
 
 /**
  * Administrator
@@ -19,7 +24,6 @@ import java.net.URL;
  */
 public class WXShareManager extends WXChannelManager {
 
-    private static final int THUMB_SIZE = 150;
 
     public WXShareManager(Context context) {
         super(context);
@@ -28,6 +32,58 @@ public class WXShareManager extends WXChannelManager {
 
     private String buildTransaction(final String type) {
         return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+
+    public void doShareAll(BaseMediaObject media, boolean isTimelineCb) {
+
+        if (media instanceof JYWeb) {
+            JYWeb jyWeb = (JYWeb) media;
+            shareWeb(jyWeb.webUrl, jyWeb.title, jyWeb.description, JYImageUtils.getImageUrl(mContext, jyWeb.thumb), isTimelineCb);
+        } else if (media instanceof JYText) {
+            JYText jyText = (JYText) media;
+            shareText(jyText.content, jyText.content, isTimelineCb);
+        } else if (media instanceof JYImage) {
+            JYImage jyImage = (JYImage) media;
+            if (jyImage.imageType == SDKImageType.URL_IMAGE) {
+                SDKLogUtils.i("微信图片分享--图片路径分享");
+                shareImage2Path(jyImage.mObject.toString(), JYImageUtils.getImageUrl(mContext, jyImage.thumb), isTimelineCb);
+            } else {
+                SDKLogUtils.i("微信图片分享--图片bitmap分享");
+                shareImage2Bitmap(JYImageUtils.getImageUrl(mContext, jyImage), JYImageUtils.getImageUrl(mContext, jyImage.thumb), isTimelineCb);
+            }
+        } else {
+            //shareAudio(shareInfo.audioUrl, shareInfo.title, shareInfo.summary, shareInfo.thumb, isTimelineCb);
+            SDKLogUtils.e("未知分享类型");
+        }
+    }
+
+    /**
+     * 分享网页
+     *
+     * @param webUrl       网页地址
+     * @param title        标题 512长度限制
+     * @param description  描述 1024长度限制
+     * @param thumb        缩略图 32K
+     * @param isTimelineCb 是否分享到朋友圈
+     */
+    public void shareWeb(String webUrl, String title, String description, Bitmap thumb, boolean isTimelineCb) {
+        if (!checkInstallWX())
+            return;
+        WXWebpageObject webPage = new WXWebpageObject();
+        webPage.webpageUrl = webUrl;
+        WXMediaMessage msg = new WXMediaMessage(webPage);
+        msg.title = title;
+        msg.description = description;
+        if (thumb != null) {
+            msg.thumbData = HttpUtils.bmpToByteArray(thumb, true);
+        }
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("webpage");
+        req.message = msg;
+        req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+        mWxAPI.sendReq(req);
+
     }
 
     /**
@@ -60,78 +116,38 @@ public class WXShareManager extends WXChannelManager {
         mWxAPI.sendReq(req);
     }
 
-    /**
-     * 分享本地图片
-     *
-     * @param path         图片路径
-     * @param isTimelineCb 是否分享到朋友圈
-     */
-    public void shareImage2Path(String path, boolean isTimelineCb) {
-        if (!checkInstallWX())
-            return;
-        try {
-            WXImageObject imgObj = new WXImageObject();
-            imgObj.setImagePath(path);
-            Bitmap bmp = BitmapFactory.decodeFile(path);
-            shareImage(imgObj, bmp, isTimelineCb);
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void shareImage2Bitmap(Bitmap image, Bitmap thumb, boolean isTimelineCb) {
+        if (image == null) {
+            SDKLogUtils.d("微信图片分享--图片bitmap分享--bitmap为null");
         }
+        WXImageObject imgObj = new WXImageObject(image);
+        shareImage(imgObj, thumb, isTimelineCb);
+    }
+
+    private void shareImage2Path(String imagePath, Bitmap thumb, boolean isTimelineCb) {
+        WXImageObject imgObj = new WXImageObject();
+        imgObj.imagePath = imagePath;
+        shareImage(imgObj, thumb, isTimelineCb);
+
     }
 
     /**
-     * 分享图片URL
+     * 分享图片
      *
-     * @param url          图片URL
+     * @param imgObj       图片实体
+     * @param thumb        缩略图
      * @param isTimelineCb 是否分享到朋友圈
      */
-    public void shareImage2Url(String url, boolean isTimelineCb) {
-        if (!checkInstallWX())
-            return;
-        try {
-            WXImageObject imgObj = new WXImageObject();
-            imgObj.imagePath = url;
-            Bitmap bmp = BitmapFactory.decodeStream(new URL(url).openStream());
-            shareImage(imgObj, bmp, isTimelineCb);
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 分享图片二进制数据
-     *
-     * @param bmp          bitmap对象
-     * @param isTimelineCb 是否分享到朋友圈
-     */
-    public void shareImage2Bitmap(Bitmap bmp, boolean isTimelineCb) {
-        if (!checkInstallWX())
-            return;
-        try {
-            WXImageObject imgObj = new WXImageObject(bmp);
-            shareImage(imgObj, bmp, isTimelineCb);
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void shareImage(WXImageObject imgObj, Bitmap bmp, boolean isTimelineCb) {
+    private void shareImage(WXImageObject imgObj, Bitmap thumb, boolean isTimelineCb) {
         if (!checkInstallWX())
             return;
         try {
 
             WXMediaMessage msg = new WXMediaMessage();
             msg.mediaObject = imgObj;
-
-            Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
-            bmp.recycle();
-            msg.thumbData = HttpUtils.bmpToByteArray(thumbBmp, true);
+            if (thumb != null) {
+                msg.thumbData = HttpUtils.bmpToByteArray(thumb, true);
+            }
 
             SendMessageToWX.Req req = new SendMessageToWX.Req();
             req.transaction = buildTransaction("img");
@@ -147,22 +163,34 @@ public class WXShareManager extends WXChannelManager {
     }
 
     /**
-     * 分享网页
+     * 分享音乐
      *
-     * @param webUrl       网页地址
+     * @param musicUrl     音乐地址
      * @param title        标题
      * @param description  描述
-     * @param imageUrl     图片URL
+     * @param thumb        缩略图
      * @param isTimelineCb 是否分享到朋友圈
      */
-    public void shareWeb(String webUrl, String title, String description, String imageUrl, boolean isTimelineCb) {
-
+    private void shareAudio(String musicUrl, String title, String description, Bitmap thumb, boolean isTimelineCb) {
+        if (!checkInstallWX())
+            return;
         try {
+            WXMusicObject music = new WXMusicObject();
+            music.musicUrl = musicUrl;
 
-            Bitmap bmp = BitmapFactory.decodeStream(new URL(imageUrl).openStream());
-            Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
-            bmp.recycle();
-            shareWeb(webUrl, title, description, thumbBmp, isTimelineCb);
+            WXMediaMessage msg = new WXMediaMessage();
+            msg.mediaObject = music;
+            msg.title = title;
+            msg.description = description;
+            if (thumb != null) {
+                msg.thumbData = HttpUtils.bmpToByteArray(thumb, true);
+            }
+
+            SendMessageToWX.Req req = new SendMessageToWX.Req();
+            req.transaction = buildTransaction("music");
+            req.message = msg;
+            req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+            mWxAPI.sendReq(req);
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -170,30 +198,4 @@ public class WXShareManager extends WXChannelManager {
         }
     }
 
-    /**
-     * 分享网页
-     *
-     * @param webUrl       网页地址
-     * @param title        标题 512长度限制
-     * @param description  描述 1024长度限制
-     * @param thumb        缩略图 32K
-     * @param isTimelineCb 是否分享到朋友圈
-     */
-    public void shareWeb(String webUrl, String title, String description, Bitmap thumb, boolean isTimelineCb) {
-        if (!checkInstallWX())
-            return;
-        WXWebpageObject webPage = new WXWebpageObject();
-        webPage.webpageUrl = webUrl;
-        WXMediaMessage msg = new WXMediaMessage(webPage);
-        msg.title = title;
-        msg.description = description;
-        msg.thumbData = HttpUtils.bmpToByteArray(thumb, true);
-
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = buildTransaction("webpage");
-        req.message = msg;
-        req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-        mWxAPI.sendReq(req);
-
-    }
 }

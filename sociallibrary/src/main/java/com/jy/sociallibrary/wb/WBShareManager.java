@@ -5,8 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 
-import com.jy.sociallibrary.constant.SDKShareType;
+import com.jy.sociallibrary.constant.SDKImageType;
+import com.jy.sociallibrary.constant.SDKSharePlatform;
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener;
+import com.jy.sociallibrary.media.BaseMediaObject;
+import com.jy.sociallibrary.media.JYImage;
+import com.jy.sociallibrary.media.JYText;
+import com.jy.sociallibrary.media.JYWeb;
+import com.jy.sociallibrary.utils.JYImageUtils;
 import com.jy.sociallibrary.utils.SDKLogUtils;
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
@@ -121,13 +127,13 @@ public class WBShareManager implements WbShareCallback {
     /**
      * 分享图片消息
      *
-     * @param bitmap 图片对象
+     * @param imagePath 图片路径
      */
-    public void shareImageMsg(Bitmap bitmap) {
+    public void shareImageMsg(String imagePath) {
         hasText = false;
         hasImage = true;
         hasWebPage = false;
-        shareMultiMsg(null, bitmap, null, null, null, null, null);
+        shareMultiMsg(null, imagePath, null, null, null, null, null);
     }
 
     /**
@@ -151,27 +157,47 @@ public class WBShareManager implements WbShareCallback {
      * 分享类型：SHARE_ALL_IN_ONE
      *
      * @param text        文本消息分享
-     * @param bitmap      图片消息分享
+     * @param imagePath   图片消息分享
      * @param title       标题（网页消息分享）
      * @param description 描述（网页消息分享）
      * @param defaultText 默认text（网页消息分享）
      * @param targetUrl   目标链接地址（网页消息分享）
      * @param thumbImage  缩略图（网页消息分享）
      */
-    public void shareMultiMsg(String text, Bitmap bitmap, String title, String description, String defaultText, String targetUrl, Bitmap thumbImage) {
+    public void shareMultiMsg(String text, String imagePath, String title, String description, String defaultText, String targetUrl, Bitmap thumbImage) {
         // 1. 初始化微博的分享消息
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         if (hasText) {
             weiboMessage.textObject = getTextObj(text);
         }
         if (hasImage) {
-            weiboMessage.imageObject = getImageObj(bitmap);
+            weiboMessage.imageObject = getImageObj(imagePath);
         }
         if (hasWebPage) {
             weiboMessage.mediaObject = getWebpageObj(title, description, defaultText, targetUrl, thumbImage);
         }
         wbShareHandler.shareMessage(weiboMessage, false);
 
+    }
+
+    public void doShareAll(BaseMediaObject media) {
+
+        if (media instanceof JYWeb) {
+            JYWeb jyWeb = (JYWeb) media;
+            shareWebpageMsg(jyWeb.title, jyWeb.description, jyWeb.description, jyWeb.webUrl, JYImageUtils.getImageUrl(mContext, jyWeb.thumb));
+        } else if (media instanceof JYImage) {
+            JYImage jyImage = (JYImage) media;
+            if (jyImage.imageType == SDKImageType.URL_IMAGE) {
+                shareImageMsg(jyImage.mObject.toString());
+            } else {
+                listener.shareFail(SDKSharePlatform.WB, "微博只支持本地纯图片分享");
+            }
+        } else if (media instanceof JYText) {
+            JYText jyText = (JYText) media;
+            shareTextMsg(jyText.content);
+        } else {
+            listener.shareFail(SDKSharePlatform.WB, "未知分享类型");
+        }
     }
 
     /**
@@ -189,12 +215,12 @@ public class WBShareManager implements WbShareCallback {
     /**
      * 创建图片消息对象。
      *
-     * @param bitmap bitmap对象
+     * @param imagePath 图片路径
      * @return 图片消息对象
      */
-    private ImageObject getImageObj(Bitmap bitmap) {
+    private ImageObject getImageObj(String imagePath) {
         ImageObject imageObject = new ImageObject();
-        imageObject.setImageObject(bitmap);
+        imageObject.imagePath = imagePath;
         return imageObject;
     }
 
@@ -221,18 +247,18 @@ public class WBShareManager implements WbShareCallback {
     @Override
     public void onWbShareSuccess() {
         SDKLogUtils.i("微博分享授权--成功");
-        listener.shareSuccess(SDKShareType.TYPE_WB);
+        listener.shareSuccess(SDKSharePlatform.WB);
     }
 
     @Override
     public void onWbShareCancel() {
         SDKLogUtils.i("微博分享授权--取消");
-        listener.shareCancel(SDKShareType.TYPE_WB);
+        listener.shareCancel(SDKSharePlatform.WB);
     }
 
     @Override
     public void onWbShareFail() {
         SDKLogUtils.e("微博分享授权--失败");
-        listener.shareFail(SDKShareType.TYPE_WB, "分享失败");
+        listener.shareFail(SDKSharePlatform.WB, "分享失败");
     }
 }

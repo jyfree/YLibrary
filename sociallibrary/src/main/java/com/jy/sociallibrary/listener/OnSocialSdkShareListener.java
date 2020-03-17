@@ -10,23 +10,23 @@ public interface OnSocialSdkShareListener {
     /**
      * 分享成功
      *
-     * @param type 分享类型
+     * @param sharePlatform 分享平台
      */
-    void shareSuccess(int type);
+    void shareSuccess(int sharePlatform);
 
     /**
      * 分享失败
      *
-     * @param type 分享类型
+     * @param sharePlatform 分享平台
      */
-    void shareFail(int type, String error);
+    void shareFail(int sharePlatform, String error);
 
     /**
      * 取消分享
      *
-     * @param type 分享类型
+     * @param sharePlatform 分享平台
      */
-    void shareCancel(int type);
+    void shareCancel(int sharePlatform);
 
 
 }

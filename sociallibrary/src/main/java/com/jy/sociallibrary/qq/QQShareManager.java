@@ -6,8 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.jy.sociallibrary.SDKThreadManager;
-import com.jy.sociallibrary.constant.SDKShareType;
+import com.jy.sociallibrary.constant.SDKImageType;
+import com.jy.sociallibrary.constant.SDKSharePlatform;
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener;
+import com.jy.sociallibrary.media.BaseMediaObject;
+import com.jy.sociallibrary.media.JYImage;
+import com.jy.sociallibrary.media.JYText;
+import com.jy.sociallibrary.media.JYWeb;
+import com.jy.sociallibrary.utils.SDKAppUtils;
 import com.jy.sociallibrary.utils.SDKLogUtils;
 import com.tencent.connect.common.Constants;
 import com.tencent.connect.share.QQShare;
@@ -30,7 +36,7 @@ public class QQShareManager extends QQChannelManager {
 
 
     private OnSocialSdkShareListener qqShareListener;
-    private int shareType = SDKShareType.TYPE_QQ_FRIENDS;
+    private int sharePlatform = SDKSharePlatform.QQ_FRIENDS;
 
     public QQShareManager(Context context) {
         super(context);
@@ -43,32 +49,62 @@ public class QQShareManager extends QQChannelManager {
 
     /**
      * QQ默认分享(可分享给好友|分享到QQ空间)
-     *
-     * @param title           标题（最大长度45）
-     * @param summary         内容（最大长度60）
-     * @param targetUrl       目标链接URL
-     * @param imageUrl        图片URL
-     * @param appName         程序名称
-     * @param isAutoOpenQZone 是否分享到Qzone
+     * <p>
+     * title           标题（最大长度45）
+     * summary         内容（最大长度60）
+     * targetUrl       目标链接URL
+     * imageUrl        图片URL
+     * appName         程序名称
+     * isAutoOpenQZone 是否分享到Qzone
      */
-    public void doShareAll(String title, String summary, String targetUrl, String imageUrl, String appName, boolean isAutoOpenQZone) {
-        final Bundle params = new Bundle();
-
-        params.putString(QQShare.SHARE_TO_QQ_TITLE, title);
-        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, targetUrl);
-        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, summary);
-        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, imageUrl);
-        params.putString(QQShare.SHARE_TO_QQ_APP_NAME, appName);
-        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-
+    public void doShareAll(BaseMediaObject media, boolean isAutoOpenQZone) {
+        //分享平台：QQ好友，QQ空间
         int mExtarFlag;
         if (isAutoOpenQZone) {
-            shareType = SDKShareType.TYPE_QQ_QZONE;
+            sharePlatform = SDKSharePlatform.QQ_QZONE;
             mExtarFlag = QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN;
         } else {
-            shareType = SDKShareType.TYPE_QQ_FRIENDS;
+            sharePlatform = SDKSharePlatform.QQ_FRIENDS;
             mExtarFlag = QQShare.SHARE_TO_QQ_FLAG_QZONE_ITEM_HIDE;
         }
+
+        final Bundle params = new Bundle();
+
+        //分享类型
+        int shareType;
+        if (media instanceof JYWeb) {
+            shareType = QQShare.SHARE_TO_QQ_TYPE_DEFAULT;
+
+            JYWeb jyWeb = (JYWeb) media;
+            params.putString(QQShare.SHARE_TO_QQ_TITLE, jyWeb.title);
+            params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, jyWeb.webUrl);
+            params.putString(QQShare.SHARE_TO_QQ_SUMMARY, jyWeb.description);
+            params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, jyWeb.imageUrl);
+
+        } else if (media instanceof JYImage) {
+            shareType = QQShare.SHARE_TO_QQ_TYPE_IMAGE;
+
+            JYImage jyImage = (JYImage) media;
+            if (jyImage.imageType == SDKImageType.RES_IMAGE
+                    || jyImage.imageType == SDKImageType.BITMAP_IMAGE) {
+                qqShareListener.shareFail(sharePlatform, "QQ只支持本地纯图片分享");
+                return;
+            }
+            params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, jyImage.mObject.toString());
+        } else if (media instanceof JYText) {
+            qqShareListener.shareFail(sharePlatform, "QQ不支持纯文本分享");
+            return;
+        } else {
+            //分享音乐
+//            shareType = QQShare.SHARE_TO_QQ_TYPE_AUDIO;
+//            if (shareType == QQShare.SHARE_TO_QQ_TYPE_AUDIO) {
+//                params.putString(QQShare.SHARE_TO_QQ_AUDIO_URL, shareInfo.audioUrl);
+//            }
+            qqShareListener.shareFail(sharePlatform, "未知分享类型");
+            return;
+        }
+        params.putString(QQShare.SHARE_TO_QQ_APP_NAME, SDKAppUtils.getAppName(mContext));
+        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, shareType);
         params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, mExtarFlag);
 
         doShareToQQ(params);
@@ -111,7 +147,7 @@ public class QQShareManager extends QQChannelManager {
         if (null != imageUrls && imageUrls.size() > 0) {
             params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
         }
-        shareType = SDKShareType.TYPE_QQ_QZONE;
+        sharePlatform = SDKSharePlatform.QQ_QZONE;
         doShareToQQ(params);
     }
 
@@ -140,21 +176,21 @@ public class QQShareManager extends QQChannelManager {
         @Override
         protected void doComplete(JSONObject values) {
             SDKLogUtils.i("QQ分享授权--成功--AuthorSwitch_SDK:", values);
-            qqShareListener.shareSuccess(shareType);
+            qqShareListener.shareSuccess(sharePlatform);
         }
 
         @Override
         public void onError(UiError e) {
             super.onError(e);
             SDKLogUtils.e("QQ分享授权--失败--errorCode", e.errorCode, "errorMessage", e.errorMessage);
-            qqShareListener.shareFail(shareType, e.errorMessage);
+            qqShareListener.shareFail(sharePlatform, e.errorMessage);
         }
 
         @Override
         public void onCancel() {
             super.onCancel();
             SDKLogUtils.i("QQ分享授权--取消");
-            qqShareListener.shareCancel(shareType);
+            qqShareListener.shareCancel(sharePlatform);
         }
     };
 

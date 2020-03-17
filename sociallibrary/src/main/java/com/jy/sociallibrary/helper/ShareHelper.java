@@ -3,9 +3,9 @@ package com.jy.sociallibrary.helper;
 import android.content.Context;
 import android.content.Intent;
 
-import com.jy.sociallibrary.bean.ShareInfo;
-import com.jy.sociallibrary.constant.SDKShareType;
+import com.jy.sociallibrary.constant.SDKSharePlatform;
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener;
+import com.jy.sociallibrary.media.BaseMediaObject;
 import com.jy.sociallibrary.qq.QQShareManager;
 import com.jy.sociallibrary.wb.WBShareManager;
 import com.jy.sociallibrary.wx.WXListener;
@@ -91,22 +91,22 @@ public class ShareHelper {
     }
 
 
-    public void share(int shareType, ShareInfo shareInfo) {
-        switch (shareType) {
-            case SDKShareType.TYPE_QQ_QZONE:
-                qqShareManager.doShareAll(shareInfo.title, shareInfo.summary, shareInfo.targetUrl, shareInfo.imageUrl, shareInfo.appName, true);
+    public void share(int sharePlatform, BaseMediaObject media) {
+        switch (sharePlatform) {
+            case SDKSharePlatform.QQ_QZONE:
+                qqShareManager.doShareAll(media, true);
                 break;
-            case SDKShareType.TYPE_QQ_FRIENDS:
-                qqShareManager.doShareAll(shareInfo.title, shareInfo.summary, shareInfo.targetUrl, shareInfo.imageUrl, shareInfo.appName, false);
+            case SDKSharePlatform.QQ_FRIENDS:
+                qqShareManager.doShareAll(media, false);
                 break;
-            case SDKShareType.TYPE_WX_CB:
-                wxShareManager.shareWeb(shareInfo.targetUrl, shareInfo.title, shareInfo.summary, shareInfo.bitmap, true);
+            case SDKSharePlatform.WX_CB:
+                wxShareManager.doShareAll(media, true);
                 break;
-            case SDKShareType.TYPE_WX_FRIENDS:
-                wxShareManager.shareWeb(shareInfo.targetUrl, shareInfo.title, shareInfo.summary, shareInfo.bitmap, false);
+            case SDKSharePlatform.WX_FRIENDS:
+                wxShareManager.doShareAll(media, false);
                 break;
-            case SDKShareType.TYPE_WB:
-                wbShareManager.shareMultiMsg(shareInfo.title, shareInfo.bitmap, shareInfo.title, shareInfo.summary, shareInfo.summary, shareInfo.targetUrl, shareInfo.bitmap);
+            case SDKSharePlatform.WB:
+                wbShareManager.doShareAll(media);
                 break;
         }
     }

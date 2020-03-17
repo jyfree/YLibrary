@@ -3,18 +3,19 @@ package com.jy.simple.social
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.simple.Constants
 import com.jy.simple.R
-import com.jy.sociallibrary.bean.ShareInfo
-import com.jy.sociallibrary.constant.SDKShareType
+import com.jy.sociallibrary.constant.SDKSharePlatform
 import com.jy.sociallibrary.ext.share.SDKShare
 import com.jy.sociallibrary.ext.share.SDKShareManager
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener
+import com.jy.sociallibrary.media.JYImage
+import com.jy.sociallibrary.media.JYText
+import com.jy.sociallibrary.media.JYWeb
 import com.jy.sociallibrary.wx.WXListener
 
 
@@ -43,36 +44,42 @@ class ShareSimpleActivity : Activity() {
 
     fun onClickShare(view: View) {
         when (view.id) {
-            R.id.share_2qq -> toShare(SDKShareType.TYPE_QQ_FRIENDS)
-            R.id.share_2qzone -> toShare(SDKShareType.TYPE_QQ_QZONE)
-            R.id.share_2wechat -> toShare(SDKShareType.TYPE_WX_FRIENDS)
-            R.id.share_2wechatmoments -> toShare(SDKShareType.TYPE_WX_CB)
-            R.id.share_2wb -> toShare(SDKShareType.TYPE_WB)
-            R.id.share_all -> showShareDialog()
+            R.id.share_2qq -> toShare(SDKSharePlatform.QQ_FRIENDS)
+            R.id.share_2qzone -> toShare(SDKSharePlatform.QQ_QZONE)
+            R.id.share_2wechat -> toShare(SDKSharePlatform.WX_FRIENDS)
+            R.id.share_2wechatmoments -> toShare(SDKSharePlatform.WX_CB)
+            R.id.share_2wb -> toShare(SDKSharePlatform.WB)
+            R.id.share_all_web -> {
+                getSdkShareManager().requestShare(this, getWeb())
+            }
+            R.id.share_all_image -> {
+                getSdkShareManager().requestShare(this, getImage())
+            }
+            R.id.share_all_text -> {
+                getSdkShareManager().requestShare(this, getText())
+            }
         }
     }
 
-    private fun toShare(shareType: Int) {
-        getSdkShareManager().requestShare(this, shareType, getShareInfo())
-    }
+    private fun toShare(sharePlatform: Int) {
+        getSdkShareManager().requestShare(this, sharePlatform, getWeb())
 
-    private fun showShareDialog() {
-        getSdkShareManager().requestShare(this, getShareInfo())
     }
 
     private fun getSdkShareManager(): SDKShareManager {
         if (sdkShareManager == null) {
-            sdkShareManager = SDKShare.instance.sdkShareManager.setShareListener(object : OnSocialSdkShareListener {
-                override fun shareSuccess(type: Int) {
-                    YLogUtils.i("分享成功--类型：", type)
+            sdkShareManager = SDKShare.instance.sdkShareManager.setShareListener(object :
+                OnSocialSdkShareListener {
+                override fun shareSuccess(sharePlatform: Int) {
+                    YLogUtils.i("分享成功--平台：", sharePlatform)
                 }
 
-                override fun shareFail(type: Int, error: String?) {
-                    YLogUtils.e("分享失败--类型：", type, "error", error)
+                override fun shareFail(sharePlatform: Int, error: String?) {
+                    YLogUtils.e("分享失败--平台：", sharePlatform, "error", error)
                 }
 
-                override fun shareCancel(type: Int) {
-                    YLogUtils.i("取消分享--类型：", type)
+                override fun shareCancel(sharePlatform: Int) {
+                    YLogUtils.i("取消分享--平台：", sharePlatform)
                 }
 
             }).setWXListener(WXListener {
@@ -82,17 +89,24 @@ class ShareSimpleActivity : Activity() {
         return sdkShareManager!!
     }
 
-    private fun getShareInfo(): ShareInfo {
-        val shareInfoVo = ShareInfo()
-        shareInfoVo.appName = getString(R.string.app_name)
-        //图片不能超过32K
-        shareInfoVo.bitmap = BitmapFactory.decodeResource(resources, R.drawable.share_icon)
-        shareInfoVo.imageUrl = Constants.URL.SHARE_IMAGE_URL//分享imageUrl
-        shareInfoVo.summary = "撩起来"
-        shareInfoVo.title = getString(R.string.app_name)
-        shareInfoVo.targetUrl = Constants.URL.SHARE_TARGET_URL//分享目标地址
-
-        return shareInfoVo
+    private fun getWeb(): JYWeb {
+        val jyWeb = JYWeb(Constants.URL.SHARE_TARGET_URL)
+        jyWeb.title = "分享标题"
+        jyWeb.description = "分享内容"
+        jyWeb.thumb = JYImage(R.drawable.share_icon)
+//        jyWeb.imageUrl = Constants.URL.SHARE_IMAGE_URL
+        return jyWeb
     }
+
+    private fun getImage(): JYImage {
+        val jyImage = JYImage("/storage/emulated/0/200317182215998.jpg")
+        jyImage.thumb = JYImage(R.drawable.share_icon)
+        return jyImage
+    }
+
+    private fun getText(): JYText {
+        return JYText("分享内容")
+    }
+
 
 }

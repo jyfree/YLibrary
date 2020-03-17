@@ -16,7 +16,7 @@ public class WXChannelManager {
 
     public IWXAPI mWxAPI;
 
-    private Context mContext;
+    public Context mContext;
 
     private WXListener listener;
 
