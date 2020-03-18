@@ -13,6 +13,7 @@ import com.jy.sociallibrary.media.BaseMediaObject;
 import com.jy.sociallibrary.media.JYImage;
 import com.jy.sociallibrary.media.JYText;
 import com.jy.sociallibrary.media.JYWeb;
+import com.jy.sociallibrary.utils.JYImageUtils;
 import com.jy.sociallibrary.utils.SDKAppUtils;
 import com.jy.sociallibrary.utils.SDKLogUtils;
 import com.tencent.connect.common.Constants;
@@ -90,7 +91,7 @@ public class QQShareManager extends QQChannelManager {
                 qqShareListener.shareFail(sharePlatform, "QQ只支持本地纯图片分享");
                 return;
             }
-            params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, jyImage.mObject.toString());
+            params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, JYImageUtils.getImagePath(jyImage));
         } else if (media instanceof JYText) {
             qqShareListener.shareFail(sharePlatform, "QQ不支持纯文本分享");
             return;

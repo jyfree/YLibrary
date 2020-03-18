@@ -38,7 +38,7 @@ public class WXShareManager extends WXChannelManager {
 
         if (media instanceof JYWeb) {
             JYWeb jyWeb = (JYWeb) media;
-            shareWeb(jyWeb.webUrl, jyWeb.title, jyWeb.description, JYImageUtils.getImageUrl(mContext, jyWeb.thumb), isTimelineCb);
+            shareWeb(jyWeb.webUrl, jyWeb.title, jyWeb.description, JYImageUtils.getImageBitmap(mContext, jyWeb.thumb), isTimelineCb);
         } else if (media instanceof JYText) {
             JYText jyText = (JYText) media;
             shareText(jyText.content, jyText.content, isTimelineCb);
@@ -46,10 +46,10 @@ public class WXShareManager extends WXChannelManager {
             JYImage jyImage = (JYImage) media;
             if (jyImage.imageType == SDKImageType.URL_IMAGE) {
                 SDKLogUtils.i("微信图片分享--图片路径分享");
-                shareImage2Path(jyImage.mObject.toString(), JYImageUtils.getImageUrl(mContext, jyImage.thumb), isTimelineCb);
+                shareImage2Path(JYImageUtils.getImagePath(jyImage), JYImageUtils.getImageBitmap(mContext, jyImage.thumb), isTimelineCb);
             } else {
                 SDKLogUtils.i("微信图片分享--图片bitmap分享");
-                shareImage2Bitmap(JYImageUtils.getImageUrl(mContext, jyImage), JYImageUtils.getImageUrl(mContext, jyImage.thumb), isTimelineCb);
+                shareImage2Bitmap(JYImageUtils.getImageBitmap(mContext, jyImage), JYImageUtils.getImageBitmap(mContext, jyImage.thumb), isTimelineCb);
             }
         } else {
             //shareAudio(shareInfo.audioUrl, shareInfo.title, shareInfo.summary, shareInfo.thumb, isTimelineCb);

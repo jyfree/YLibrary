@@ -14,7 +14,7 @@ object Constants {
 
 
     object URL {
-        const val SHARE_IMAGE_URL = "http://img.wowolive99.com/120x120.png"//分享imageUrl
+        const val SHARE_IMAGE_URL = "https://www.9shows.com/publicImg/woyaokaibo.png"//分享imageUrl
         const val SHARE_TARGET_URL = "http://www.wowolive99.com/activity/download_h5/index.html"//分享目标地址
     }
 }

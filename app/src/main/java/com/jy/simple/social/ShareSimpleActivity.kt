@@ -3,6 +3,7 @@ package com.jy.simple.social
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import com.jy.baselibrary.utils.ActivityUtils
@@ -94,12 +95,16 @@ class ShareSimpleActivity : Activity() {
         jyWeb.title = "分享标题"
         jyWeb.description = "分享内容"
         jyWeb.thumb = JYImage(R.drawable.share_icon)
-//        jyWeb.imageUrl = Constants.URL.SHARE_IMAGE_URL
+        jyWeb.imageUrl = Constants.URL.SHARE_IMAGE_URL
         return jyWeb
     }
 
     private fun getImage(): JYImage {
-        val jyImage = JYImage("/storage/emulated/0/200317182215998.jpg")
+//        val jyImage = JYImage("/storage/emulated/0/200317190044044.jpg")
+//        val jyImage = JYImage(R.drawable.share_icon)
+        val jyImage = JYImage(BitmapFactory.decodeResource(resources, R.drawable.share_icon))
+//        val jyImage = JYImage(File("/storage/emulated/0/200317190044044.jpg"))
+
         jyImage.thumb = JYImage(R.drawable.share_icon)
         return jyImage
     }
