@@ -10,8 +10,10 @@ import com.jy.sociallibrary.constant.SDKImageType;
 import com.jy.sociallibrary.constant.SDKSharePlatform;
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener;
 import com.jy.sociallibrary.media.BaseMediaObject;
+import com.jy.sociallibrary.media.JYAudio;
 import com.jy.sociallibrary.media.JYImage;
 import com.jy.sociallibrary.media.JYText;
+import com.jy.sociallibrary.media.JYVideo;
 import com.jy.sociallibrary.media.JYWeb;
 import com.jy.sociallibrary.utils.JYImageUtils;
 import com.jy.sociallibrary.utils.SDKAppUtils;
@@ -95,12 +97,20 @@ public class QQShareManager extends QQChannelManager {
         } else if (media instanceof JYText) {
             qqShareListener.shareFail(sharePlatform, "QQ不支持纯文本分享");
             return;
+        } else if (media instanceof JYAudio) {
+            shareType = QQShare.SHARE_TO_QQ_TYPE_AUDIO;
+
+            JYAudio jyAudio = (JYAudio) media;
+            params.putString(QQShare.SHARE_TO_QQ_TITLE, jyAudio.title);
+            params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, jyAudio.webUrl);
+            params.putString(QQShare.SHARE_TO_QQ_SUMMARY, jyAudio.description);
+            params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, jyAudio.imageUrl);
+            params.putString(QQShare.SHARE_TO_QQ_AUDIO_URL, jyAudio.audioUrl);
+
+        } else if (media instanceof JYVideo) {
+            qqShareListener.shareFail(sharePlatform, "QQ不支持视频分享");
+            return;
         } else {
-            //分享音乐
-//            shareType = QQShare.SHARE_TO_QQ_TYPE_AUDIO;
-//            if (shareType == QQShare.SHARE_TO_QQ_TYPE_AUDIO) {
-//                params.putString(QQShare.SHARE_TO_QQ_AUDIO_URL, shareInfo.audioUrl);
-//            }
             qqShareListener.shareFail(sharePlatform, "未知分享类型");
             return;
         }

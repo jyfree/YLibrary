@@ -83,4 +83,18 @@
         android:layout_height="wrap_content"
         android:onClick="onClickShare"
         android:text="一键分享text" />
+
+    <Button
+        android:id="@+id/share_all_audio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickShare"
+        android:text="一键分享audio" />
+
+    <Button
+        android:id="@+id/share_all_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickShare"
+        android:text="一键分享video" />
 </LinearLayout>

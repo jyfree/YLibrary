@@ -2,11 +2,14 @@ package com.jy.sociallibrary.wx;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Patterns;
 
 import com.jy.sociallibrary.constant.SDKImageType;
 import com.jy.sociallibrary.media.BaseMediaObject;
+import com.jy.sociallibrary.media.JYAudio;
 import com.jy.sociallibrary.media.JYImage;
 import com.jy.sociallibrary.media.JYText;
+import com.jy.sociallibrary.media.JYVideo;
 import com.jy.sociallibrary.media.JYWeb;
 import com.jy.sociallibrary.utils.JYImageUtils;
 import com.jy.sociallibrary.utils.SDKLogUtils;
@@ -15,6 +18,7 @@ import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXMusicObject;
 import com.tencent.mm.opensdk.modelmsg.WXTextObject;
+import com.tencent.mm.opensdk.modelmsg.WXVideoObject;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 
 /**
@@ -51,8 +55,16 @@ public class WXShareManager extends WXChannelManager {
                 SDKLogUtils.i("微信图片分享--图片bitmap分享");
                 shareImage2Bitmap(JYImageUtils.getImageBitmap(mContext, jyImage), JYImageUtils.getImageBitmap(mContext, jyImage.thumb), isTimelineCb);
             }
+        } else if (media instanceof JYAudio) {
+            JYAudio jyAudio = (JYAudio) media;
+            shareAudio(jyAudio.audioUrl, jyAudio.title, jyAudio.description, JYImageUtils.getImageBitmap(mContext, jyAudio.thumb), isTimelineCb);
+        } else if (media instanceof JYVideo) {
+            JYVideo jyVideo = (JYVideo) media;
+            if (!Patterns.WEB_URL.matcher(jyVideo.videoUrl).matches()) {
+                SDKLogUtils.e("微信只支持在线视频分享--分享本地视频将无法观看");
+            }
+            shareVideo(jyVideo.videoUrl, jyVideo.title, jyVideo.description, JYImageUtils.getImageBitmap(mContext, jyVideo.thumb), isTimelineCb);
         } else {
-            //shareAudio(shareInfo.audioUrl, shareInfo.title, shareInfo.summary, shareInfo.thumb, isTimelineCb);
             SDKLogUtils.e("未知分享类型");
         }
     }
@@ -188,6 +200,41 @@ public class WXShareManager extends WXChannelManager {
 
             SendMessageToWX.Req req = new SendMessageToWX.Req();
             req.transaction = buildTransaction("music");
+            req.message = msg;
+            req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+            mWxAPI.sendReq(req);
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 分享视频
+     *
+     * @param videoUrl     视频地址
+     * @param title        标题
+     * @param description  说明
+     * @param thumb        缩略图
+     * @param isTimelineCb 是否分享到朋友圈
+     */
+    private void shareVideo(String videoUrl, String title, String description, Bitmap thumb, boolean isTimelineCb) {
+        if (!checkInstallWX())
+            return;
+        try {
+            WXVideoObject video = new WXVideoObject();
+            video.videoUrl = videoUrl;
+
+            WXMediaMessage msg = new WXMediaMessage(video);
+            msg.title = title;
+            msg.description = description;
+            if (thumb != null) {
+                msg.thumbData = HttpUtils.bmpToByteArray(thumb, true);
+            }
+
+            SendMessageToWX.Req req = new SendMessageToWX.Req();
+            req.transaction = buildTransaction("video");
             req.message = msg;
             req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
             mWxAPI.sendReq(req);

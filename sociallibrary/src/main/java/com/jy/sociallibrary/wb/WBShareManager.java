@@ -4,23 +4,30 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.util.Patterns;
 
 import com.jy.sociallibrary.constant.SDKImageType;
 import com.jy.sociallibrary.constant.SDKSharePlatform;
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener;
 import com.jy.sociallibrary.media.BaseMediaObject;
+import com.jy.sociallibrary.media.JYAudio;
 import com.jy.sociallibrary.media.JYImage;
 import com.jy.sociallibrary.media.JYText;
+import com.jy.sociallibrary.media.JYVideo;
 import com.jy.sociallibrary.media.JYWeb;
 import com.jy.sociallibrary.utils.JYImageUtils;
 import com.jy.sociallibrary.utils.SDKLogUtils;
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
+import com.sina.weibo.sdk.api.VideoSourceObject;
 import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.share.WbShareCallback;
 import com.sina.weibo.sdk.share.WbShareHandler;
 import com.sina.weibo.sdk.utils.Utility;
+
+import java.io.File;
 
 
 /**
@@ -165,6 +172,20 @@ public class WBShareManager implements WbShareCallback {
     }
 
     /**
+     * 分享视频
+     *
+     * @param videoPath 视频地址
+     * @param title     标题
+     */
+    public void shareVideo(String videoPath, String title) {
+        WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
+        weiboMessage.textObject = getTextObj(title);
+        weiboMessage.videoSourceObject = getVideoObject(videoPath);
+
+        wbShareHandler.shareMessage(weiboMessage, false);
+    }
+
+    /**
      * 多种分享方式结合
      * 分享类型：SHARE_ALL_IN_ONE
      *
@@ -219,6 +240,16 @@ public class WBShareManager implements WbShareCallback {
         } else if (media instanceof JYText) {
             JYText jyText = (JYText) media;
             shareTextMsg(jyText.content);
+        } else if (media instanceof JYVideo) {
+            JYVideo jyVideo = (JYVideo) media;
+            if (Patterns.WEB_URL.matcher(jyVideo.videoUrl).matches()) {
+                listener.shareFail(SDKSharePlatform.WB, "微博只支持本地视频分享");
+                return;
+            }
+            SDKLogUtils.i("微博分享视频，需要稍等片刻才能在微博上看到，因为需要上传文件");
+            shareVideo(jyVideo.videoUrl, jyVideo.title);
+        } else if (media instanceof JYAudio) {
+            listener.shareFail(SDKSharePlatform.WB, "微博不支持音频分享");
         } else {
             listener.shareFail(SDKSharePlatform.WB, "未知分享类型");
         }
@@ -278,6 +309,18 @@ public class WBShareManager implements WbShareCallback {
         mediaObject.actionUrl = targetUrl;
         mediaObject.defaultText = defaultText;
         return mediaObject;
+    }
+
+    /**
+     * 分享视频
+     *
+     * @param videoPath
+     * @return
+     */
+    private VideoSourceObject getVideoObject(String videoPath) {
+        VideoSourceObject videoSourceObject = new VideoSourceObject();
+        videoSourceObject.videoPath = Uri.fromFile(new File(videoPath));
+        return videoSourceObject;
     }
 
     @Override
