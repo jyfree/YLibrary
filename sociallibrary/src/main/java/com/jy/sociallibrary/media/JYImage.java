@@ -66,7 +66,9 @@ public class JYImage extends BaseMediaObject {
     };
 
     private void init(Object mObject) {
-        if (mObject instanceof String) {
+        if (mObject instanceof File) {
+            imageType = SDKImageType.URL_IMAGE;
+        } else if (mObject instanceof String) {
             imageType = SDKImageType.URL_IMAGE;
         } else if (mObject instanceof Integer) {
             imageType = SDKImageType.RES_IMAGE;
