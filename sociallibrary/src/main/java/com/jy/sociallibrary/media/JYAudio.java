@@ -7,7 +7,7 @@ public class JYAudio extends BaseMediaObject {
     public String title;//标题
     public String description;//描述
     public JYImage thumb;//缩略图
-    public String imageUrl;//图片路径（网络图片）
+    public String imageUrl;//图片路径（网络图片），qq分享需要用到，不传则缩略图为应用icon
     public String audioUrl;//音频地址
 
     public JYAudio(String audioUrl) {

@@ -24,7 +24,6 @@ import com.jy.sociallibrary.wx.WXListener
  */
 class SDKShareManager {
 
-    private var sdkShareChannels: ArrayList<SDKShareChannel>? = null
     private var shareHelper: ShareHelper? = null
     private var shareListener: OnSocialSdkShareListener? = null
     private var wxListener: WXListener? = null
@@ -42,7 +41,7 @@ class SDKShareManager {
         return this
     }
 
-    fun requestShare(context: Context, sharePlatform: Int, media: BaseMediaObject) {
+    fun requestShare(context: Context, media: BaseMediaObject, sharePlatform: Int) {
         val intent = Intent(context, SDKShareActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.putExtra(SHARE_PLATFORM, sharePlatform)
@@ -51,7 +50,18 @@ class SDKShareManager {
     }
 
     fun requestShare(context: Context, media: BaseMediaObject) {
-        showShareDialog(context, media)
+        val platformArray = arrayOf(
+            SDKSharePlatform.WX_FRIENDS,
+            SDKSharePlatform.WX_CB,
+            SDKSharePlatform.QQ_FRIENDS,
+            SDKSharePlatform.QQ_QZONE,
+            SDKSharePlatform.WB
+        )
+        showShareDialog(context, media, platformArray)
+    }
+
+    fun requestShare(context: Context, media: BaseMediaObject, platformArray: Array<Int>) {
+        showShareDialog(context, media, platformArray)
     }
 
     fun behavior(activity: Activity, savedInstanceState: Bundle?) {
@@ -87,43 +97,67 @@ class SDKShareManager {
     }
 
 
-    private fun prepareShareData(context: Context) {
-        sdkShareChannels = ArrayList()
-        sdkShareChannels?.add(
-            SDKShareChannel(
-                SDKSharePlatform.WX_FRIENDS,
-                R.drawable.social_sdk_logo_wechat,
-                context.getString(R.string.social_sdk_share_2wechat)
-            )
-        )
-        sdkShareChannels?.add(
-            SDKShareChannel(
-                SDKSharePlatform.QQ_FRIENDS,
-                R.drawable.social_sdk_logo_qq,
-                context.getString(R.string.social_sdk_share_2qq)
-            )
-        )
-        sdkShareChannels?.add(
-            SDKShareChannel(
-                SDKSharePlatform.WX_CB,
-                R.drawable.social_sdk_logo_wechatmoments,
-                context.getString(R.string.social_sdk_share_2wechatmoments)
-            )
-        )
-        sdkShareChannels?.add(
-            SDKShareChannel(
-                SDKSharePlatform.QQ_QZONE,
-                R.drawable.social_sdk_logo_qzone,
-                context.getString(R.string.social_sdk_share_2qzone)
-            )
-        )
-        sdkShareChannels?.add(
-            SDKShareChannel(
-                SDKSharePlatform.WB,
-                R.drawable.social_sdk_logo_wb,
-                context.getString(R.string.social_sdk_share_2wb)
-            )
-        )
+    private fun getShareChannelData(
+        context: Context,
+        platformArray: Array<Int>
+    ): ArrayList<SDKShareChannel> {
+
+        val sdkShareChannels = ArrayList<SDKShareChannel>()
+
+        for (position in platformArray.indices) {
+            when (platformArray[position]) {
+                SDKSharePlatform.WX_FRIENDS -> {
+                    sdkShareChannels.add(
+                        SDKShareChannel(
+                            SDKSharePlatform.WX_FRIENDS,
+                            R.drawable.social_sdk_logo_wechat,
+                            context.getString(R.string.social_sdk_share_2wechat)
+                        )
+                    )
+                }
+                SDKSharePlatform.QQ_FRIENDS -> {
+                    sdkShareChannels.add(
+                        SDKShareChannel(
+                            SDKSharePlatform.QQ_FRIENDS,
+                            R.drawable.social_sdk_logo_qq,
+                            context.getString(R.string.social_sdk_share_2qq)
+                        )
+                    )
+                }
+
+                SDKSharePlatform.WX_CB -> {
+                    sdkShareChannels.add(
+                        SDKShareChannel(
+                            SDKSharePlatform.WX_CB,
+                            R.drawable.social_sdk_logo_wechatmoments,
+                            context.getString(R.string.social_sdk_share_2wechatmoments)
+                        )
+                    )
+                }
+
+                SDKSharePlatform.QQ_QZONE -> {
+                    sdkShareChannels.add(
+                        SDKShareChannel(
+                            SDKSharePlatform.QQ_QZONE,
+                            R.drawable.social_sdk_logo_qzone,
+                            context.getString(R.string.social_sdk_share_2qzone)
+                        )
+                    )
+                }
+
+                SDKSharePlatform.WB -> {
+                    sdkShareChannels.add(
+                        SDKShareChannel(
+                            SDKSharePlatform.WB,
+                            R.drawable.social_sdk_logo_wb,
+                            context.getString(R.string.social_sdk_share_2wb)
+                        )
+                    )
+                }
+            }
+        }
+
+        return sdkShareChannels;
     }
 
 
@@ -151,16 +185,18 @@ class SDKShareManager {
     }
 
 
-    private fun showShareDialog(context: Context, media: BaseMediaObject) {
-        if (sdkShareChannels == null) {
-            prepareShareData(context)
-        }
+    private fun showShareDialog(
+        context: Context,
+        media: BaseMediaObject,
+        platformArray: Array<Int>
+    ) {
+
         val sdkShareDialog = SDKShareDialog(
             context,
             R.style.social_Theme_dialog,
-            sdkShareChannels,
+            getShareChannelData(context, platformArray),
             SDKShareDialog.OnSDKShareListener {
-                requestShare(context, it.id, media)
+                requestShare(context, media, it.platform)
             })
         sdkShareDialog.initSystemUI()
         sdkShareDialog.show()

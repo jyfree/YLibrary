@@ -99,6 +99,7 @@ public class SDKShareDialog extends Dialog {
         final GridView mGridView = findViewById(R.id.social_sdk_gridView);
 
         mGridView.setAdapter(new SDKAdapter2Share(getContext(), dataList));
+        mGridView.setNumColumns(Math.min(dataList.size(), 5));
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

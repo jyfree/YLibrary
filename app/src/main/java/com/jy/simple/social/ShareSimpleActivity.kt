@@ -4,7 +4,6 @@ package com.jy.simple.social
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
@@ -16,7 +15,6 @@ import com.jy.sociallibrary.ext.share.SDKShareManager
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener
 import com.jy.sociallibrary.media.*
 import com.jy.sociallibrary.wx.WXListener
-import java.io.File
 
 
 /**
@@ -53,12 +51,20 @@ class ShareSimpleActivity : Activity() {
             R.id.share_all_image -> getSdkShareManager().requestShare(this, getImage())
             R.id.share_all_text -> getSdkShareManager().requestShare(this, getText())
             R.id.share_all_audio -> getSdkShareManager().requestShare(this, getAudio())
-            R.id.share_all_video -> getSdkShareManager().requestShare(this, getVideo())
+            R.id.share_all_video -> {
+                getSdkShareManager().requestShare(
+                    this, getVideo(), arrayOf(
+                        SDKSharePlatform.WX_FRIENDS,
+                        SDKSharePlatform.WX_CB,
+                        SDKSharePlatform.WB
+                    )
+                )
+            }
         }
     }
 
     private fun toShare(sharePlatform: Int) {
-        getSdkShareManager().requestShare(this, sharePlatform, getWeb())
+        getSdkShareManager().requestShare(this, getWeb(), sharePlatform)
 
     }
 
@@ -90,7 +96,7 @@ class ShareSimpleActivity : Activity() {
         jyWeb.title = "分享标题"
         jyWeb.description = "分享内容"
         jyWeb.thumb = JYImage(R.drawable.share_icon)
-        jyWeb.imageUrl = Constants.URL.SHARE_IMAGE_URL
+//        jyWeb.imageUrl = Constants.URL.SHARE_IMAGE_URL
         return jyWeb
     }
 

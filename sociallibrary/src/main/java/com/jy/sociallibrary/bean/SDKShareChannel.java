@@ -7,23 +7,23 @@ package com.jy.sociallibrary.bean;
  */
 public class SDKShareChannel {
 
-    private int id;
+    private int platform;
     private int icon;
     private String name;
 
-    public SDKShareChannel(int id, int icon, String name) {
-        this.id = id;
+    public SDKShareChannel(int platform, int icon, String name) {
+        this.platform = platform;
         this.icon = icon;
         this.name = name;
     }
 
 
-    public int getId() {
-        return id;
+    public int getPlatform() {
+        return platform;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPlatform(int platform) {
+        this.platform = platform;
     }
 
     public int getIcon() {
