@@ -1,4 +1,4 @@
-package com.jy.simple.http.api
+package com.jy.simple.http.network.api
 
 import com.jy.commonlibrary.http.bean.BaseBean
 import io.reactivex.Observable

@@ -1,11 +1,12 @@
 package com.jy.simple.http.upload
 
+import com.jy.baselibrary.base.model.BaseModel
 import com.jy.commonlibrary.http.MultipartBuilder
 import com.jy.commonlibrary.http.RxFileUploadObserver
 import com.jy.commonlibrary.http.RxHelper
 import com.jy.commonlibrary.http.UploadFileRequestBody
-import com.jy.simple.http.api.ApiUploadSimpleService
-import com.jy.simple.http.base.BaseModel
+import com.jy.simple.http.network.Api
+import com.jy.simple.http.network.api.ApiUploadSimpleService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.File
@@ -20,7 +21,7 @@ class UploadModel : BaseModel<ApiUploadSimpleService>(ApiUploadSimpleService::cl
 
     fun uploadHeadImage(file: File, fileUploadObserver: RxFileUploadObserver<String>) {
         val uploadFileRequestBody = UploadFileRequestBody(file, fileUploadObserver)
-        serviceManager.uploadHeadImage(MultipartBuilder.fileToMultipartBody(file, uploadFileRequestBody))
+        Api.uploadInstance.uploadHeadImage(MultipartBuilder.fileToMultipartBody(file, uploadFileRequestBody))
                 .subscribeOn(Schedulers.io())
                 .compose(RxHelper.handleResult())
                 .observeOn(AndroidSchedulers.mainThread())

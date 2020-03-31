@@ -39,9 +39,7 @@ class MyApplication : Application() {
         val process: String? = AppUtils.getCurProcessName(this, pid) //进程名
         if (null == process || applicationContext.packageName == process) {
             //初始化基础库
-            BaseLibraryConfig.init(this, LoaderConfiguration.beginBuilder().build(), true);
-            //初始化接口请求baseUrl
-            RequestDomainConfig.init()
+            BaseLibraryConfig.init(this, LoaderConfiguration.beginBuilder().build(), true)
             //初始化数据库
             DBManager.initializeInstance(DBOpenHelper.getInstance(applicationContext))
             //初始化imageLoad

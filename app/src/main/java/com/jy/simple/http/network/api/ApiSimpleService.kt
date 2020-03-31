@@ -1,8 +1,9 @@
-package com.jy.simple.http.api
+package com.jy.simple.http.network.api
 
+import com.jy.commonlibrary.http.bean.HttpParam
 import com.jy.commonlibrary.http.bean.SingleBaseBean
 import com.jy.simple.http.bean.BannerInfoListVo
-import com.jy.simple.http.bean.base.HttpRequest
+import com.jy.simple.http.network.bean.HttpRequest
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -20,4 +21,8 @@ interface ApiSimpleService {
     //送礼
     @POST("call.do?action=roomBehavior.sendGift")
     fun sendGift(@Body httpRequest: HttpRequest): Observable<SingleBaseBean>
+
+    //测试
+    @POST("call.do?action=test")
+    fun testHttpParam(@Body params: HttpParam): Observable<BannerInfoListVo>
 }

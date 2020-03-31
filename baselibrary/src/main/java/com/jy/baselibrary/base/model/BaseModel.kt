@@ -8,6 +8,6 @@ import com.jy.baselibrary.base.contract.BaseContract
  * @Date 2019/9/27-12:01
  * @TODO
  */
-open class SuperBaseModel<T>(service: Class<T>) : BaseContract.BaseModel {
+open class BaseModel<T>(service: Class<T>) : BaseContract.BaseModel {
 
 }

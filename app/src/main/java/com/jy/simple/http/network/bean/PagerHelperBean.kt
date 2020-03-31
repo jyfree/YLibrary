@@ -1,4 +1,4 @@
-package com.jy.simple.http.bean.base
+package com.jy.simple.http.network.bean
 
 import com.jy.commonlibrary.http.bean.SingleBaseBean
 

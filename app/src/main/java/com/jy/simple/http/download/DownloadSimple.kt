@@ -12,6 +12,7 @@ import com.jy.commonlibrary.http.bean.DownInfo
 import com.jy.commonlibrary.http.download.local.HttpDownManager
 import com.jy.commonlibrary.http.download.local.listener.HttpDownOnNextListener
 import com.jy.commonlibrary.http.download.sys.DownloadServer
+import com.jy.simple.RequestDomainConfig
 import java.io.File
 
 /**
@@ -22,6 +23,7 @@ import java.io.File
  */
 object DownloadSimple {
 
+    private val baseUrl = RequestDomainConfig.getBaseUrl()
 
     /**
      * 系统下载方式： DownloadManager
@@ -69,6 +71,6 @@ object DownloadSimple {
 
         }
         downInfo.listener = listener
-        HttpDownManager.startDownload(downInfo)
+        HttpDownManager.startDownload(baseUrl,downInfo)
     }
 }

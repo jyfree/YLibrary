@@ -1,11 +1,12 @@
 package com.jy.simple.http.mvvm
 
+import com.jy.baselibrary.base.model.BaseModel
 import com.jy.commonlibrary.http.RxHelper
 import com.jy.commonlibrary.http.bean.HttpEntry
-import com.jy.simple.http.api.ApiSimpleService
-import com.jy.simple.http.base.BaseModel
+import com.jy.simple.http.network.api.ApiSimpleService
 import com.jy.simple.http.bean.BannerInfoListVo
-import com.jy.simple.http.bean.base.HttpRequest
+import com.jy.simple.http.network.Api
+import com.jy.simple.http.network.bean.HttpRequest
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -21,7 +22,7 @@ class MvvMApiSimpleModel : BaseModel<ApiSimpleService>(ApiSimpleService::class.j
 
 
     fun getBanner(showPlace: Int): Observable<BannerInfoListVo> {
-        return serviceManager.getBanner(HttpRequest.obtainHttpRequest(HttpEntry("showPlace", showPlace)))
+        return Api.simpleInstance.getBanner(HttpRequest.obtainHttpRequest(HttpEntry("showPlace", showPlace)))
                 .compose(RxHelper.handleSingleResult())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -4,7 +4,6 @@ import android.os.Handler
 import android.os.Looper
 import com.jy.baselibrary.utils.FileUtils
 import com.jy.baselibrary.utils.YLogUtils
-import com.jy.commonlibrary.BaseDomainConfig
 import com.jy.commonlibrary.db.DownloadDao
 import com.jy.commonlibrary.http.bean.DownInfo
 import com.jy.commonlibrary.http.download.local.listener.DownloadInterceptor
@@ -44,7 +43,7 @@ object HttpDownManager {
     /**
      * 开始下载
      */
-    fun startDownload(info: DownInfo) {
+    fun startDownload(baseUrl: String, info: DownInfo) {
         /*正在下载不处理*/
         if (subMap[info.url] != null) {
             subMap[info.url]?.setDownInfo(info)
@@ -83,7 +82,7 @@ object HttpDownManager {
                 .client(builder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BaseDomainConfig.URL_REQUEST_DEFAULT)
+                .baseUrl(baseUrl)
                 .build()
             httpService = retrofit.create(HttpDownService::class.java)
             info.service = httpService
@@ -137,7 +136,7 @@ object HttpDownManager {
             var channelOut: FileChannel? = null
             var inputStream: InputStream? = null
             try {
-                if (file.parentFile?.exists()==false)
+                if (file.parentFile?.exists() == false)
                     file.parentFile?.mkdirs()
                 val allLength = if (0L == info.countLength)
                     responseBody.contentLength()
