@@ -30,7 +30,7 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation rootProject.ext.dependencies.kotlin_stdlib_jdk7
     implementation rootProject.ext.dependencies.androidx_appcompat
     //解决QQ不支持androidX问题
     implementation rootProject.ext.dependencies.support_fragment

@@ -32,7 +32,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation rootProject.ext.dependencies.kotlin_stdlib_jdk7
     implementation rootProject.ext.dependencies.androidx_appcompat
     //RxLifecycle
     api rootProject.ext.dependencies.rxlifecycle2_components
@@ -51,7 +51,7 @@ dependencies {
 //    userOrg = rootProject.userOrg//bintray.com用户名
 //    groupId = "com.jy.baselibrary"//jcenter上的路径
 //    uploadName = artifactId//项目名称
-//    publishVersion = "1.0.4"//版本号
+//    publishVersion = "1.0.5"//版本号
 //    desc = "a easy API base frame to use for Android M "//项目介绍
 //    website = rootProject.website//项目主页
 //    licences = rootProject.licences
