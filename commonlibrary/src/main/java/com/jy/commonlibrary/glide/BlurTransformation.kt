@@ -38,10 +38,10 @@ class BlurTransformation @JvmOverloads constructor(private val context: Context,
         return "BlurTransformation(radius=$radius, sampling=$sampling)"
     }
 
-    override fun equals(o: Any?): Boolean {
-        return o is BlurTransformation &&
-                o.radius == radius &&
-                o.sampling == sampling
+    override fun equals(other: Any?): Boolean {
+        return other is BlurTransformation &&
+                other.radius == radius &&
+                other.sampling == sampling
     }
 
     override fun hashCode(): Int {

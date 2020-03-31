@@ -63,8 +63,8 @@ class GlideCircleWithBorder(private val borderWidth: Float, borderColor: Int) :
         messageDigest.update(ID.toByteArray(Key.CHARSET))
     }
 
-    override fun equals(o: Any?): Boolean {
-        return o is GlideCircleWithBorder
+    override fun equals(other: Any?): Boolean {
+        return other is GlideCircleWithBorder
     }
 
     override fun hashCode(): Int {

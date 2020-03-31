@@ -37,7 +37,7 @@ object HttpClientManager {
 //                    } else {
 //                        newRequest = requestBuilder.addHeader("Authorization", apiToken).url(newBuilder.build()).build()
 //                    }
-                if (headers != null && !headers.isEmpty()) {
+                if (headers.isNotEmpty()) {
                     //根据head获取baseUrl
                     requestBuilder.removeHeader("urlType")
                     val urlName = headers[0]

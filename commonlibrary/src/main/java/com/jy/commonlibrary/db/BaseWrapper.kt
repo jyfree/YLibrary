@@ -39,11 +39,11 @@ open class BaseWrapper<T : Any> constructor(private var subClass: Class<T>) : Ba
             //解析注解
             if (fie.isAnnotationPresent(Scope::class.java)) {
                 val scope = fie.getAnnotation(Scope::class.java)
-                if (scope.isPrimaryKey && scope.isAutoKey) {
+                if (scope != null && scope.isPrimaryKey && scope.isAutoKey) {
 //                    YLogUtil.iFormatTag("BaseWrapper", "插入|更新--自增字段--表名：%s--字段名：%s", tableName, fie.name)
                     continue
                 }
-                if (scope.isFilter) {
+                if (scope != null && scope.isFilter) {
 //                    YLogUtil.iFormatTag("BaseWrapper", "插入|更新--过滤字段--表名：%s--字段名：%s", tableName, fie.name)
                     continue
                 }
@@ -81,7 +81,7 @@ open class BaseWrapper<T : Any> constructor(private var subClass: Class<T>) : Ba
             //解析注解
             if (fie.isAnnotationPresent(Scope::class.java)) {
                 val scope = fie.getAnnotation(Scope::class.java)
-                if (scope.isFilter) {
+                if (scope != null && scope.isFilter) {
 //                    YLogUtil.iFormatTag("BaseWrapper", "查询--过滤字段--表名：%s--字段名：%s", tableName, fie.name)
                     continue
                 }
@@ -122,7 +122,7 @@ open class BaseWrapper<T : Any> constructor(private var subClass: Class<T>) : Ba
             fie.isAccessible = true
             if (fie.isAnnotationPresent(Scope::class.java)) {
                 val scope = fie.getAnnotation(Scope::class.java)
-                if (scope.isCompareField) {
+                if (scope != null && scope.isCompareField) {
                     value = fie.get(item)
                     key = fie.name
                     break
@@ -140,7 +140,7 @@ open class BaseWrapper<T : Any> constructor(private var subClass: Class<T>) : Ba
             fie.isAccessible = true
             if (fie.isAnnotationPresent(Scope::class.java)) {
                 val scope = fie.getAnnotation(Scope::class.java)
-                if (scope.isCompareField) {
+                if (scope != null && scope.isCompareField) {
                     value = fie.get(item1)
                     break
                 }

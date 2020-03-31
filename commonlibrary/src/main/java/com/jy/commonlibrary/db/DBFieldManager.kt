@@ -36,12 +36,14 @@ object DBFieldManager {
             if (fie.isAnnotationPresent(Scope::class.java)) {
                 val scope = fie.getAnnotation(Scope::class.java)
 
-                isPrimaryKey = scope.isPrimaryKey
-                isAutoKey = scope.isAutoKey
-                isUpdateField = scope.isUpdateField
-                updateFieldVersion = scope.updateFieldVersion
-                isFilter = scope.isFilter
-                isCompareField = scope.isCompareField
+                if(scope != null) {
+                    isPrimaryKey = scope.isPrimaryKey
+                    isAutoKey = scope.isAutoKey
+                    isUpdateField = scope.isUpdateField
+                    updateFieldVersion = scope.updateFieldVersion
+                    isFilter = scope.isFilter
+                    isCompareField = scope.isCompareField
+                }
             }
             list.add(DBFieldInfo(subClass, fie, isPrimaryKey, isAutoKey, isUpdateField, updateFieldVersion, fie.name, fie.type, isFilter, isCompareField))
         }
@@ -126,7 +128,7 @@ object DBFieldManager {
             if (fie.isAnnotationPresent(Scope::class.java)) {
                 val scope = fie.getAnnotation(Scope::class.java)
                 //更新字段
-                if (scope.isUpdateField && oldVersion < scope.updateFieldVersion) {
+                if (scope != null && scope.isUpdateField && oldVersion < scope.updateFieldVersion) {
                     val typeStr: String = when {
                         Int::class.java == fie.type -> "INTEGER"
                         Long::class.java == fie.type -> "INTEGER"

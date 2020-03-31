@@ -137,8 +137,8 @@ object HttpDownManager {
             var channelOut: FileChannel? = null
             var inputStream: InputStream? = null
             try {
-                if (!file.parentFile.exists())
-                    file.parentFile.mkdirs()
+                if (file.parentFile?.exists()==false)
+                    file.parentFile?.mkdirs()
                 val allLength = if (0L == info.countLength)
                     responseBody.contentLength()
                 else
@@ -153,7 +153,7 @@ object HttpDownManager {
                     info.readLength, allLength - info.readLength
                 )
                 val buffer = ByteArray(1024)
-                var len: Int = -1
+                var len: Int
                 while (inputStream.read(buffer).also { len = it } != -1) {
                     mappedBuffer.put(buffer, 0, len)
                 }

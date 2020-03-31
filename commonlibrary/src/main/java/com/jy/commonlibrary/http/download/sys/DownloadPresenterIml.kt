@@ -166,8 +166,8 @@ class DownloadPresenterIml(private val context: Context, private val downloadMan
         return bytesAndStatus
     }
 
-    private fun getFilePath(downloadId: Long): String? {
-        var path: String? = null
+    private fun getFilePath(downloadId: Long): String{
+        var path=""
         val query = DownloadManager.Query().setFilterById(downloadId)
         val cursor: Cursor = downloadManager.query(query)
         if (cursor.moveToFirst()) {

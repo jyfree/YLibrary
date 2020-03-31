@@ -32,7 +32,7 @@ class DownloadServer : Service(), DownloadView {
         if (path.isNullOrEmpty()) {
             downloadPresenter.requestDownload(arrayOf(url))
         } else {
-            downloadPresenter.requestDownload(arrayOf(url), path!!)
+            downloadPresenter.requestDownload(arrayOf(url), path)
         }
     }
 
