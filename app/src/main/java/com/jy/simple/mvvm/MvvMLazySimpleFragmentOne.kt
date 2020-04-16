@@ -2,7 +2,6 @@ package com.jy.simple.mvvm
 
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import com.jy.baselibrary.base.contract.BaseContract
 import com.jy.baselibrary.base.mvvm.MvvMBaseLazyFragment
 import com.jy.simple.BR
@@ -28,9 +27,7 @@ class MvvMLazySimpleFragmentOne : MvvMBaseLazyFragment<SharedViewModel, SimpleMv
     override fun initLayoutID(): Int = R.layout.simple_mvvm_api_fragment
 
     override fun initView(savedInstanceState: Bundle?) {
-        viewModel.loading.observe(this, Observer { show ->
-            show?.let { showPopWindowLoading(it) }
-        })
+
     }
 
     override fun initViewModelClass(): Class<SharedViewModel> = SharedViewModel::class.java

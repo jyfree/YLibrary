@@ -2,7 +2,6 @@ package com.jy.simple.http
 
 import android.content.Context
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import com.jy.baselibrary.base.contract.BaseContract
 import com.jy.baselibrary.base.mvvm.MvvMBaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
@@ -35,9 +34,6 @@ class MvvMApiSimpleActivity : MvvMBaseActivity<MvvMApiSimpleViewModel, SimpleMvv
     override fun initModel(): BaseContract.BaseModel = MvvMApiSimpleModel()
 
     override fun initView(savedInstanceState: Bundle?) {
-        viewModel.loading.observe(this, Observer { show ->
-            show?.let { showPopWindowLoading(it) }
-        })
 
     }
 

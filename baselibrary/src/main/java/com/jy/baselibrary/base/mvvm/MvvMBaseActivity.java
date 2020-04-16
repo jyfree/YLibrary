@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.jy.baselibrary.base.contract.BaseContract;
@@ -26,6 +27,9 @@ public abstract class MvvMBaseActivity<VM extends BaseViewModel, DBinding extend
         //初始化viewModel
         viewModel = ViewModelProviders.of(this).get(initViewModelClass());
         viewModel.attachMode(initModel());
+        viewModel.setLifeCycleProvide(this);
+        viewModel.setLifecycleOwner(this);
+        initObserve();
 
         //初始化dataBinding
         dataBinding = DataBindingUtil.setContentView(this, initLayoutID());
@@ -56,5 +60,16 @@ public abstract class MvvMBaseActivity<VM extends BaseViewModel, DBinding extend
      */
     protected abstract BaseContract.BaseModel initModel();
 
+    /**
+     * 监听菊花
+     */
+    private void initObserve() {
+        viewModel.getLoading().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean show) {
+                showPopWindowLoading(show);
+            }
+        });
+    }
 
 }

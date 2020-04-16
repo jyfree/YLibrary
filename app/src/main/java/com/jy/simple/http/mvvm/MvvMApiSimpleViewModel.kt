@@ -3,7 +3,7 @@ package com.jy.simple.http.mvvm
 import androidx.databinding.ObservableField
 import com.jy.baselibrary.base.mvvm.vm.BaseViewModel
 import com.jy.baselibrary.utils.YLogUtils
-import com.jy.commonlibrary.http.RxDoError
+import com.jy.commonlibrary.http.RxObserver
 
 /**
 
@@ -18,17 +18,15 @@ class MvvMApiSimpleViewModel : BaseViewModel<MvvMApiSimpleModel>() {
     fun getBanner(showPlace: Int) {
         YLogUtils.i("获取banner--showPlace", showPlace, mMode)
         loading.value = true
-        val disposable = mMode.getBanner(1)
-                .subscribe({ it ->
-                    YLogUtils.i("获取banner--成功", it)
-                    loading.value = false
-                    message.set(it.toString())
-                }, {
-                    RxDoError.onError(it)
-                    loading.value = false
-                    message.set("请求失败")
-                })
-        addDisposable(disposable)
+
+        mMode.getBanner(RxObserver(doNext = {
+            YLogUtils.i("获取banner--成功", it)
+            loading.value = false
+            message.set(it.toString())
+        }, doError = { _, _ ->
+            loading.value = false
+            message.set("请求失败")
+        }), getLifeCycleProvide(), showPlace)
 
     }
 }

@@ -1,10 +1,10 @@
 package com.jy.baselibrary.base.mvvm.vm
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jy.baselibrary.base.contract.BaseContract
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import com.trello.rxlifecycle2.LifecycleProvider
 
 /**
 
@@ -15,33 +15,33 @@ import io.reactivex.disposables.Disposable
 open class BaseViewModel<M : BaseContract.BaseModel> : ViewModel() {
 
     /**
-     * 管理RxJava请求
-     */
-    private var compositeDisposable: CompositeDisposable? = null
-    /**
      * 菊花
      */
     val loading = MutableLiveData<Boolean>()
 
+    /**
+     * mode
+     */
     lateinit var mMode: M
+
+    private var lifecycle: LifecycleProvider<*>? = null
+
+    private var lifecycleOwner: LifecycleOwner? = null
 
     fun attachMode(mode: M) {
         mMode = mode
     }
 
-    /**
-     * 添加 rxJava 发出的请求
-     */
-    protected fun addDisposable(disposable: Disposable) {
-        if (compositeDisposable == null || compositeDisposable?.isDisposed == true) {
-            compositeDisposable = CompositeDisposable()
-        }
-        compositeDisposable?.add(disposable)
+    fun setLifeCycleProvide(lifecycleProvider: LifecycleProvider<*>) {
+        this.lifecycle = lifecycleProvider
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable?.dispose()
-        compositeDisposable = null
+    fun setLifecycleOwner(lifecycleOwner: LifecycleOwner) {
+        this.lifecycleOwner = lifecycleOwner
     }
+
+    fun getLifeCycleProvide(): LifecycleProvider<*> = lifecycle!!
+
+    fun getLifecycleOwner(): LifecycleOwner = lifecycleOwner!!
+
 }
