@@ -2,9 +2,12 @@ package com.jy.simple.social
 
 
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ShareCompat
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.simple.Constants
@@ -60,6 +63,8 @@ class ShareSimpleActivity : Activity() {
                     )
                 )
             }
+            R.id.share_sys_all -> sysShareAll()
+            R.id.share_sys_some -> sysShareSome()
         }
     }
 
@@ -134,5 +139,28 @@ class ShareSimpleActivity : Activity() {
         jyVideo.description = "视频说明"
         jyVideo.thumb = JYImage(R.drawable.share_icon)
         return jyVideo
+    }
+
+    private fun sysShareAll() {
+        val shareIntent = ShareCompat.IntentBuilder.from(this)
+            .setText("分享内容")
+            .setType("text/plain")
+            .createChooserIntent()
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+        if (shareIntent.resolveActivity(packageManager) != null) {
+            startActivity(shareIntent)
+        }
+    }
+
+    private fun sysShareSome() {
+        val shareIntent = Intent()
+        shareIntent.component =
+            ComponentName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity")
+        shareIntent.action = Intent.ACTION_SEND_MULTIPLE
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "分享内容")
+        if (shareIntent.resolveActivity(packageManager) != null) {
+            startActivity(shareIntent)
+        }
     }
 }

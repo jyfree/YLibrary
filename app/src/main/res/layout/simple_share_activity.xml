@@ -97,4 +97,18 @@
         android:layout_height="wrap_content"
         android:onClick="onClickShare"
         android:text="一键分享video" />
+
+    <Button
+        android:id="@+id/share_sys_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickShare"
+        android:text="系统分享text--all" />
+
+    <Button
+        android:id="@+id/share_sys_some"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickShare"
+        android:text="系统分享text--some" />
 </LinearLayout>
