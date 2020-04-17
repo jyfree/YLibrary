@@ -40,6 +40,14 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     //启用DataBinding
     dataBinding {
         enabled true
@@ -69,6 +77,8 @@ dependencies {
     implementation rootProject.ext.dependencies.androidx_core_ktx
     implementation rootProject.ext.dependencies.androidx_constraintlayout
     implementation rootProject.ext.dependencies.androidx_design
+    //work
+    implementation rootProject.ext.dependencies.work
     //multidex
     implementation rootProject.ext.dependencies.multidex
     //blankj 混淆

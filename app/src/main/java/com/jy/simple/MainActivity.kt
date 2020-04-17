@@ -21,6 +21,7 @@ import com.jy.simple.social.PaySimpleActivity
 import com.jy.simple.social.ShareSimpleActivity
 import com.jy.simple.sp.SpSimpleActivity
 import com.jy.simple.timer.TimerSimpleActivity
+import com.jy.simple.workers.WorkSimpleActivity
 
 class MainActivity : BaseActivity() {
 
@@ -55,6 +56,7 @@ class MainActivity : BaseActivity() {
             R.id.go_mvvm_fragment -> MvvMLazySimpleActivity.startAct(this)
             R.id.go_aop -> AspectSimpleActivity.startAct(this)
             R.id.go_queue_api -> QueueApiSimpleActivity.startAct(this)
+            R.id.go_work -> WorkSimpleActivity.startAct(this)
         }
     }
 

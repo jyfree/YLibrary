@@ -44,6 +44,8 @@ ext {
             aspectj                  : 'org.aspectj:aspectjrt:1.8.9',
             //blankj混淆
             blankj_free_proguard     : 'com.blankj:free-proguard:1.0.2',
+            //work
+            work                     : 'androidx.work:work-runtime-ktx:2.1.0',
             //基础库
             jy_baselibrary           : 'com.jy.baselibrary:baselibrary:1.0.6',
             //社会化库
