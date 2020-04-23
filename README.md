@@ -5,7 +5,7 @@
 
 ## 介绍
 
-YLibrary是使用kotlin&Java混合编写的，分为三个library：
+YLibrary是使用kotlin&Java混合编写的（YFramework的升级版本https://github.com/jyfree/YFramework），分为三个library：
 
 ## 一、sociallibrary（社会化库）
 
