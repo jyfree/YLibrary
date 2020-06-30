@@ -1,17 +1,15 @@
 package com.jy.simple.http.download
 
 import android.content.Context
-import android.content.Intent
 import com.jy.baselibrary.utils.AppUtils
 import com.jy.baselibrary.utils.BaseUtils
 import com.jy.baselibrary.utils.FileUtils
 import com.jy.baselibrary.utils.YLogUtils
-import com.jy.commonlibrary.BaseConstants
 import com.jy.commonlibrary.http.download.local.DownInfo
 import com.jy.commonlibrary.http.download.local.DownloadDatabase
 import com.jy.commonlibrary.http.download.local.HttpDownManager
 import com.jy.commonlibrary.http.download.local.listener.HttpDownOnNextListener
-import com.jy.commonlibrary.http.download.sys.DownloadServer
+import com.jy.commonlibrary.http.download.sys.DownloadManager
 import com.jy.simple.RequestDomainConfig
 import java.io.File
 
@@ -29,9 +27,7 @@ object DownloadSimple {
      * 系统下载方式： DownloadManager
      */
     fun startSysDownload(context: Context?, url: String) {
-        val intent = Intent(context, DownloadServer::class.java)
-        intent.putExtra(BaseConstants.ActionKey.ACTION_KEY_URL, url)
-        context?.startService(intent)
+        DownloadManager.startSysDownload(context, url, null)
     }
 
     /**

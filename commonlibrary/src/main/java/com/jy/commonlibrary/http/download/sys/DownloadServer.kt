@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.IBinder
 import com.jy.baselibrary.utils.AppUtils
 import com.jy.baselibrary.utils.YLogUtils
-import com.jy.commonlibrary.BaseConstants
 import java.io.File
 
 
@@ -21,8 +20,8 @@ class DownloadServer : Service(), DownloadView {
     override fun onBind(p0: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val url = intent?.getStringExtra(BaseConstants.ActionKey.ACTION_KEY_URL)
-        val path = intent?.getStringExtra(BaseConstants.ActionKey.ACTION_KEY_PATH)
+        val url = intent?.getStringExtra(DownloadConstants.ActionKey.ACTION_KEY_URL)
+        val path = intent?.getStringExtra(DownloadConstants.ActionKey.ACTION_KEY_PATH)
         url?.let { startDownload(it, path) }
         return START_REDELIVER_INTENT
     }

@@ -1,4 +1,4 @@
-package com.jy.commonlibrary
+package com.jy.commonlibrary.http.download.sys
 
 /**
 
@@ -6,7 +6,7 @@ package com.jy.commonlibrary
  * @Date 2019/9/27-15:39
  * @TODO 常量
  */
-object BaseConstants {
+object DownloadConstants {
 
     object ActionKey {
         const val ACTION_KEY_URL = "url"

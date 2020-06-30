@@ -1,4 +1,4 @@
-package com.jy.commonlibrary.aspect;
+package com.jy.simple.aspect;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

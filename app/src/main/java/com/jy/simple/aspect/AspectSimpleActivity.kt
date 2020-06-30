@@ -6,7 +6,6 @@ import android.view.View
 import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
-import com.jy.commonlibrary.aspect.BehaviorTrace
 import com.jy.commonlibrary.aspect.CheckNetwork
 import com.jy.commonlibrary.aspect.RunTimeTrace
 import com.jy.commonlibrary.aspect.SingleClick
