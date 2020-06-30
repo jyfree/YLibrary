@@ -20,7 +20,7 @@ import java.util.*
 
  * @Author Administrator
  * @Date 2019/10/24-18:30
- * @TODO 1、继承CoroutineRequest可以使用协程访问数据库  2、继承ThreadRequest可以使用子线程访问数据库
+ * @TODO 1、实现CoroutineRequest可以使用协程访问数据库  2、实现ThreadRequest可以使用子线程访问数据库
  */
 class DBSimpleActivity : BaseAppCompatActivity(), CoroutineRequest, ThreadRequest {
 
