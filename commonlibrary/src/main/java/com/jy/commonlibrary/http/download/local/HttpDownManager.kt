@@ -4,8 +4,6 @@ import android.os.Handler
 import android.os.Looper
 import com.jy.baselibrary.utils.FileUtils
 import com.jy.baselibrary.utils.YLogUtils
-import com.jy.commonlibrary.db.DownloadDao
-import com.jy.commonlibrary.http.bean.DownInfo
 import com.jy.commonlibrary.http.download.local.listener.DownloadInterceptor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -121,7 +119,7 @@ object HttpDownManager {
                 remove(downInfo)
                 downInfo.setState(DownState.FINISH)
             }
-            DownloadDao.insertOrUpdate(downInfo)
+            DownloadDatabase.instance.getDownLoadDao().insertOrUpdate(downInfo)
             return isDownload
         }
         return false

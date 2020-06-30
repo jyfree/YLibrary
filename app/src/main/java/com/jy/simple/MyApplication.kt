@@ -11,9 +11,8 @@ import com.jy.baselibrary.thread.LoaderConfiguration
 import com.jy.baselibrary.utils.AppUtils
 import com.jy.baselibrary.utils.CrashUtils
 import com.jy.baselibrary.utils.YLogUtils
-import com.jy.commonlibrary.db.DBManager
 import com.jy.commonlibrary.glide.ImageLoaderConfiguration
-import com.jy.simple.db.DBOpenHelper
+import com.jy.commonlibrary.http.download.local.DownloadDBConfig
 import com.jy.simple.loading.callback.*
 import com.jy.sociallibrary.SDKConfig
 
@@ -40,8 +39,6 @@ class MyApplication : Application() {
         if (null == process || applicationContext.packageName == process) {
             //初始化基础库
             BaseLibraryConfig.init(this, LoaderConfiguration.beginBuilder().build(), true)
-            //初始化数据库
-            DBManager.initializeInstance(DBOpenHelper.getInstance(applicationContext))
             //初始化imageLoad
             ImageLoaderConfiguration.getInstance().initImageResId(
                 R.drawable.load_default_image,
@@ -54,6 +51,8 @@ class MyApplication : Application() {
             initSocialSDK()
             //初始化crash捕获
             initCrashUtils()
+            //下载数据库配置
+            DownloadDBConfig.init(false);
         }
     }
 

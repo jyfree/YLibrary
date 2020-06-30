@@ -20,6 +20,9 @@ buildscript {
         //上传到jcenter
         classpath 'com.novoda:bintray-release:0.9.1'//上传到jcenter用到
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.18"//上传到jcenter kotlin用到
+
+        //YLiteDB插件
+        classpath "com.jy.litedb:litedb-plugin:1.0.4"
     }
 }
 

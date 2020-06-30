@@ -3,6 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.hujiang.android-aspectjx'
+apply plugin: 'YLiteDB'
+
+YLiteDB {
+    enableDebug = true // 调试开关
+}
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -85,13 +90,16 @@ dependencies {
     implementation rootProject.ext.dependencies.blankj_free_proguard
 
     //maven导入方式
-    implementation rootProject.ext.dependencies.jy_commonlibrary//常用库
+//    implementation rootProject.ext.dependencies.jy_commonlibrary//常用库
     implementation rootProject.ext.dependencies.jy_sociallibrary//社会化库
     implementation files(alipay)//支付宝
 
     //module导入方式
-//    implementation project(':commonlibrary')//常用库
+    implementation project(':commonlibrary')//常用库
 //    implementation project(':sociallibrary')//社会化库
+
+    //数据库自动生成代码
+    kapt rootProject.ext.dependencies.litedb_compiler
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

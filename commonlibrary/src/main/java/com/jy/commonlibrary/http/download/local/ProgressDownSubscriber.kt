@@ -1,8 +1,6 @@
 package com.jy.commonlibrary.http.download.local
 
 import android.os.Handler
-import com.jy.commonlibrary.db.DownloadDao
-import com.jy.commonlibrary.http.bean.DownInfo
 import com.jy.commonlibrary.http.download.local.listener.DownloadProgressListener
 import com.jy.commonlibrary.http.download.local.listener.HttpDownOnNextListener
 import io.reactivex.Observer
@@ -40,7 +38,7 @@ class ProgressDownSubscriber<T>(var mDownInfo: DownInfo, val handler: Handler) :
         mSubscriberOnNextListener.get()?.onComplete(mDownInfo)
         HttpDownManager.remove(mDownInfo)
         mDownInfo.setState(DownState.FINISH)
-        DownloadDao.insertOrUpdate(mDownInfo)
+        DownloadDatabase.instance.getDownLoadDao().insertOrUpdate(mDownInfo)
     }
 
     /**
@@ -51,7 +49,7 @@ class ProgressDownSubscriber<T>(var mDownInfo: DownInfo, val handler: Handler) :
         mSubscriberOnNextListener.get()?.onError(e)
         HttpDownManager.remove(mDownInfo)
         mDownInfo.setState(DownState.ERROR)
-        DownloadDao.insertOrUpdate(mDownInfo)
+        DownloadDatabase.instance.getDownLoadDao().insertOrUpdate(mDownInfo)
     }
 
     /**

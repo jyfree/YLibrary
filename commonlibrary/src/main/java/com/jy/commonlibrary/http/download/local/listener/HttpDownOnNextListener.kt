@@ -1,6 +1,6 @@
 package com.jy.commonlibrary.http.download.local.listener
 
-import com.jy.commonlibrary.http.bean.DownInfo
+import com.jy.commonlibrary.http.download.local.DownInfo
 
 
 abstract class HttpDownOnNextListener<T> {

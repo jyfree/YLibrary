@@ -4,22 +4,25 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.thread.lifecycle.ThreadRequest
 import com.jy.baselibrary.thread.lifecycle.ThreadResultCallback
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
-import com.jy.commonlibrary.coroutine.CoroutineResultCallback
-import com.jy.commonlibrary.db.DownloadDao
+import com.jy.commonlibrary.coroutine.CoroutineRequest
+import com.jy.commonlibrary.http.download.local.DownInfo
+import com.jy.commonlibrary.http.download.local.DownloadDatabase
+import com.jy.litedb.api.LoaderFieldInfo
 import com.jy.simple.R
-import com.jy.simple.db.bean.TestInfo
+import java.util.*
 
 
 /**
 
  * @Author Administrator
  * @Date 2019/10/24-18:30
- * @TODO
+ * @TODO 1、继承CoroutineRequest可以使用协程访问数据库  2、继承ThreadRequest可以使用子线程访问数据库
  */
-class DBSimpleActivity : BaseAppCompatActivity() {
+class DBSimpleActivity : BaseAppCompatActivity(), CoroutineRequest, ThreadRequest {
 
     companion object {
         fun startAct(context: Context) {
@@ -34,70 +37,92 @@ class DBSimpleActivity : BaseAppCompatActivity() {
 
     fun onLoadDB(view: View) {
         when (view.id) {
-            //协程方式查询db
+            //协程
             R.id.load_coroutine -> requestCoroutine()
-            //主线程查询db
+            R.id.install_coroutine -> installCoroutine()
+
+            //主线程
             R.id.load_def -> requestDef()
-            //子线程查询db
+            R.id.install_def -> installDef()
+
+            //子线程
             R.id.load_thread -> requestThread()
-            //反射 插入&查询db
-            R.id.reflect -> insertAndQueryReflectDB()
+            R.id.install_thread -> installThread()
         }
     }
 
+    //*****************************协程*****************************************************
     private fun requestCoroutine() {
         val startTime = System.currentTimeMillis()
         for (i in 0..10000) {
-            DownloadDao.getListInfoToCoroutine(CoroutineResultCallback {
-                YLogUtils.i("协程--data", it, i, Thread.currentThread().name)
-            }, this)
+            requestCoroutine {
+                query()
+            }
         }
-        YLogUtils.i("协程--全部--time", System.currentTimeMillis() - startTime)
+        YLogUtils.i("协程--10000次--time", System.currentTimeMillis() - startTime)
     }
+
+    private fun installCoroutine() {
+        val startTime = System.currentTimeMillis()
+        requestCoroutine {
+            install("协程")
+        }
+        YLogUtils.iFormat("协程--插入--用时%sms", System.currentTimeMillis() - startTime)
+    }
+
+    //*****************************主线程*****************************************************
 
     private fun requestDef() {
         val startTime = System.currentTimeMillis()
         for (i in 0..10000) {
-            val itemStartTime = System.currentTimeMillis()
-            DownloadDao.getListInfo()
-            YLogUtils.i("主线程--单次--time", System.currentTimeMillis() - itemStartTime, i)
+            query()
         }
-        YLogUtils.i("主线程--全部--time", System.currentTimeMillis() - startTime)
+        YLogUtils.i("主线程--10000次--time", System.currentTimeMillis() - startTime)
     }
+
+    private fun installDef() {
+        val startTime = System.currentTimeMillis()
+        install("主线程")
+        YLogUtils.iFormat("主线程--插入--用时%sms", System.currentTimeMillis() - startTime)
+    }
+
+
+    //*****************************子线程*****************************************************
 
     private fun requestThread() {
         val startTime = System.currentTimeMillis()
         for (i in 0..10000) {
-            DownloadDao.getListInfoToThread(ThreadResultCallback {
-                YLogUtils.i("子线程--data", it, i, Thread.currentThread().name)
-            }, this)
+            requestThread(ThreadResultCallback {
+                //                YLogUtils.i("子线程--", i, Thread.currentThread().name)
+            }, this) {
+                query()
+            }
         }
-        YLogUtils.i("子线程--全部--time", System.currentTimeMillis() - startTime)
+        YLogUtils.i("子线程--10000次--time", System.currentTimeMillis() - startTime)
     }
 
-    var connectionTime = 0
+    private fun installThread() {
+        val startTime = System.currentTimeMillis()
+        requestThread {
+            install("子线程")
+        }
+        YLogUtils.iFormat("子线程--插入--用时%sms", System.currentTimeMillis() - startTime)
+    }
 
-    private fun insertAndQueryReflectDB() {
 
-        connectionTime++
+    private fun query(): ArrayList<TestInfo> {
+        return AppDatabase.instance.getTestInfoDao().listInfo
+    }
 
+    private fun install(msg: String) {
 
         val testInfo = TestInfo()
-        testInfo.savePath = "http//:www.baidu.com"
-        testInfo.connectionTime = connectionTime
+        testInfo.savePath = msg
+        testInfo.connectionTime = 1
         testInfo.testFilter = "testFilter"
         testInfo.testUpdate = "testUpdate"
         testInfo.testUpdateTwo = "testUpdateTwo"
 //        testInfo.url="测试地址"
-        TestDao.getInstance().insertOrUpdate(testInfo)
-
-        val startTime = System.currentTimeMillis()
-        val list = TestDao.getInstance().getListInfo()
-        list.forEach {
-            YLogUtils.iFormat("单条数据--id：%s--savePath：%s--connectionTime：%s--testFilter：%s--testUpdate：%s--testUpdateTwo：%s",
-                    it.id, it.savePath, it.connectionTime, it.testFilter, it.testUpdate, it.testUpdateTwo)
-        }
-        YLogUtils.iFormat("查询--用时%sms--数据:%s", System.currentTimeMillis() - startTime, list)
-
+        AppDatabase.instance.getTestInfoDao().insertOrUpdate(testInfo)
     }
 }

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 //apply plugin: 'com.novoda.bintray-release'
 
 android {
@@ -63,6 +64,10 @@ dependencies {
     }
     //aspectjx aop
     api rootProject.ext.dependencies.aspectj
+
+    //数据库
+    api rootProject.ext.dependencies.litedb_api
+    kapt rootProject.ext.dependencies.litedb_compiler
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

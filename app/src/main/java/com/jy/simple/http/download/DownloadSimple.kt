@@ -7,8 +7,8 @@ import com.jy.baselibrary.utils.BaseUtils
 import com.jy.baselibrary.utils.FileUtils
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.commonlibrary.BaseConstants
-import com.jy.commonlibrary.db.DownloadDao
-import com.jy.commonlibrary.http.bean.DownInfo
+import com.jy.commonlibrary.http.download.local.DownInfo
+import com.jy.commonlibrary.http.download.local.DownloadDatabase
 import com.jy.commonlibrary.http.download.local.HttpDownManager
 import com.jy.commonlibrary.http.download.local.listener.HttpDownOnNextListener
 import com.jy.commonlibrary.http.download.sys.DownloadServer
@@ -38,12 +38,12 @@ object DownloadSimple {
      * 自定义下载方式
      */
     fun startLocalDownload(url: String) {
-        var downInfo = DownloadDao.queryDownloadInfoByPath(url)
+        var downInfo = DownloadDatabase.instance.getDownLoadDao().queryDownloadInfoByPath(url)
         if (downInfo == null) {
             downInfo = DownInfo(url)
             downInfo.updateProgress = true
             downInfo.savePath = FileUtils.getSdcardPath()
-            DownloadDao.insertOrUpdate(downInfo)
+            DownloadDatabase.instance.getDownLoadDao().insertOrUpdate(downInfo)
         }
 
         val listener = object : HttpDownOnNextListener<DownInfo>() {
@@ -71,6 +71,6 @@ object DownloadSimple {
 
         }
         downInfo.listener = listener
-        HttpDownManager.startDownload(baseUrl,downInfo)
+        HttpDownManager.startDownload(baseUrl, downInfo)
     }
 }

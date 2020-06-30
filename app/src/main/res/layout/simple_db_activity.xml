@@ -6,31 +6,54 @@
     android:orientation="vertical">
 
 
+    <TextView
+        android:text="数据库操作"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"/>
     <Button
         android:id="@+id/load_coroutine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onLoadDB"
-        android:text="协程查询数据库" />
+        android:text="协程查询" />
+
+    <Button
+        android:id="@+id/install_coroutine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onLoadDB"
+        android:text="协程插入" />
+
+
 
     <Button
         android:id="@+id/load_def"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onLoadDB"
-        android:text="普通查询数据库" />
+        android:text="主线程查询" />
+
+    <Button
+        android:id="@+id/install_def"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onLoadDB"
+        android:text="主线程插入" />
+
 
     <Button
         android:id="@+id/load_thread"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onLoadDB"
-        android:text="子线程查询数据库" />
+        android:text="子线程查询" />
 
     <Button
-        android:id="@+id/reflect"
+        android:id="@+id/install_thread"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onLoadDB"
-        android:text="反射插入和查询db" />
+        android:text="子线程插入" />
 </LinearLayout>
