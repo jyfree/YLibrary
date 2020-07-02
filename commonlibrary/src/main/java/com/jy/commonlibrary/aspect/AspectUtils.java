@@ -12,7 +12,7 @@ import com.jy.baselibrary.utils.BaseUtils;
 /**
  * @Author Administrator
  * @Date 2019/11/8-15:47
- * @TODO
+ * @TODO 使用aspect切面，需要注意：若需要获取注解信息，则定义为RUNTIME注解，否则定义为CLASS注解
  */
 public class AspectUtils {
 

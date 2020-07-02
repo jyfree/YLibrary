@@ -123,7 +123,10 @@ public class RunTimeTraceAspect {
     public Object stopJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
         Object target = joinPoint.getTarget();
         String className = target.getClass().getSimpleName();
-        long startTime = remainMap.get(target);
+        Long startTime = remainMap.get(target);
+        if (startTime == null) {
+            startTime = 0L;
+        }
         Object result = joinPoint.proceed();
         YLogUtils.INSTANCE.iFormatTag(AspectUtils.TAG, "性能监控--》停留时间--%s--%s(ms)", className, System.currentTimeMillis() - startTime);
         return result;
@@ -152,7 +155,10 @@ public class RunTimeTraceAspect {
     public Object onViewCreatedFragmentJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
         Object target = joinPoint.getTarget();
         String className = target.getClass().getSimpleName();
-        long startTime = remainMap.get(target);
+        Long startTime = remainMap.get(target);
+        if (startTime == null) {
+            startTime = 0L;
+        }
         Object result = joinPoint.proceed();
         YLogUtils.INSTANCE.iFormatTag(AspectUtils.TAG, "性能监控--》fragment创建耗时--%s--%s(ms)", className, System.currentTimeMillis() - startTime);
         return result;

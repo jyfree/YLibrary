@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
  * @TODO 检查网络注解
  */
 @Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.CLASS)
 public @interface CheckNetwork {
 }

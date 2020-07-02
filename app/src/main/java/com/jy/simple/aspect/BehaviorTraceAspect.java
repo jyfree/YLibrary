@@ -22,7 +22,7 @@ public class BehaviorTraceAspect {
      * 找到处理的切点
      * * *(..)  可以处理BehaviorTrace这个类所有的方法
      */
-    @Pointcut("execution(@com.jy.commonlibrary.aspect.BehaviorTrace  * *(..))")
+    @Pointcut("execution(@com.jy.simple.aspect.BehaviorTrace  * *(..))")
     public void executionBehaviorTrace() {
     }
 

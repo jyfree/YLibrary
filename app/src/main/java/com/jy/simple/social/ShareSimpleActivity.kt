@@ -1,13 +1,13 @@
 package com.jy.simple.social
 
 
-import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.app.ShareCompat
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.simple.Constants
@@ -26,7 +26,7 @@ import com.jy.sociallibrary.wx.WXListener
  * @Date 2019/11/12-14:40
  * @TODO
  */
-class ShareSimpleActivity : Activity() {
+class ShareSimpleActivity : BaseActivity() {
 
     companion object {
         fun startAct(context: Context) {
@@ -36,12 +36,11 @@ class ShareSimpleActivity : Activity() {
 
     private var sdkShareManager: SDKShareManager? = null
 
+    override fun initLayoutID(): Int = R.layout.simple_share_activity
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.simple_share_activity)
+    override fun initUI(savedInstanceState: Bundle?) {
+
     }
-
 
     fun onClickShare(view: View) {
         when (view.id) {

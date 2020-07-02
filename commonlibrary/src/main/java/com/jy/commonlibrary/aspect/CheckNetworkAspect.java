@@ -9,7 +9,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 
 
 /**
@@ -39,19 +38,14 @@ public class CheckNetworkAspect {
      */
     @Around("executionCheckNetwork()")
     public Object checkPermission(ProceedingJoinPoint joinPoint) throws Throwable {
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        CheckNetwork annotation = signature.getMethod().getAnnotation(CheckNetwork.class);
-        if (annotation != null) {
-            Context context = AspectUtils.getContext(joinPoint.getThis());
-            if (NetworkUtils.isNetworkConnected()) {
-                return joinPoint.proceed();
-            } else {
-                ToastUtils.showToast(context, "没有网络连接");
-                return null;
-            }
-
+        Context context = AspectUtils.getContext(joinPoint.getThis());
+        if (NetworkUtils.isNetworkConnected()) {
+            return joinPoint.proceed();
+        } else {
+            ToastUtils.showToast(context, "没有网络连接");
+            return null;
         }
-        return null;
+
     }
 
 
