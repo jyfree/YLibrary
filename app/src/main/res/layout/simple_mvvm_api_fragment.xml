@@ -5,7 +5,7 @@
 
         <variable
             name="sharedViewModel"
-            type="com.jy.simple.mvvm.SharedViewModel" />
+            type="com.jy.simple.viewmodel.MvvMViewModel" />
     </data>
 
     <LinearLayout

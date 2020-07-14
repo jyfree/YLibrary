@@ -3,13 +3,20 @@ package com.jy.simple.http
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.jy.baselibrary.base.BaseActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.jy.baselibrary.base.BaseAppCompatActivity
 import com.jy.baselibrary.deque.task.FunTaskManager
 import com.jy.baselibrary.utils.ActivityUtils
+import com.jy.commonlibrary.http.RxHelper
 import com.jy.commonlibrary.http.RxObserver
 import com.jy.simple.R
-import com.jy.simple.http.bean.SendGiftVo
-import com.jy.simple.http.mvp.ApiSimpleModel
+import com.jy.simple.bean.SendGiftVo
+import com.jy.simple.repository.BannerRepository
+import com.jy.simple.repository.UserRepository
+import com.jy.simple.viewmodel.MvpViewModel
+import com.jy.simple.viewmodel.MvpViewModelFactory
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.simple_api_test_activity_queue.*
 
 /**
@@ -17,7 +24,7 @@ import kotlinx.android.synthetic.main.simple_api_test_activity_queue.*
  * @Date 2020/3/12-11:38
  * @TODO mvc 任务队列请求
  */
-class QueueApiSimpleActivity : BaseActivity() {
+class QueueApiSimpleActivity : BaseAppCompatActivity() {
 
     companion object {
         fun startAct(context: Context) {
@@ -25,12 +32,23 @@ class QueueApiSimpleActivity : BaseActivity() {
         }
     }
 
-    private val simpleMode = ApiSimpleModel()
+    private lateinit var viewModel: MvpViewModel
+
 
     override fun initLayoutID(): Int = R.layout.simple_api_test_activity_queue
 
     override fun initUI(savedInstanceState: Bundle?) {
+        initViewModel()
+    }
 
+    private fun initViewModel() {
+        viewModel = ViewModelProviders.of(
+            this,
+            MvpViewModelFactory(BannerRepository(), UserRepository())
+        ).get(MvpViewModel::class.java)
+        viewModel.setLifeCycleProvide(this)
+        viewModel.setLifecycleOwner(this)
+        viewModel.loading.observe(this, Observer<Boolean?> { show -> showPopWindowLoading(show!!) })
     }
 
     fun onRequest(view: View) {
@@ -62,33 +80,45 @@ class QueueApiSimpleActivity : BaseActivity() {
      * 普通请求
      */
     private fun sendGiftCommon(sendGiftVo: SendGiftVo) {
-        simpleMode.sendGift(RxObserver(doNext = { it ->
-            tv_msg.setText(it.msg)
-        }, doError = { _, _ ->
-        }), lifecycleProvider, sendGiftVo)
+
+        viewModel.userRepository.sendGift(sendGiftVo)
+            .compose(RxHelper.handleSingleResult())
+            .bindToLifecycle(lifecycleProvider)
+            .subscribe(RxObserver(doNext = {
+                tv_msg.setText(it.msg)
+            }, doError = { _, _ ->
+            }))
     }
 
     /**
      * 单任务队列
      */
     private fun sendGiftFunSingle(sendGiftVo: SendGiftVo) {
-        simpleMode.sendGift(RxObserver(doNext = { it ->
-            tv_msg.setText(it.msg)
-            FunTaskManager.getInstance().getFunQueueTask().consumeSingle()
-        }, doError = { _, _ ->
-            FunTaskManager.getInstance().getFunQueueTask().consumeSingle()
-        }), lifecycleProvider, sendGiftVo)
+
+        viewModel.userRepository.sendGift(sendGiftVo)
+            .compose(RxHelper.handleSingleResult())
+            .bindToLifecycle(lifecycleProvider)
+            .subscribe(RxObserver(doNext = {
+                tv_msg.setText(it.msg)
+                FunTaskManager.getInstance().getFunQueueTask().consumeSingle()
+            }, doError = { _, _ ->
+                FunTaskManager.getInstance().getFunQueueTask().consumeSingle()
+            }))
     }
 
     /**
      * 链式队列
      */
     private fun sendGiftFunChain(sendGiftVo: SendGiftVo) {
-        simpleMode.sendGift(RxObserver(doNext = { it ->
-            tv_msg.setText(it.msg)
-            FunTaskManager.getInstance().getFunQueueTask().consumeChain()
-        }, doError = { _, _ ->
-            FunTaskManager.getInstance().getFunQueueTask().consumeChain()
-        }), lifecycleProvider, sendGiftVo)
+
+        viewModel.userRepository.sendGift(sendGiftVo)
+            .compose(RxHelper.handleSingleResult())
+            .bindToLifecycle(lifecycleProvider)
+            .subscribe(RxObserver(doNext = {
+                tv_msg.setText(it.msg)
+                FunTaskManager.getInstance().getFunQueueTask().consumeChain()
+            }, doError = { _, _ ->
+                FunTaskManager.getInstance().getFunQueueTask().consumeChain()
+            }))
     }
 }

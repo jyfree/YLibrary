@@ -6,10 +6,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.jy.baselibrary.base.contract.BaseContract;
-import com.jy.baselibrary.base.mvvm.vm.BaseViewModel;
+import com.jy.baselibrary.base.broker.BaseViewModel;
 
 
 /**
@@ -24,21 +22,14 @@ public abstract class MvvMBaseLazyFragment<VM extends BaseViewModel, DBinding ex
     @Override
     protected void initUI(View view, @Nullable Bundle savedInstanceState) {
 
-        //初始化viewModel，判断是否为fragment数据共享
-        //of(getActivity())作用：Fragment之间返回的是同一个ViewModel对象，进而实现数据共享
-        if (isShareData() && getActivity() != null) {
-            viewModel = ViewModelProviders.of(getActivity()).get(initViewModelClass());
-        } else {
-            viewModel = ViewModelProviders.of(this).get(initViewModelClass());
-        }
-        viewModel.attachMode(initModel());
+        viewModel = initViewModel();
         viewModel.setLifeCycleProvide(this);
         viewModel.setLifecycleOwner(this);
-        initObserve();
 
         dataBinding.setLifecycleOwner(this);
-        dataBinding.setVariable(initViewModelId(), viewModel);
+        dataBinding.setVariable(getViewModelId(), viewModel);
 
+        initObserve();
         initView(savedInstanceState);
     }
 
@@ -46,31 +37,21 @@ public abstract class MvvMBaseLazyFragment<VM extends BaseViewModel, DBinding ex
 
     /**
      * 初始化ViewModel
+     * 注意：若需要实现数据共享，of则需要传activity
+     * ViewModelProviders.of(getActivity())作用：Fragment之间返回的是同一个ViewModel对象，进而实现数据共享
      *
      * @return
      */
-    protected abstract Class<VM> initViewModelClass();
+    protected abstract VM initViewModel();
+
 
     /**
      * 初始化ViewModel的variableId
      *
      * @return
      */
-    protected abstract int initViewModelId();
+    protected abstract int getViewModelId();
 
-    /**
-     * 初始化mode
-     *
-     * @return
-     */
-    protected abstract BaseContract.BaseModel initModel();
-
-    /**
-     * 是否为数据共享
-     *
-     * @return
-     */
-    protected abstract boolean isShareData();
 
     /**
      * 监听菊花

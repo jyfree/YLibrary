@@ -9,7 +9,7 @@ import android.view.View
 import com.jy.baselibrary.acp.Acp
 import com.jy.baselibrary.acp.AcpListener
 import com.jy.baselibrary.acp.AcpOptions
-import com.jy.baselibrary.base.BaseActivity
+import com.jy.baselibrary.base.BaseAppCompatActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.ToastUtils
 import com.jy.baselibrary.utils.YLogUtils
@@ -22,7 +22,7 @@ import com.jy.simple.http.download.DownloadSimple
  * @Date 2019/9/27-16:06
  * @TODO 下载示例
  */
-class DownloadSimpleActivity : BaseActivity() {
+class DownloadSimpleActivity : BaseAppCompatActivity() {
 
     private val url = "https://cdn.9mitao.com/apk/android/9mitao_4.3.8.apk"
 
@@ -54,22 +54,25 @@ class DownloadSimpleActivity : BaseActivity() {
             YLogUtils.i("canInstallApp:", canInstallApp)
         }
         Acp.getInstance().acpManager
-                .setAcPermissionOptions(AcpOptions.beginBuilder().setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).build())
-                .setAcPermissionListener(object : AcpListener {
-                    override fun onDenied(permissions: MutableList<String>?) {
-                        YLogUtils.e("权限申请--拒绝", permissions?.toString())
-                        ToastUtils.showToast(this@DownloadSimpleActivity, "权限申请--拒绝" + permissions?.toString())
-                    }
+            .setAcPermissionOptions(AcpOptions.beginBuilder().setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).build())
+            .setAcPermissionListener(object : AcpListener {
+                override fun onDenied(permissions: MutableList<String>?) {
+                    YLogUtils.e("权限申请--拒绝", permissions?.toString())
+                    ToastUtils.showToast(
+                        this@DownloadSimpleActivity,
+                        "权限申请--拒绝" + permissions?.toString()
+                    )
+                }
 
-                    override fun onGranted() {
-                        YLogUtils.i("权限申请--同意")
-                        if (isSys) {
-                            DownloadSimple.startSysDownload(this@DownloadSimpleActivity, url)
-                        } else {
-                            DownloadSimple.startLocalDownload(url)
-                        }
+                override fun onGranted() {
+                    YLogUtils.i("权限申请--同意")
+                    if (isSys) {
+                        DownloadSimple.startSysDownload(this@DownloadSimpleActivity, url)
+                    } else {
+                        DownloadSimple.startLocalDownload(url)
                     }
-                })
-                .request(this)
+                }
+            })
+            .request(this)
     }
 }

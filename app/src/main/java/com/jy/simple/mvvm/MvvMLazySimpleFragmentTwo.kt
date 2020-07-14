@@ -1,11 +1,14 @@
 package com.jy.simple.mvvm
 
 import android.os.Bundle
-import com.jy.baselibrary.base.contract.BaseContract
+import androidx.lifecycle.ViewModelProviders
 import com.jy.baselibrary.base.mvvm.MvvMBaseLazyFragment
 import com.jy.simple.BR
 import com.jy.simple.R
 import com.jy.simple.databinding.SimpleMvvmFragmentBinding
+import com.jy.simple.repository.BannerRepository
+import com.jy.simple.viewmodel.MvvMViewModel
+import com.jy.simple.viewmodel.MvvMViewModelFactory
 
 /**
 
@@ -13,7 +16,8 @@ import com.jy.simple.databinding.SimpleMvvmFragmentBinding
  * @Date 2019/11/5-9:51
  * @TODO
  */
-class MvvMLazySimpleFragmentTwo : MvvMBaseLazyFragment<SharedViewModel, SimpleMvvmFragmentBinding>() {
+class MvvMLazySimpleFragmentTwo :
+    MvvMBaseLazyFragment<MvvMViewModel, SimpleMvvmFragmentBinding>() {
 
     companion object {
         @JvmStatic
@@ -25,17 +29,16 @@ class MvvMLazySimpleFragmentTwo : MvvMBaseLazyFragment<SharedViewModel, SimpleMv
 
     override fun initLayoutID(): Int = R.layout.simple_mvvm_fragment
 
+    override fun initViewModel(): MvvMViewModel {
+        return ViewModelProviders.of(activity!!, MvvMViewModelFactory(BannerRepository())).get(MvvMViewModel::class.java)
 
-    override fun initView(savedInstanceState: Bundle?) {
     }
 
-    override fun initViewModelClass(): Class<SharedViewModel> = SharedViewModel::class.java
+    override fun getViewModelId(): Int = BR.sharedViewModel
 
-    override fun initViewModelId(): Int = BR.sharedViewModel
+    override fun initView(savedInstanceState: Bundle?) {
 
-    override fun initModel(): BaseContract.BaseModel = SharedModel()
-
-    override fun isShareData(): Boolean = true
+    }
 
     override fun lazyLoad() {
     }

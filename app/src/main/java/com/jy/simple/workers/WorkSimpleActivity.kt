@@ -2,7 +2,7 @@ package com.jy.simple.workers
 
 import android.content.Context
 import android.os.Bundle
-import com.jy.baselibrary.base.BaseActivity
+import com.jy.baselibrary.base.BaseAppCompatActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.simple.R
 import kotlinx.android.synthetic.main.simple_work_test_activity.*
@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.simple_work_test_activity.*
  * @date: 2020/4/17 16:28
  * @author: jy
  */
-class WorkSimpleActivity : BaseActivity() {
+class WorkSimpleActivity : BaseAppCompatActivity() {
 
     companion object {
         fun startAct(context: Context) {

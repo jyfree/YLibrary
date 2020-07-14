@@ -4,9 +4,11 @@ package com.jy.baselibrary.base.mvp;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 
 import com.jy.baselibrary.base.BaseAppCompatActivity;
-import com.jy.baselibrary.base.contract.BaseContract;
+import com.jy.baselibrary.base.broker.BaseContract;
+import com.jy.baselibrary.base.broker.BaseViewModel;
 
 
 /**
@@ -22,7 +24,7 @@ public abstract class MvpBaseAppCompatActivity<P extends BaseContract.BasePresen
     protected void initUI(@Nullable Bundle savedInstanceState) {
         mPresenter = initPresenter();
         attachView();
-        attachMode();
+        attachViewModel();
         initView(savedInstanceState);
     }
 
@@ -39,26 +41,34 @@ public abstract class MvpBaseAppCompatActivity<P extends BaseContract.BasePresen
      */
     protected abstract P initPresenter();
 
+    /**
+     * 初始化ViewModel
+     *
+     * @return
+     */
+    protected abstract BaseViewModel initViewModel();
 
     /**
      * 初始化View
      */
     protected abstract void initView(@Nullable Bundle savedInstanceState);
 
-    /**
-     * 初始化mode
-     *
-     * @return
-     */
-    protected abstract BaseContract.BaseModel initModel();
-
 
     /**
-     * 挂载mode
+     * 挂载ViewModel
      */
-    private void attachMode() {
+    private void attachViewModel() {
+        BaseViewModel viewModel = initViewModel();
+        viewModel.setLifeCycleProvide(this);
+        viewModel.setLifecycleOwner(this);
+        viewModel.getLoading().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean show) {
+                showPopWindowLoading(show);
+            }
+        });
         if (mPresenter != null) {
-            mPresenter.attachMode(initModel());
+            mPresenter.attachViewModel(viewModel);
         }
     }
 

@@ -5,7 +5,7 @@
 
         <variable
             name="test"
-            type="com.jy.simple.http.mvvm.MvvMApiSimpleViewModel" />
+            type="com.jy.simple.viewmodel.MvvMViewModel" />
     </data>
 
     <LinearLayout
@@ -23,7 +23,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()->test.getBanner(1)}"
+            android:onClick="@{()->test.testHttpParam(1)}"
             android:text="请求接口" />
 
 

@@ -1,8 +1,8 @@
 package com.jy.simple.http.mvp
 
-import com.jy.baselibrary.base.presenter.BasePresenter
-import com.jy.commonlibrary.http.RxObserver
-import com.jy.simple.http.bean.SendGiftVo
+import com.jy.baselibrary.base.broker.BasePresenter
+import com.jy.simple.bean.SendGiftVo
+import com.jy.simple.viewmodel.MvpViewModel
 
 
 /**
@@ -11,29 +11,35 @@ import com.jy.simple.http.bean.SendGiftVo
  * @Date 2019/9/27-9:45
  * @TODO
  */
-class ApiSimplePresenter : BasePresenter<ApiSimpleContract.View, ApiSimpleContract.Model>(), ApiSimpleContract.Presenter {
+class ApiSimplePresenter : BasePresenter<ApiSimpleContract.View, MvpViewModel>(),
+    ApiSimpleContract.Presenter {
 
-    override fun sendGift(sendGiftVo: SendGiftVo) {
-        if (mView == null) return
-        mView?.showPopWindowLoading(true)
-        mMode.sendGift(RxObserver(doNext = { it ->
-            mView?.showPopWindowLoading(false)
-            mView?.updateInfo(it.msg)
-        }, doError = { _, _ ->
-            mView?.showPopWindowLoading(false)
-        }), mView!!.lifecycleProvider, sendGiftVo)
-    }
 
     override fun getBanner(showPlace: Int) {
         if (mView == null) return
-        mView?.showPopWindowLoading(true)
-        mMode.getBanner(RxObserver(doNext = { it ->
-            mView?.showPopWindowLoading(false)
+        mViewModel.call(request = {
+            mViewModel.bannerRepository.getBanner(showPlace)
+        }, success = {
             mView?.updateInfo(it.data?.toString())
-        }, doError = { _, _ ->
-            mView?.showPopWindowLoading(false)
-        }), mView!!.lifecycleProvider, showPlace)
+        })
     }
 
+    override fun sendGift(sendGiftVo: SendGiftVo) {
+        if (mView == null) return
+        mViewModel.call(request = {
+            mViewModel.userRepository.sendGift(sendGiftVo)
+        }, success = {
+            mView?.updateInfo(it.msg)
+        })
+    }
+
+    override fun getUserRelationId() {
+        if (mView == null) return
+        mViewModel.callData(request = {
+            mViewModel.userRepository.getUserRelationId()
+        }, success = {
+
+        })
+    }
 
 }

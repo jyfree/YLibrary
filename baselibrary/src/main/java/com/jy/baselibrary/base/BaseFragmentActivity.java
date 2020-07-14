@@ -5,15 +5,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.jy.baselibrary.base.contract.BaseContract;
+import com.jy.baselibrary.base.broker.BaseContract;
 import com.jy.baselibrary.helper.LoadSirHelper;
 import com.jy.baselibrary.utils.ToastUtils;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 
 import org.jetbrains.annotations.NotNull;
-
-
 
 
 /**

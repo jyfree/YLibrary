@@ -2,14 +2,15 @@ package com.jy.simple.http
 
 import android.content.Context
 import android.os.Bundle
-import com.jy.baselibrary.base.contract.BaseContract
-import com.jy.baselibrary.base.mvvm.MvvMBaseActivity
+import androidx.lifecycle.ViewModelProviders
+import com.jy.baselibrary.base.mvvm.MvvMBaseAppCompatActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.simple.BR
 import com.jy.simple.R
 import com.jy.simple.databinding.SimpleMvvmApiActivityBinding
-import com.jy.simple.http.mvvm.MvvMApiSimpleModel
-import com.jy.simple.http.mvvm.MvvMApiSimpleViewModel
+import com.jy.simple.repository.BannerRepository
+import com.jy.simple.viewmodel.MvvMViewModel
+import com.jy.simple.viewmodel.MvvMViewModelFactory
 
 
 /**
@@ -18,7 +19,7 @@ import com.jy.simple.http.mvvm.MvvMApiSimpleViewModel
  * @Date 2019/11/1-15:48
  * @TODO
  */
-class MvvMApiSimpleActivity : MvvMBaseActivity<MvvMApiSimpleViewModel, SimpleMvvmApiActivityBinding>() {
+class MvvMApiSimpleActivity : MvvMBaseAppCompatActivity<MvvMViewModel, SimpleMvvmApiActivityBinding>() {
     companion object {
         fun startAct(context: Context) {
             ActivityUtils.startActivity(context, MvvMApiSimpleActivity::class.java)
@@ -27,14 +28,18 @@ class MvvMApiSimpleActivity : MvvMBaseActivity<MvvMApiSimpleViewModel, SimpleMvv
 
     override fun initLayoutID(): Int = R.layout.simple_mvvm_api_activity
 
-    override fun initViewModelClass(): Class<MvvMApiSimpleViewModel> = MvvMApiSimpleViewModel::class.java
 
-    override fun initViewModelId(): Int = BR.test
+    override fun initViewModel(): MvvMViewModel {
+        return ViewModelProviders.of(this, MvvMViewModelFactory(BannerRepository()))
+            .get(MvvMViewModel::class.java)
+    }
 
-    override fun initModel(): BaseContract.BaseModel = MvvMApiSimpleModel()
+    override fun getViewModelId(): Int = BR.test
+
 
     override fun initView(savedInstanceState: Bundle?) {
 
     }
+
 
 }

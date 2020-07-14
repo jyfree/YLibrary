@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
-import com.jy.baselibrary.base.BaseActivity
+import com.jy.baselibrary.base.BaseAppCompatActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.AdaptScreenUtils
 import com.jy.baselibrary.utils.BarUtils
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.simple_bar_activity.*
  * @Date 2019/9/28-15:34
  * @TODO bar示例
  */
-class BarSimpleActivity : BaseActivity() {
+class BarSimpleActivity : BaseAppCompatActivity() {
 
     companion object {
         fun startAct(context: Context) {

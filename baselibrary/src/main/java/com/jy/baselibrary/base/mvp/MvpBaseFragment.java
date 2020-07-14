@@ -3,9 +3,11 @@ package com.jy.baselibrary.base.mvp;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 
 import com.jy.baselibrary.base.BaseFragment;
-import com.jy.baselibrary.base.contract.BaseContract;
+import com.jy.baselibrary.base.broker.BaseContract;
+import com.jy.baselibrary.base.broker.BaseViewModel;
 
 
 /**
@@ -22,7 +24,7 @@ public abstract class MvpBaseFragment<P extends BaseContract.BasePresenter> exte
         super.onCreate(savedInstanceState);
         mPresenter = initPresenter();
         attachView();
-        attachMode();
+        attachViewModel();
     }
 
     @Override
@@ -33,30 +35,37 @@ public abstract class MvpBaseFragment<P extends BaseContract.BasePresenter> exte
 
 
     /**
-     * 在子View中初始化Presenter
+     * 初始化Presenter
      *
      * @return
      */
     protected abstract P initPresenter();
 
-
     /**
-     * 初始化mode
+     * 初始化ViewModel
      *
      * @return
      */
-    protected abstract BaseContract.BaseModel initModel();
+    protected abstract BaseViewModel initViewModel();
 
 
     /**
-     * 挂载mode
+     * 挂载ViewModel
      */
-    private void attachMode() {
+    private void attachViewModel() {
+        BaseViewModel viewModel = initViewModel();
+        viewModel.setLifeCycleProvide(this);
+        viewModel.setLifecycleOwner(this);
+        viewModel.getLoading().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean show) {
+                showPopWindowLoading(show);
+            }
+        });
         if (mPresenter != null) {
-            mPresenter.attachMode(initModel());
+            mPresenter.attachViewModel(viewModel);
         }
     }
-
 
     /**
      * 挂载view

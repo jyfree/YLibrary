@@ -3,14 +3,18 @@ package com.jy.simple.http
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.jy.baselibrary.base.contract.BaseContract
-import com.jy.baselibrary.base.mvp.MvpBaseActivity
+import androidx.lifecycle.ViewModelProviders
+import com.jy.baselibrary.base.broker.BaseViewModel
+import com.jy.baselibrary.base.mvp.MvpBaseAppCompatActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.commonlibrary.glide.setImageDefaultLoadIconUrl
 import com.jy.simple.R
 import com.jy.simple.http.mvp.ApiSimpleContract
-import com.jy.simple.http.mvp.ApiSimpleModel
 import com.jy.simple.http.mvp.ApiSimplePresenter
+import com.jy.simple.repository.BannerRepository
+import com.jy.simple.repository.UserRepository
+import com.jy.simple.viewmodel.MvpViewModel
+import com.jy.simple.viewmodel.MvpViewModelFactory
 import kotlinx.android.synthetic.main.simple_api_test_activity.*
 
 /**
@@ -19,7 +23,8 @@ import kotlinx.android.synthetic.main.simple_api_test_activity.*
  * @Date 2019/9/27-9:43
  * @TODO mvp 请求
  */
-class MvpApiSimpleActivity : MvpBaseActivity<ApiSimplePresenter>(), ApiSimpleContract.View {
+class MvpApiSimpleActivity : MvpBaseAppCompatActivity<ApiSimplePresenter>(),
+    ApiSimpleContract.View {
 
     companion object {
         fun startAct(context: Context) {
@@ -29,7 +34,12 @@ class MvpApiSimpleActivity : MvpBaseActivity<ApiSimplePresenter>(), ApiSimpleCon
 
     override fun initPresenter(): ApiSimplePresenter = ApiSimplePresenter()
 
-    override fun initModel(): BaseContract.BaseModel = ApiSimpleModel()
+    override fun initViewModel(): BaseViewModel {
+        return ViewModelProviders.of(
+            this,
+            MvpViewModelFactory(BannerRepository(), UserRepository())
+        ).get(MvpViewModel::class.java)
+    }
 
     override fun initLayoutID(): Int = R.layout.simple_api_test_activity
 
@@ -46,4 +56,6 @@ class MvpApiSimpleActivity : MvpBaseActivity<ApiSimplePresenter>(), ApiSimpleCon
     override fun updateInfo(msg: String?) {
         tv_msg.text = msg
     }
+
+
 }

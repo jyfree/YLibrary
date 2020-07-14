@@ -2,7 +2,7 @@ package com.jy.simple.selector
 
 import android.content.Context
 import android.os.Bundle
-import com.jy.baselibrary.base.BaseActivity
+import com.jy.baselibrary.base.BaseAppCompatActivity
 import com.jy.baselibrary.selector.selector.CompoundDrawableSelector
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.simple.R
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.simple_selector_activity.*
  * @Date 2019/10/21-13:50
  * @TODO
  */
-class SelectorSimpleActivity : BaseActivity() {
+class SelectorSimpleActivity : BaseAppCompatActivity() {
 
     companion object {
         fun startAct(context: Context) {

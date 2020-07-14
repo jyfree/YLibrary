@@ -10,7 +10,7 @@ import android.view.View
 import com.jy.baselibrary.acp.Acp
 import com.jy.baselibrary.acp.AcpListener
 import com.jy.baselibrary.acp.AcpOptions
-import com.jy.baselibrary.base.BaseActivity
+import com.jy.baselibrary.base.BaseAppCompatActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.ToastUtils
 import com.jy.baselibrary.utils.YLogUtils
@@ -24,7 +24,7 @@ import java.io.File
  * @Date 2019/10/12-14:49
  * @TODO
  */
-class PermissionSimpleActivity : BaseActivity() {
+class PermissionSimpleActivity : BaseAppCompatActivity() {
 
     companion object {
         fun startAct(context: Context) {
@@ -49,59 +49,75 @@ class PermissionSimpleActivity : BaseActivity() {
 
     private fun requestAll() {
         Acp.getInstance().acpManager
-                .setShowRational(true)
-                .setAcPermissionOptions(
-                    AcpOptions.beginBuilder().setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        , Manifest.permission.READ_PHONE_STATE).build())
-                .setAcPermissionListener(object : AcpListener {
-                    override fun onDenied(permissions: MutableList<String>?) {
-                        YLogUtils.e("权限申请--拒绝", permissions?.toString())
-                        ToastUtils.showToast(this@PermissionSimpleActivity, "权限申请--拒绝" + permissions?.toString())
+            .setShowRational(true)
+            .setAcPermissionOptions(
+                AcpOptions.beginBuilder().setPermissions(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    , Manifest.permission.READ_PHONE_STATE
+                ).build()
+            )
+            .setAcPermissionListener(object : AcpListener {
+                override fun onDenied(permissions: MutableList<String>?) {
+                    YLogUtils.e("权限申请--拒绝", permissions?.toString())
+                    ToastUtils.showToast(
+                        this@PermissionSimpleActivity,
+                        "权限申请--拒绝" + permissions?.toString()
+                    )
 
-                    }
+                }
 
-                    override fun onGranted() {
-                        YLogUtils.i("权限申请--同意")
-                        getAll()
-                    }
-                })
-                .request(this)
+                override fun onGranted() {
+                    YLogUtils.i("权限申请--同意")
+                    getAll()
+                }
+            })
+            .request(this)
     }
 
     private fun requestSdcard() {
         Acp.getInstance().acpManager
-                .setShowRational(false)
-                .setAcPermissionOptions(AcpOptions.beginBuilder().setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).setCanShowDeniedDialog(false).build())
-                .setAcPermissionListener(object : AcpListener {
-                    override fun onDenied(permissions: MutableList<String>?) {
-                        YLogUtils.e("权限申请--拒绝", permissions?.toString())
-                        ToastUtils.showToast(this@PermissionSimpleActivity, "权限申请--拒绝" + permissions?.toString())
-                    }
+            .setShowRational(false)
+            .setAcPermissionOptions(
+                AcpOptions.beginBuilder().setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).setCanShowDeniedDialog(
+                    false
+                ).build()
+            )
+            .setAcPermissionListener(object : AcpListener {
+                override fun onDenied(permissions: MutableList<String>?) {
+                    YLogUtils.e("权限申请--拒绝", permissions?.toString())
+                    ToastUtils.showToast(
+                        this@PermissionSimpleActivity,
+                        "权限申请--拒绝" + permissions?.toString()
+                    )
+                }
 
-                    override fun onGranted() {
-                        YLogUtils.i("权限申请--同意")
-                        writeSD()
-                    }
-                })
-                .request(this)
+                override fun onGranted() {
+                    YLogUtils.i("权限申请--同意")
+                    writeSD()
+                }
+            })
+            .request(this)
     }
 
     private fun requestReadPhone() {
         Acp.getInstance().acpManager
-                .setShowRational(true)
-                .setAcPermissionOptions(AcpOptions.beginBuilder().setPermissions(Manifest.permission.READ_PHONE_STATE).build())
-                .setAcPermissionListener(object : AcpListener {
-                    override fun onDenied(permissions: MutableList<String>?) {
-                        YLogUtils.e("权限申请--拒绝", permissions?.toString())
-                        ToastUtils.showToast(this@PermissionSimpleActivity, "权限申请--拒绝" + permissions?.toString())
-                    }
+            .setShowRational(true)
+            .setAcPermissionOptions(AcpOptions.beginBuilder().setPermissions(Manifest.permission.READ_PHONE_STATE).build())
+            .setAcPermissionListener(object : AcpListener {
+                override fun onDenied(permissions: MutableList<String>?) {
+                    YLogUtils.e("权限申请--拒绝", permissions?.toString())
+                    ToastUtils.showToast(
+                        this@PermissionSimpleActivity,
+                        "权限申请--拒绝" + permissions?.toString()
+                    )
+                }
 
-                    override fun onGranted() {
-                        YLogUtils.i("权限申请--同意")
-                        getIMEI()
-                    }
-                })
-                .request(this)
+                override fun onGranted() {
+                    YLogUtils.i("权限申请--同意")
+                    getIMEI()
+                }
+            })
+            .request(this)
     }
 
 
@@ -129,7 +145,10 @@ class PermissionSimpleActivity : BaseActivity() {
         result = if (existsSdcard() == true) {
             val cacheDir = context.externalCacheDir
             if (cacheDir == null) {
-                File(Environment.getExternalStorageDirectory(), context.packageName + "/cache/" + dirName)
+                File(
+                    Environment.getExternalStorageDirectory(),
+                    context.packageName + "/cache/" + dirName
+                )
             } else {
                 File(cacheDir, dirName)
             }

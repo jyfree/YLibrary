@@ -9,9 +9,6 @@ import com.jy.baselibrary.thread.lifecycle.ThreadResultCallback
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.commonlibrary.coroutine.CoroutineRequest
-import com.jy.commonlibrary.http.download.local.DownInfo
-import com.jy.commonlibrary.http.download.local.DownloadDatabase
-import com.jy.litedb.api.LoaderFieldInfo
 import com.jy.simple.R
 import java.util.*
 

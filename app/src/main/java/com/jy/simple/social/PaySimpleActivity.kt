@@ -3,7 +3,7 @@ package com.jy.simple.social
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.jy.baselibrary.base.BaseActivity
+import com.jy.baselibrary.base.BaseAppCompatActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.simple.R
@@ -20,7 +20,7 @@ import com.jy.sociallibrary.wx.WXPayBean
  * @Date 2019/11/12-14:40
  * @TODO
  */
-class PaySimpleActivity : BaseActivity() {
+class PaySimpleActivity : BaseAppCompatActivity() {
 
     companion object {
         fun startAct(context: Context) {

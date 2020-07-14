@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.app.ShareCompat
-import com.jy.baselibrary.base.BaseActivity
+import com.jy.baselibrary.base.BaseAppCompatActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.simple.Constants
@@ -26,7 +26,7 @@ import com.jy.sociallibrary.wx.WXListener
  * @Date 2019/11/12-14:40
  * @TODO
  */
-class ShareSimpleActivity : BaseActivity() {
+class ShareSimpleActivity : BaseAppCompatActivity() {
 
     companion object {
         fun startAct(context: Context) {

@@ -1,11 +1,8 @@
 package com.jy.simple.http.mvp
 
-import com.jy.baselibrary.base.contract.BaseContract
-import com.jy.commonlibrary.http.RxObserver
-import com.jy.commonlibrary.http.bean.SingleBaseBean
-import com.jy.simple.http.bean.BannerInfoListVo
-import com.jy.simple.http.bean.SendGiftVo
-import com.trello.rxlifecycle2.LifecycleProvider
+import com.jy.baselibrary.base.broker.BaseContract
+import com.jy.simple.bean.SendGiftVo
+import com.jy.simple.viewmodel.MvpViewModel
 
 
 /**
@@ -19,14 +16,9 @@ interface ApiSimpleContract {
         fun updateInfo(msg: String?)
     }
 
-    interface Presenter : BaseContract.BasePresenter<View, Model> {
+    interface Presenter : BaseContract.BasePresenter<View, MvpViewModel> {
         fun getBanner(showPlace: Int)
         fun sendGift(sendGiftVo: SendGiftVo)
-    }
-
-    interface Model : BaseContract.BaseModel {
-        fun <E> getBanner(rxObserver: RxObserver<BannerInfoListVo>, mView: LifecycleProvider<E>, showPlace: Int)
-
-        fun <E> sendGift(rxObserver: RxObserver<SingleBaseBean>, mView: LifecycleProvider<E>, sendGiftVo: SendGiftVo)
+        fun getUserRelationId()
     }
 }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import com.jy.baselibrary.base.BaseActivity
+import com.jy.baselibrary.base.BaseAppCompatActivity
 import com.jy.baselibrary.helper.PicHelper
 import com.jy.baselibrary.pic.PicListener
 import com.jy.baselibrary.pic.PicOptions
@@ -15,7 +15,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.simple_api_test_activity.*
 import kotlinx.android.synthetic.main.simple_api_test_activity.imageView
 import kotlinx.android.synthetic.main.simple_pic_activity.*
 import java.io.File
@@ -26,7 +25,7 @@ import java.io.File
  * @Date 2019/10/18-11:37
  * @TODO 拍照&图库
  */
-class PicSimpleActivity : BaseActivity(), PicListener {
+class PicSimpleActivity : BaseAppCompatActivity(), PicListener {
 
     companion object {
         fun startAct(context: Context) {
