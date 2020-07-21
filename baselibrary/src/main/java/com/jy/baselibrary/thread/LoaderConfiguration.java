@@ -1,6 +1,9 @@
 package com.jy.baselibrary.thread;
 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author Administrator
@@ -9,15 +12,9 @@ import java.util.concurrent.Executor;
  */
 public final class LoaderConfiguration {
     final Executor taskExecutor;
-    final int threadPoolSize;
-    final int threadPriority;
-    final QueueProcessingType tasksProcessingType;
 
     private LoaderConfiguration(final Builder builder) {
         taskExecutor = builder.taskExecutor;
-        threadPoolSize = builder.threadPoolSize;
-        threadPriority = builder.threadPriority;
-        tasksProcessingType = builder.tasksProcessingType;
     }
 
     public static Builder beginBuilder() {
@@ -25,20 +22,13 @@ public final class LoaderConfiguration {
     }
 
     public static class Builder {
-        public static final QueueProcessingType DEFAULT_TASK_PROCESSING_TYPE = QueueProcessingType.FIFO;
-        public static final int DEFAULT_THREAD_POOL_SIZE = 3;
-        public static final int DEFAULT_THREAD_PRIORITY = Thread.NORM_PRIORITY - 2;
-
+        private int threadPriority = Thread.NORM_PRIORITY - 2;//线程优先级
+        private int corePoolSize = 3;//核心线程大小
+        private int maximumPoolSize = corePoolSize * 3;//最大线程大小，默认为核心线程大小的3倍
+        private long keepAliveTime = 60L;//线程默认存活时间60秒
+        private BlockingQueue<Runnable> workQueue;//若为null，则默认创建容量为10000的ArrayBlockingQueue
         private Executor taskExecutor = null;
-        private int threadPoolSize = DEFAULT_THREAD_POOL_SIZE;
-        private int threadPriority = DEFAULT_THREAD_PRIORITY;
-        private QueueProcessingType tasksProcessingType = DEFAULT_TASK_PROCESSING_TYPE;
 
-
-        public Builder threadPoolSize(int threadPoolSize) {
-            this.threadPoolSize = threadPoolSize;
-            return this;
-        }
 
         public Builder threadPriority(int threadPriority) {
             if (threadPriority < Thread.MIN_PRIORITY) {
@@ -53,14 +43,42 @@ public final class LoaderConfiguration {
             return this;
         }
 
-        public Builder tasksProcessingOrder(QueueProcessingType tasksProcessingType) {
-            this.tasksProcessingType = tasksProcessingType;
+        public Builder setCorePoolSize(int corePoolSize) {
+            this.corePoolSize = corePoolSize;
+            return this;
+        }
+
+        public Builder setMaximumPoolSize(int maximumPoolSize) {
+            this.maximumPoolSize = maximumPoolSize;
+            return this;
+        }
+
+        public Builder setThreadPriority(int threadPriority) {
+            this.threadPriority = threadPriority;
+            return this;
+        }
+
+        public Builder setKeepAliveTime(long keepAliveTime) {
+            this.keepAliveTime = keepAliveTime;
+            return this;
+        }
+
+        public Builder setWorkQueue(BlockingQueue<Runnable> workQueue) {
+            this.workQueue = workQueue;
+            return this;
+        }
+
+        public Builder setTaskExecutor(Executor taskExecutor) {
+            this.taskExecutor = taskExecutor;
             return this;
         }
 
         private void initEmptyFieldsWithDefaultValues() {
             if (taskExecutor == null) {
-                taskExecutor = ThreadPoolFactory.createExecutor(threadPoolSize, threadPriority, tasksProcessingType);
+                if (workQueue == null) {
+                    workQueue = new ArrayBlockingQueue<>(10000);
+                }
+                taskExecutor = ThreadPoolFactory.createExecutor(corePoolSize, maximumPoolSize, threadPriority, keepAliveTime, TimeUnit.SECONDS, workQueue);
             }
         }
 

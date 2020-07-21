@@ -1,4 +1,4 @@
-package com.jy.baselibrary.deque.task
+package com.jy.baselibrary.deque
 
 import com.jy.baselibrary.utils.YLogUtils
 import java.util.concurrent.BlockingQueue

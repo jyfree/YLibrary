@@ -1,10 +1,10 @@
 package com.jy.baselibrary.thread;
 
-import com.jy.baselibrary.deque.LIFOLinkedBlockingDeque;
+import com.jy.baselibrary.utils.YLogUtils;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -17,17 +17,24 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ThreadPoolFactory {
 
-    public static Executor createExecutor(int threadPoolSize, int threadPriority,
-                                          QueueProcessingType tasksProcessingType) {
-        boolean lifo = tasksProcessingType == QueueProcessingType.LIFO;
-        BlockingQueue<Runnable> taskQueue =
-                lifo ? new LIFOLinkedBlockingDeque<Runnable>() : new LinkedBlockingQueue<Runnable>();
-        return new ThreadPoolExecutor(threadPoolSize, threadPoolSize, 0L, TimeUnit.MILLISECONDS, taskQueue,
-                createThreadFactory(threadPriority, "uil-pool-"));
+    public static Executor createExecutor(int corePoolSize,
+                                          int maximumPoolSize,
+                                          int threadPriority,
+                                          long keepAliveTime,
+                                          TimeUnit unit,
+                                          BlockingQueue<Runnable> workQueue) {
+        return new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
+                createThreadFactory(threadPriority, "uil-pool-"), new RejectedExecutionHandler() {
+            @Override
+            public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+
+                YLogUtils.INSTANCE.e("线程池已拒绝该任务", r);
+            }
+        });
     }
 
 
-    private static ThreadFactory createThreadFactory(int threadPriority, String threadNamePrefix) {
+    public static ThreadFactory createThreadFactory(int threadPriority, String threadNamePrefix) {
         return new DefaultThreadFactory(threadPriority, threadNamePrefix);
     }
 

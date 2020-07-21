@@ -10,37 +10,34 @@ import java.util.concurrent.ExecutorService;
  */
 public class LoaderEngine {
 
-    private LoaderConfiguration configuration;
     private Executor taskExecutor;
 
 
     public void init(LoaderConfiguration configuration) {
-        this.configuration = configuration;
-        taskExecutor = this.configuration.taskExecutor;
+        taskExecutor = configuration.taskExecutor;
 
     }
 
     public void submit(Thread task) {
-        proof();
         taskExecutor.execute(task);
     }
 
     public void submit(Runnable task) {
-        proof();
         taskExecutor.execute(task);
     }
 
-    private void proof() {
-        if (((ExecutorService) taskExecutor).isShutdown()) {
-            taskExecutor = ThreadPoolFactory.createExecutor(configuration.threadPoolSize, configuration.threadPriority, configuration.tasksProcessingType);
-        }
+    /**
+     * 立即停止所有线程
+     */
+    public void shutdownNow() {
+        ((ExecutorService) taskExecutor).shutdownNow();
     }
 
     /**
      * 停止所有线程
      */
-    public void stop() {
-        ((ExecutorService) taskExecutor).shutdownNow();
+    public void shutdown() {
+        ((ExecutorService) taskExecutor).shutdown();
     }
 
 }

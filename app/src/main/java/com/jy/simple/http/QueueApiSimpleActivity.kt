@@ -6,7 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.jy.baselibrary.base.BaseAppCompatActivity
-import com.jy.baselibrary.deque.task.FunTaskManager
+import com.jy.baselibrary.deque.FunTaskManager
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.commonlibrary.http.RxHelper
 import com.jy.commonlibrary.http.RxObserver

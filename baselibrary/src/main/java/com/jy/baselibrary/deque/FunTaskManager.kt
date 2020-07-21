@@ -1,4 +1,4 @@
-package com.jy.baselibrary.deque.task
+package com.jy.baselibrary.deque
 
 /**
  * 任务经营者(单例，全局任务)
