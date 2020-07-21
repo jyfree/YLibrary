@@ -32,9 +32,9 @@ YLibrary是使用kotlin&Java混合编写的，是YFramework的升级版本https:
  3. 使用主流的**RxJava2、retrofit2、RxBus、glide**框架
 
 ## gradle引入方式
- 1. 基础库 implementation 'com.jy.baselibrary:baselibrary:1.0.7'
+ 1. 基础库 implementation 'com.jy.baselibrary:baselibrary:1.0.8'
  2. 社会化库 implementation 'com.jy.sociallibrary:sociallibrary:1.2.0'
- 3. 常用库 implementation 'com.jy.commonlibrary:commonlibrary:1.1.7'
+ 3. 常用库 implementation 'com.jy.commonlibrary:commonlibrary:1.1.8'
 
 注：三个库都可以单独使用， commonlibrary依赖于baselibrary， 引用sociallibrary需要把支付宝引入，如：implementation files("alipaySdk-15.6.2-20190416165036.aar")
 
