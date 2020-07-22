@@ -66,4 +66,17 @@ class FunQueueTask<T> {
         val t = singleBasket.poll()
         YLogUtils.d("单任务-消费", t)
     }
+
+    fun releaseChainQueue() {
+        chainBasket.clear()
+    }
+
+    fun releaseSingleQueue() {
+        singleBasket.clear()
+    }
+
+    fun releaseAll() {
+        releaseChainQueue()
+        releaseSingleQueue()
+    }
 }

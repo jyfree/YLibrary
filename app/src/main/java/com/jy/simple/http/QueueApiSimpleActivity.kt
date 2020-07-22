@@ -51,6 +51,11 @@ class QueueApiSimpleActivity : BaseAppCompatActivity() {
         viewModel.loading.observe(this, Observer<Boolean?> { show -> showPopWindowLoading(show!!) })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        FunTaskManager.getInstance().getFunQueueTask().releaseAll()
+    }
+
     fun onRequest(view: View) {
         when (view.id) {
             R.id.requestData_common -> {
