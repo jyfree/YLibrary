@@ -350,6 +350,7 @@ public class RxBus {
                     iterator.remove();
                 }
             }
+            subscriptionsByEventType.remove(subscriber);
         }
     }
 

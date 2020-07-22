@@ -113,9 +113,8 @@ public class RunTimeTraceAspect {
     @Around("realOnStart()")
     public Object startJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
         Object target = joinPoint.getTarget();
-        if (target != null) {
-            remainMap.put(target, System.currentTimeMillis());
-        }
+        String className = target.getClass().getSimpleName();
+        remainMap.put(className, System.currentTimeMillis());
         return joinPoint.proceed();
     }
 
@@ -123,9 +122,11 @@ public class RunTimeTraceAspect {
     public Object stopJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
         Object target = joinPoint.getTarget();
         String className = target.getClass().getSimpleName();
-        Long startTime = remainMap.get(target);
+        Long startTime = remainMap.get(className);
         if (startTime == null) {
             startTime = 0L;
+        } else {
+            remainMap.remove(className);
         }
         Object result = joinPoint.proceed();
         YLogUtils.INSTANCE.iFormatTag(AspectUtils.TAG, "性能监控--》停留时间--%s--%s(ms)", className, System.currentTimeMillis() - startTime);
@@ -145,9 +146,8 @@ public class RunTimeTraceAspect {
     @Around("realOnCreateFragment()")
     public Object onStartFragmentJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
         Object target = joinPoint.getTarget();
-        if (target != null) {
-            remainMap.put(target, System.currentTimeMillis());
-        }
+        String className = target.getClass().getSimpleName();
+        remainMap.put(className, System.currentTimeMillis());
         return joinPoint.proceed();
     }
 
@@ -155,9 +155,11 @@ public class RunTimeTraceAspect {
     public Object onViewCreatedFragmentJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
         Object target = joinPoint.getTarget();
         String className = target.getClass().getSimpleName();
-        Long startTime = remainMap.get(target);
+        Long startTime = remainMap.get(className);
         if (startTime == null) {
             startTime = 0L;
+        } else {
+            remainMap.remove(className);
         }
         Object result = joinPoint.proceed();
         YLogUtils.INSTANCE.iFormatTag(AspectUtils.TAG, "性能监控--》fragment创建耗时--%s--%s(ms)", className, System.currentTimeMillis() - startTime);
