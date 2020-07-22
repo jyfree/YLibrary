@@ -60,7 +60,6 @@ class PermissionSimpleActivity : BaseAppCompatActivity() {
                 override fun onDenied(permissions: MutableList<String>?) {
                     YLogUtils.e("权限申请--拒绝", permissions?.toString())
                     ToastUtils.showToast(
-                        this@PermissionSimpleActivity,
                         "权限申请--拒绝" + permissions?.toString()
                     )
 
@@ -86,7 +85,6 @@ class PermissionSimpleActivity : BaseAppCompatActivity() {
                 override fun onDenied(permissions: MutableList<String>?) {
                     YLogUtils.e("权限申请--拒绝", permissions?.toString())
                     ToastUtils.showToast(
-                        this@PermissionSimpleActivity,
                         "权限申请--拒绝" + permissions?.toString()
                     )
                 }
@@ -107,7 +105,6 @@ class PermissionSimpleActivity : BaseAppCompatActivity() {
                 override fun onDenied(permissions: MutableList<String>?) {
                     YLogUtils.e("权限申请--拒绝", permissions?.toString())
                     ToastUtils.showToast(
-                        this@PermissionSimpleActivity,
                         "权限申请--拒绝" + permissions?.toString()
                     )
                 }
@@ -125,18 +122,18 @@ class PermissionSimpleActivity : BaseAppCompatActivity() {
     private fun getAll() {
         val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager?
         val acpDir = getCacheDir("acp", this)
-        ToastUtils.showToast(this, "读imei成功：" + tm?.deviceId + "\n写SD成功：" + acpDir)
+        ToastUtils.showToast("读imei成功：" + tm?.deviceId + "\n写SD成功：" + acpDir)
     }
 
     @SuppressLint("MissingPermission", "HardwareIds")
     private fun getIMEI() {
         val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager?
-        tm?.let { ToastUtils.showToast(this, "读imei成功：" + it.deviceId) }
+        tm?.let { ToastUtils.showToast("读imei成功：" + it.deviceId) }
     }
 
     private fun writeSD() {
         val acpDir = getCacheDir("acp", this)
-        acpDir?.let { ToastUtils.showToast(this, "写SD成功：" + acpDir.absolutePath) }
+        acpDir?.let { ToastUtils.showToast("写SD成功：" + acpDir.absolutePath) }
 
     }
 

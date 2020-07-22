@@ -59,7 +59,6 @@ class DownloadSimpleActivity : BaseAppCompatActivity() {
                 override fun onDenied(permissions: MutableList<String>?) {
                     YLogUtils.e("权限申请--拒绝", permissions?.toString())
                     ToastUtils.showToast(
-                        this@DownloadSimpleActivity,
                         "权限申请--拒绝" + permissions?.toString()
                     )
                 }

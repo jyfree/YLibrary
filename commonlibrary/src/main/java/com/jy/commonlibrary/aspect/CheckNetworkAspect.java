@@ -1,7 +1,5 @@
 package com.jy.commonlibrary.aspect;
 
-import android.content.Context;
-
 import com.jy.baselibrary.utils.NetworkUtils;
 import com.jy.baselibrary.utils.ToastUtils;
 
@@ -38,11 +36,10 @@ public class CheckNetworkAspect {
      */
     @Around("executionCheckNetwork()")
     public Object checkPermission(ProceedingJoinPoint joinPoint) throws Throwable {
-        Context context = AspectUtils.getContext(joinPoint.getThis());
         if (NetworkUtils.isNetworkConnected()) {
             return joinPoint.proceed();
         } else {
-            ToastUtils.showToast(context, "没有网络连接");
+            ToastUtils.showToast("没有网络连接");
             return null;
         }
 

@@ -1,6 +1,5 @@
 package com.jy.commonlibrary.http
 
-import com.jy.baselibrary.utils.BaseUtils
 import com.jy.baselibrary.utils.ToastUtils
 import com.jy.baselibrary.utils.YLogUtils
 import io.reactivex.Observer
@@ -16,7 +15,10 @@ class RxObserver<T> : Observer<T> {
 
     var showToast = true
 
-    constructor(doError: ((e: Throwable, message: String) -> Unit)? = null, doNext: ((t: T) -> Unit?)? = null) {
+    constructor(
+        doError: ((e: Throwable, message: String) -> Unit)? = null,
+        doNext: ((t: T) -> Unit?)? = null
+    ) {
         this.doError = doError
         this.doNext = doNext
     }
@@ -84,13 +86,13 @@ class RxObserver<T> : Observer<T> {
 
     private fun doErrorSwitchHost() {
         if (showToast) {
-            ToastUtils.showToast(BaseUtils.getApp(), "连接不上服务器...")
+            ToastUtils.showToast("连接不上服务器...")
         }
     }
 
     private fun doError(message: String) {
         if (showToast) {
-            ToastUtils.showToast(BaseUtils.getApp(), message)
+            ToastUtils.showToast(message)
         }
     }
 }

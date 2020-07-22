@@ -30,6 +30,6 @@ class MvvMSimpleActivity : MvvMBaseNoViewModelActivity<SimpleMvvmNomodelActivity
     override fun initLayoutID(): Int = R.layout.simple_mvvm_nomodel_activity
 
     fun onClickPosition(position: Int) {
-        ToastUtils.showToast(this, position.toString())
+        ToastUtils.showToast(position.toString())
     }
 }

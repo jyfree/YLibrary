@@ -15,6 +15,7 @@ import com.jy.commonlibrary.glide.ImageLoaderConfiguration
 import com.jy.commonlibrary.http.download.local.DownloadDBConfig
 import com.jy.simple.loading.callback.*
 import com.jy.sociallibrary.SDKConfig
+import com.squareup.leakcanary.LeakCanary
 
 
 class MyApplication : Application() {
@@ -54,6 +55,8 @@ class MyApplication : Application() {
             //下载数据库配置
             DownloadDBConfig.init(false);
         }
+        //检查内存泄漏
+        LeakCanary.install(this);
     }
 
     /**

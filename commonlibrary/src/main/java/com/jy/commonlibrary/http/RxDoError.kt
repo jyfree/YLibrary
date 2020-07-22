@@ -1,6 +1,5 @@
 package com.jy.commonlibrary.http
 
-import com.jy.baselibrary.utils.BaseUtils
 import com.jy.baselibrary.utils.ToastUtils
 import com.jy.baselibrary.utils.YLogUtils
 import java.net.ConnectException
@@ -44,13 +43,13 @@ object RxDoError {
 
     private fun doErrorSwitchHost(showToast: Boolean) {
         if (showToast) {
-            ToastUtils.showToast(BaseUtils.getApp(), "连接不上服务器...")
+            ToastUtils.showToast("连接不上服务器...")
         }
     }
 
     private fun doError(message: String, showToast: Boolean) {
         if (showToast) {
-            ToastUtils.showToast(BaseUtils.getApp(), message)
+            ToastUtils.showToast(message)
         }
     }
 }

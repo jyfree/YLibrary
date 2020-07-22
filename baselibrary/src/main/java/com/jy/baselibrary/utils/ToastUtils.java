@@ -14,7 +14,9 @@ import java.lang.reflect.Field;
 /**
  * @Author Administrator
  * @Date 2019/5/30-17:35
- * @TODO
+ * @TODO toast工具类
+ * 注意：避免showToast调用不当，造成Toast里的mContext内存泄漏，
+ * showToast不提供Context上下文的传参，直接内部调用BaseUtils.getApp()即application
  */
 public class ToastUtils {
     private static final String TAG = "ToastUtil";
@@ -25,6 +27,15 @@ public class ToastUtils {
     private static final String FIELD_NAME_TN = "mTN";
     private static final String FIELD_NAME_HANDLER = "mHandler";
 
+
+    public static void showToast(CharSequence text) {
+        showToast(BaseUtils.getApp(), text, Toast.LENGTH_SHORT);
+    }
+
+    public static void showToast(CharSequence text, int duration) {
+        showToast(BaseUtils.getApp(), text, duration);
+    }
+
     /**
      * Non-blocking showing Toast
      *
@@ -32,7 +43,7 @@ public class ToastUtils {
      * @param text     the text show on the Toast
      * @param duration Toast.LENGTH_SHORT（default,2s） or Toast.LENGTH_LONG（3.5s）
      */
-    public static void showToast(final Context context, final CharSequence text, final int duration) {
+    private static void showToast(final Context context, final CharSequence text, final int duration) {
         try {
             if (context == null) return;
             ToastRunnable toastRunnable = new ToastRunnable(context, text, duration);
@@ -48,16 +59,6 @@ public class ToastUtils {
         } catch (Exception e) {
             YLogUtils.INSTANCE.eTag(TAG, e.getMessage());
         }
-    }
-
-    /**
-     * Non-blocking showing Toast,default duration is Toast.LENGTH_SHORT
-     *
-     * @param context context，Application or Activity
-     * @param text    the text show on the Toast
-     */
-    public static void showToast(Context context, CharSequence text) {
-        showToast(context, text, Toast.LENGTH_SHORT);
     }
 
     /**

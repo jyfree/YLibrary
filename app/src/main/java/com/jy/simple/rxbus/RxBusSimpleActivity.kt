@@ -52,20 +52,20 @@ class RxBusSimpleActivity : BaseAppCompatActivity() {
     @SuppressLint("测试1，参数为String类型")
     @Subscribe(code = 1001, threadMode = ThreadMode.MAIN)
     fun rxBusTest1(msg: String) {
-        ToastUtils.showToast(this, "RxBus--参数为String类型--接收到信息$msg")
+        ToastUtils.showToast("RxBus--参数为String类型--接收到信息$msg")
     }
 
     @SuppressLint("测试2，参数为int基本数据类型")
     @Subscribe(code = 1002, threadMode = ThreadMode.MAIN)
     fun rxBusTest2(type: Int) {
-        ToastUtils.showToast(this, "RxBus--参数为int基本数据类型--接收到信息$type")
+        ToastUtils.showToast("RxBus--参数为int基本数据类型--接收到信息$type")
 
     }
 
     @SuppressLint("测试3，参数为自定义对象")
     @Subscribe(code = 1003, threadMode = ThreadMode.MAIN)
     fun rxBusTest3(msgData: MsgData) {
-        ToastUtils.showToast(this, "RxBus--参数为自定义对象--接收到信息$msgData")
+        ToastUtils.showToast("RxBus--参数为自定义对象--接收到信息$msgData")
 
     }
 
@@ -73,7 +73,7 @@ class RxBusSimpleActivity : BaseAppCompatActivity() {
     @SuppressLint("测试4，无参")
     @Subscribe(code = 1004, threadMode = ThreadMode.MAIN)
     fun rxBusTest4() {
-        ToastUtils.showToast(this, "RxBus--无参--接收到信息")
+        ToastUtils.showToast("RxBus--无参--接收到信息")
 
     }
 

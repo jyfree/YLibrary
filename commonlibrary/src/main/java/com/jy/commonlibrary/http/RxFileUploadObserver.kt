@@ -1,6 +1,5 @@
 package com.jy.commonlibrary.http
 
-import com.jy.baselibrary.utils.BaseUtils
 import com.jy.baselibrary.utils.ToastUtils
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DefaultObserver
@@ -57,13 +56,13 @@ abstract class RxFileUploadObserver<T> : DefaultObserver<T>() {
 
     private fun doErrorSwitchHost() {
         if (showToast) {
-            ToastUtils.showToast(BaseUtils.getApp(), "连接不上服务器...")
+            ToastUtils.showToast("连接不上服务器...")
         }
     }
 
     private fun doError(message: String) {
         if (showToast) {
-            ToastUtils.showToast(BaseUtils.getApp(), message)
+            ToastUtils.showToast(message)
         }
     }
 
