@@ -293,6 +293,7 @@ public class AcpManager {
      * 摧毁本库的 AcpActivity
      */
     private void onDestroy(Activity activity) {
+        permissionListener = null;
         if (activity != null) {
             activity.finish();
         }
