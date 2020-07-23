@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.provider.MediaStore;
 
 import androidx.core.content.FileProvider;
 
+import com.jy.baselibrary.utils.BaseUtils;
 import com.jy.baselibrary.utils.RomUtils;
 import com.jy.baselibrary.utils.YHandlerUtils;
 import com.jy.baselibrary.utils.YLogUtils;
@@ -152,7 +152,7 @@ public class PicManager {
 
     }
 
-    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data, PicScanListener scanListener) {
         if (listener == null || (requestCode != REQUEST_CODE_CAMERA && requestCode != REQUEST_CODE_PICTURE && requestCode != REQUEST_CODE_CUT_PIC)) {
             YLogUtils.INSTANCE.eTag(TAG, "onActivityResult Unknown requestCode or listener is null");
             onDestroy(activity);
@@ -166,13 +166,15 @@ public class PicManager {
         switch (requestCode) {
             case REQUEST_CODE_CAMERA:
                 YLogUtils.INSTANCE.iTag(TAG, "onActivityResult camera");
-                scanFile(activity, picOptions.getCacheFile().getAbsolutePath(), picOptions.isCrop());
+                scanFile(picOptions.getCacheFile().getAbsolutePath(), picOptions.isCrop(), scanListener);
                 break;
             case REQUEST_CODE_PICTURE:
 
                 if (data == null || data.getData() == null) {
                     YLogUtils.INSTANCE.eTag(TAG, "onActivityResult picture data is null ");
-                    listener.onTakePicFail();
+                    if (null != listener) {
+                        listener.onTakePicFail();
+                    }
                     onDestroy(activity);
                     return;
                 }
@@ -181,33 +183,36 @@ public class PicManager {
                     crop(activity, data.getData());
                 } else {
                     YLogUtils.INSTANCE.iFormatTag(TAG, "onActivityResult picture callback uri：%s", data.getData());
-                    listener.onTakePicSuccess(data.getData());
+                    if (null != listener) {
+                        listener.onTakePicSuccess(data.getData());
+                    }
                     onDestroy(activity);
                 }
                 break;
             case REQUEST_CODE_CUT_PIC:
                 YLogUtils.INSTANCE.iTag(TAG, "onActivityResult crop");
-                scanFile(activity, picOptions.getCacheFile().getAbsolutePath(), false);
+                scanFile(picOptions.getCacheFile().getAbsolutePath(), false, scanListener);
                 break;
         }
     }
 
-    private void scanFile(final Activity activity, String path, final boolean isCrop) {
-        MediaScannerConnection.scanFile(activity, new String[]{path}, new String[]{"image/jpeg"}, new MediaScannerConnection.OnScanCompletedListener() {
+    private void scanFile(String path, boolean isCrop, PicScanListener scanListener) {
+        new PicMediaScanner(BaseUtils.getApp(), path, "image/jpeg", isCrop, scanListener);
+    }
+
+    public void onScanCompleted(final Activity activity, final Uri uri, final boolean isCrop) {
+        YHandlerUtils.INSTANCE.runOnUiThread(new Runnable() {
             @Override
-            public void onScanCompleted(String path, final Uri uri) {
-                YHandlerUtils.INSTANCE.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isCrop) {
-                            crop(activity, uri);
-                        } else {
-                            YLogUtils.INSTANCE.iFormatTag(TAG, "scanFile camera or crop callback uri：%s", uri);
-                            listener.onTakePicSuccess(uri);
-                            onDestroy(activity);
-                        }
+            public void run() {
+                if (isCrop) {
+                    crop(activity, uri);
+                } else {
+                    YLogUtils.INSTANCE.iFormatTag(TAG, "scanFile camera or crop callback uri：%s", uri);
+                    if (null != listener) {
+                        listener.onTakePicSuccess(uri);
                     }
-                });
+                    onDestroy(activity);
+                }
             }
         });
     }
@@ -216,6 +221,7 @@ public class PicManager {
      * 摧毁本库的 PicActivity
      */
     private void onDestroy(Activity activity) {
+        listener = null;
         if (activity != null) {
             activity.finish();
         }
