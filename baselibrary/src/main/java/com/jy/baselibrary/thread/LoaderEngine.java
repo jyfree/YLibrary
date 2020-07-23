@@ -1,6 +1,5 @@
 package com.jy.baselibrary.thread;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -10,13 +9,18 @@ import java.util.concurrent.ExecutorService;
  */
 public class LoaderEngine {
 
-    private Executor taskExecutor;
+    private ExecutorService taskExecutor;
 
 
     public void init(LoaderConfiguration configuration) {
         taskExecutor = configuration.taskExecutor;
 
     }
+
+    public ExecutorService getTaskExecutor() {
+        return taskExecutor;
+    }
+
 
     public void submit(Thread task) {
         taskExecutor.execute(task);
@@ -26,18 +30,5 @@ public class LoaderEngine {
         taskExecutor.execute(task);
     }
 
-    /**
-     * 立即停止所有线程
-     */
-    public void shutdownNow() {
-        ((ExecutorService) taskExecutor).shutdownNow();
-    }
-
-    /**
-     * 停止所有线程
-     */
-    public void shutdown() {
-        ((ExecutorService) taskExecutor).shutdown();
-    }
 
 }

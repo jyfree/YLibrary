@@ -2,7 +2,7 @@ package com.jy.baselibrary.thread;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @TODO 加载器配置
  */
 public final class LoaderConfiguration {
-    final Executor taskExecutor;
+    final ExecutorService taskExecutor;
 
     private LoaderConfiguration(final Builder builder) {
         taskExecutor = builder.taskExecutor;
@@ -27,7 +27,7 @@ public final class LoaderConfiguration {
         private int maximumPoolSize = corePoolSize * 3;//最大线程大小，默认为核心线程大小的3倍
         private long keepAliveTime = 60L;//线程默认存活时间60秒
         private BlockingQueue<Runnable> workQueue;//若为null，则默认创建容量为10000的ArrayBlockingQueue
-        private Executor taskExecutor = null;
+        private ExecutorService taskExecutor = null;
 
 
         public Builder threadPriority(int threadPriority) {
@@ -68,7 +68,7 @@ public final class LoaderConfiguration {
             return this;
         }
 
-        public Builder setTaskExecutor(Executor taskExecutor) {
+        public Builder setTaskExecutor(ExecutorService taskExecutor) {
             this.taskExecutor = taskExecutor;
             return this;
         }

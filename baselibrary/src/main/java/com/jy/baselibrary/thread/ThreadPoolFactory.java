@@ -3,7 +3,7 @@ package com.jy.baselibrary.thread;
 import com.jy.baselibrary.utils.YLogUtils;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -17,12 +17,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ThreadPoolFactory {
 
-    public static Executor createExecutor(int corePoolSize,
-                                          int maximumPoolSize,
-                                          int threadPriority,
-                                          long keepAliveTime,
-                                          TimeUnit unit,
-                                          BlockingQueue<Runnable> workQueue) {
+    public static ExecutorService createExecutor(int corePoolSize,
+                                                 int maximumPoolSize,
+                                                 int threadPriority,
+                                                 long keepAliveTime,
+                                                 TimeUnit unit,
+                                                 BlockingQueue<Runnable> workQueue) {
         return new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
                 createThreadFactory(threadPriority, "uil-pool-"), new RejectedExecutionHandler() {
             @Override
