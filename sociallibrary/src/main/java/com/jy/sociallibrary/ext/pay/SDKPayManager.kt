@@ -179,6 +179,7 @@ class SDKPayManager {
      */
     private fun onDestroy(activity: Activity?) {
         showProgress(false)
+        payHelper = null
         activity?.finish()
         //因为StatusLiveData是单例，所以必须置空
         StatusLiveData.getInstance().value = null

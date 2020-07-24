@@ -238,6 +238,7 @@ class SDKShareManager {
      * 摧毁本库的 SDKShareActivity
      */
     private fun onDestroy(activity: Activity?) {
+        shareHelper = null
         activity?.finish()
         //因为StatusLiveData是单例，所以必须置空
         StatusLiveData.getInstance().value = null
