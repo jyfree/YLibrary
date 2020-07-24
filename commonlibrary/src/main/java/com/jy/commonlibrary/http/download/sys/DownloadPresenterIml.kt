@@ -93,7 +93,7 @@ class DownloadPresenterIml(private val context: Context, private val downloadMan
             }
 
             if (isSavePoint) {
-                val downloadId = SharedPreferencesConfigUtils.getInstance(context).getLong(url)
+                val downloadId = SharedPreferencesConfigUtils.getInstance().getLong(url)
                 if (downloadId != 0L) {
                     when (getDownloadStatus(downloadId)) {
                         DownloadManager.STATUS_SUCCESSFUL -> {
@@ -123,7 +123,7 @@ class DownloadPresenterIml(private val context: Context, private val downloadMan
     private fun addDownloadEnqueueAndSaveId(index: Int, request: DownloadManager.Request, url: String) {
         downloadIds[index] = downloadManager.enqueue(request)
         YLogUtils.iTag("DownloadManager", "put download id", "$url :: ${downloadIds[index]}")
-        SharedPreferencesConfigUtils.getInstance(context).setLong(url, downloadIds[index]!!)
+        SharedPreferencesConfigUtils.getInstance().setLong(url, downloadIds[index]!!)
     }
 
     private fun getDownloadStatus(downloadId: Long): Int {

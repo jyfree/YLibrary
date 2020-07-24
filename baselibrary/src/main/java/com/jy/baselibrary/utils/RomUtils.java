@@ -83,8 +83,8 @@ public class RomUtils {
         if (sName != null) {
             return sName.equals(rom);
         }
-        String tmpName = SharedPreferencesConfigUtils.getInstance(BaseUtils.getApp()).getString(SharedPreferencesConfigUtils.ROM);
-        String tmpVersion = SharedPreferencesConfigUtils.getInstance(BaseUtils.getApp()).getString(SharedPreferencesConfigUtils.ROM_VERSION);
+        String tmpName = SharedPreferencesConfigUtils.getInstance().getString(SharedPreferencesConfigUtils.ROM);
+        String tmpVersion = SharedPreferencesConfigUtils.getInstance().getString(SharedPreferencesConfigUtils.ROM_VERSION);
         if (null != tmpName && !tmpName.isEmpty()) {
             sName = tmpName;
             sVersion = tmpVersion;
@@ -110,8 +110,8 @@ public class RomUtils {
                 sName = Build.MANUFACTURER.toUpperCase();
             }
         }
-        SharedPreferencesConfigUtils.getInstance(BaseUtils.getApp()).setString(SharedPreferencesConfigUtils.ROM, sName);
-        SharedPreferencesConfigUtils.getInstance(BaseUtils.getApp()).setString(SharedPreferencesConfigUtils.ROM_VERSION, sVersion);
+        SharedPreferencesConfigUtils.getInstance().setString(SharedPreferencesConfigUtils.ROM, sName);
+        SharedPreferencesConfigUtils.getInstance().setString(SharedPreferencesConfigUtils.ROM_VERSION, sVersion);
 
         YLogUtils.INSTANCE.iFormatTag(TAG, "getProp--name：%s--version：%s---rom：%s", sName, sVersion, rom);
         return sName.equals(rom);

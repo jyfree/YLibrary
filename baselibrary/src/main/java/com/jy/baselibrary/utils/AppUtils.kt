@@ -55,7 +55,7 @@ object AppUtils {
      */
     fun getSignature(): String {
         try {
-            var spSignature = SharedPreferencesConfigUtils.getInstance(BaseUtils.getApp().applicationContext).getString(SharedPreferencesConfigUtils.SIGNATURE)
+            var spSignature = SharedPreferencesConfigUtils.getInstance().getString(SharedPreferencesConfigUtils.SIGNATURE)
             if (!spSignature.isNullOrEmpty()) {
                 return spSignature
             }
@@ -65,7 +65,7 @@ object AppUtils {
                 if (packageInfo.packageName.contains(BaseUtils.getApp().packageName)) {
 
                     spSignature = MD5Utils.getMD5(packageInfo.signatures[0].toByteArray())
-                    SharedPreferencesConfigUtils.getInstance(BaseUtils.getApp().applicationContext).setString(SharedPreferencesConfigUtils.SIGNATURE, spSignature)
+                    SharedPreferencesConfigUtils.getInstance().setString(SharedPreferencesConfigUtils.SIGNATURE, spSignature)
                     return spSignature
                 }
             }

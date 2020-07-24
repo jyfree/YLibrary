@@ -29,7 +29,7 @@ object BaseLibraryConfig {
         //初始化全局线程池
         ThreadManage.getInstance().loaderEngine.init(threadLoaderConfig);
         //初始化sp
-        SharedPreferencesConfigUtils.getInstance(application).init();
+        SharedPreferencesConfigUtils.getInstance().init();
         //初始化颜色背景选择器
         XSelector.init(application)
         //将logcat保存到文件

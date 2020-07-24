@@ -42,7 +42,7 @@ class SpSimpleActivity : BaseAppCompatActivity() {
         val startTime = System.currentTimeMillis()
         val count = 10000
         for (i in 1..count) {
-            SharedPreferencesConfigUtils.getInstance(this).setInt(i.toString(), i)
+            SharedPreferencesConfigUtils.getInstance().setInt(i.toString(), i)
         }
         YLogUtils.eFormat("执行SP--put操作--%d次--耗时：%s ms", count, System.currentTimeMillis() - startTime)
     }
@@ -51,7 +51,7 @@ class SpSimpleActivity : BaseAppCompatActivity() {
         val startTime = System.currentTimeMillis()
         val count = 10000
         for (i in 1..count) {
-            SharedPreferencesConfigUtils.getInstance(this).getInt(i.toString())
+            SharedPreferencesConfigUtils.getInstance().getInt(i.toString())
         }
         YLogUtils.eFormat("执行SP--get操作--%d次--耗时：%s ms", count, System.currentTimeMillis() - startTime)
     }

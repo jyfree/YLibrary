@@ -30,10 +30,10 @@ public class MiuiOs {
      */
     public static Intent getSettingIntent(Context context) {
         // 之兼容miui v5/v6/v7  的应用权限设置页面
-        int vCode = SharedPreferencesConfigUtils.getInstance(context).getInt(VERSION_CODE_KEY);
+        int vCode = SharedPreferencesConfigUtils.getInstance().getInt(VERSION_CODE_KEY);
         if (vCode == 0) {
             vCode = getSystemVersionCode();
-            SharedPreferencesConfigUtils.getInstance(context).setInt(VERSION_CODE_KEY, vCode);
+            SharedPreferencesConfigUtils.getInstance().setInt(VERSION_CODE_KEY, vCode);
         }
         if (vCode >= 6) {
             Intent intent = new Intent("miui.intent.action.APP_PERM_EDITOR");
