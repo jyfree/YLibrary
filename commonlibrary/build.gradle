@@ -42,10 +42,10 @@ dependencies {
     implementation rootProject.ext.dependencies.kotlin_stdlib_jdk7
 
     //maven导入方式
-//    api rootProject.ext.dependencies.jy_baselibrary//基础库
+    api rootProject.ext.dependencies.jy_baselibrary//基础库
 
     //module导入方式
-    api project(':baselibrary')//基础库
+//    api project(':baselibrary')//基础库
 
     //RxJava
     api rootProject.ext.dependencies.rxjava
@@ -80,7 +80,7 @@ publish {
     userOrg = rootProject.userOrg//bintray.com用户名
     groupId = "com.jy.commonlibrary"//jcenter上的路径
     uploadName = artifactId//项目名称
-    publishVersion = "1.1.9"//版本号
+    publishVersion = "1.2.0"//版本号
     desc = "a easy API common frame to use for Android M "//项目介绍
     website = rootProject.website//项目主页
     licences = rootProject.licences

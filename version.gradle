@@ -47,11 +47,11 @@ ext {
             //work
             work                     : 'androidx.work:work-runtime-ktx:2.1.0',
             //基础库
-            jy_baselibrary           : 'com.jy.baselibrary:baselibrary:1.0.9',
+            jy_baselibrary           : 'com.jy.baselibrary:baselibrary:1.1.3',
             //社会化库
-            jy_sociallibrary         : 'com.jy.sociallibrary:sociallibrary:1.2.1',
+            jy_sociallibrary         : 'com.jy.sociallibrary:sociallibrary:1.2.2',
             //常用库
-            jy_commonlibrary         : 'com.jy.commonlibrary:commonlibrary:1.1.9',
+            jy_commonlibrary         : 'com.jy.commonlibrary:commonlibrary:1.2.0',
             //数据库
             litedb_compiler          : 'com.jy.litedb:litedb-compiler:1.1.3',
             litedb_api               : 'com.jy.litedb:litedb-api:1.1.4'

@@ -51,7 +51,7 @@ publish {
     userOrg = rootProject.userOrg//bintray.com用户名
     groupId = "com.jy.baselibrary"//jcenter上的路径
     uploadName = artifactId//项目名称
-    publishVersion = "1.1.0"//版本号
+    publishVersion = "1.1.3"//版本号
     desc = "a easy API base frame to use for Android M "//项目介绍
     website = rootProject.website//项目主页
     licences = rootProject.licences
