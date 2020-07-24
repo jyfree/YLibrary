@@ -22,7 +22,6 @@ abstract class DownloadDatabase : LiteDatabase() {
     }
 
     companion object {
-        @get:Synchronized
         val instance: DownloadDatabase
             get() = DBHolder.instance
     }

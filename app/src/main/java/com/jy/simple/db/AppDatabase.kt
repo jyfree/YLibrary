@@ -21,7 +21,6 @@ abstract class AppDatabase : LiteDatabase() {
     }
 
     companion object {
-        @get:Synchronized
         val instance: AppDatabase
             get() = DBHolder.instance
     }

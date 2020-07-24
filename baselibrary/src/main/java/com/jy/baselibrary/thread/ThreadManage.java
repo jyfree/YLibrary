@@ -14,7 +14,7 @@ public class ThreadManage {
         loaderEngine = new LoaderEngine();
     }
 
-    public static synchronized ThreadManage getInstance() {
+    public static ThreadManage getInstance() {
         return Holder.instance;
     }
 

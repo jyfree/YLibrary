@@ -15,6 +15,6 @@ class SDKPay private constructor() {
     companion object {
 
         val instance: SDKPay
-            @Synchronized get() = Holder.instance
+            get() = Holder.instance
     }
 }

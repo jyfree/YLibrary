@@ -12,7 +12,7 @@ public class Pic {
         picManager = new PicManager();
     }
 
-    public static synchronized Pic getInstance() {
+    public static Pic getInstance() {
         return PicHolder.instance;
     }
 

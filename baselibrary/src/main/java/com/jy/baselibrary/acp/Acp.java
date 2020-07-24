@@ -13,7 +13,7 @@ public class Acp {
         acpManager = new AcpManager();
     }
 
-    public static synchronized Acp getInstance() {
+    public static Acp getInstance() {
         return AcPermissionHolder.instance;
     }
 

@@ -20,11 +20,6 @@ import com.squareup.leakcanary.LeakCanary
 
 class MyApplication : Application() {
 
-    companion object {
-        private var instance: MyApplication? = null
-        fun getInstance(): MyApplication = instance!!
-    }
-
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
@@ -32,9 +27,7 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        if (instance == null) {
-            instance = this
-        }
+
         val pid = Process.myPid() //进程id
         val process: String? = AppUtils.getCurProcessName(this, pid) //进程名
         if (null == process || applicationContext.packageName == process) {

@@ -17,7 +17,6 @@ class FunTaskManager private constructor() {
 
     companion object {
 
-        @Synchronized
         fun getInstance(): FunTaskManager {
             return Holder.instance
         }

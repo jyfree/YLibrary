@@ -15,6 +15,6 @@ class SDKShare private constructor() {
     companion object {
 
         val instance: SDKShare
-            @Synchronized get() = Holder.instance
+            get() = Holder.instance
     }
 }
