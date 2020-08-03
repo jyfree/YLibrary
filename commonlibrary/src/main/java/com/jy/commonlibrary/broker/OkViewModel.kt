@@ -1,6 +1,8 @@
 package com.jy.commonlibrary.broker
 
 import com.jy.baselibrary.base.broker.BaseViewModel
+import com.jy.baselibrary.utils.YLogUtils
+import com.jy.commonlibrary.http.ApiException
 import com.jy.commonlibrary.http.RxHelper
 import com.jy.commonlibrary.http.RxObserver
 import com.jy.commonlibrary.http.bean.BaseBean
@@ -16,18 +18,6 @@ open class OkViewModel : BaseViewModel() {
 
     //********************************RxHelper.handleSingleResult()类型****************************
 
-    fun <T> call(request: () -> Observable<T>, success: (T) -> Unit) {
-        call(request, success, failed = {})
-    }
-
-    fun <T> callNoLoading(request: () -> Observable<T>, success: (T) -> Unit) {
-        callNoLoading(request, success, failed = {})
-    }
-
-    fun <T> callNotLifecycle(request: () -> Observable<T>, success: (T) -> Unit) {
-        callNotLifecycle(request, success, failed = {})
-    }
-
     /**
      * 显示菊花，RxHelper.handleSingleResult()方式请求
      *
@@ -35,20 +25,26 @@ open class OkViewModel : BaseViewModel() {
     fun <T> call(
         request: () -> Observable<T>,
         success: (T) -> Unit,
-        failed: () -> Unit
+        failed: (Int, String) -> Unit = { code, message -> YLogUtils.e("request error->code：$code，message：$message") },
+        needBindLifecycle: Boolean = true
     ) {
         loading.value = true
 
-        request.invoke()
-            .compose(RxHelper.handleSingleResult())
-            .bindToLifecycle(getLifeCycleProvide())
-            .subscribe(RxObserver<T>(doNext = {
-                loading.value = false
-                success.invoke(it)
-            }, doError = { _, _ ->
-                loading.value = false
-                failed.invoke()
-            }))
+        var observer = request.invoke().compose(RxHelper.handleSingleResult())
+        if (needBindLifecycle) {
+            observer.bindToLifecycle(getLifeCycleProvide()).also { observer = it }
+        }
+        observer.subscribe(RxObserver<T>(doNext = {
+            loading.value = false
+            success.invoke(it)
+        }, doError = { e, message ->
+            loading.value = false
+            if (e is ApiException)
+                failed.invoke(e.code, message)
+            else {
+                failed.invoke(-1, message)
+            }
+        }))
     }
 
     /**
@@ -57,49 +53,27 @@ open class OkViewModel : BaseViewModel() {
     fun <T> callNoLoading(
         request: () -> Observable<T>,
         success: (T) -> Unit,
-        failed: () -> Unit
+        failed: (Int, String) -> Unit = { code, message -> YLogUtils.e("request error->code：$code，message：$message") },
+        needBindLifecycle: Boolean = true
     ) {
-        request.invoke()
-            .compose(RxHelper.handleSingleResult())
-            .bindToLifecycle(getLifeCycleProvide())
-            .subscribe(RxObserver<T>(doNext = {
-                success.invoke(it)
-            }, doError = { _, _ ->
-                failed.invoke()
-            }))
+        var observer = request.invoke().compose(RxHelper.handleSingleResult())
+        if (needBindLifecycle) {
+            observer.bindToLifecycle(getLifeCycleProvide()).also { observer = it }
+        }
+        observer.subscribe(RxObserver<T>(doNext = {
+            success.invoke(it)
+        }, doError = { e, message ->
+            if (e is ApiException)
+                failed.invoke(e.code, message)
+            else {
+                failed.invoke(-1, message)
+            }
+        }))
     }
 
-    /**
-     * 不绑定生命周期，RxHelper.handleSingleResult()方式请求
-     */
-    fun <T> callNotLifecycle(
-        request: () -> Observable<T>,
-        success: (T) -> Unit,
-        failed: () -> Unit
-    ) {
-        request.invoke()
-            .compose(RxHelper.handleSingleResult())
-            .subscribe(RxObserver<T>(doNext = {
-                success.invoke(it)
-            }, doError = { _, _ ->
-                failed.invoke()
-            }))
-    }
 
     //********************************RxHelper.handleResult()类型********************************
 
-
-    fun <T> callData(request: () -> Observable<BaseBean<T>>, success: (T) -> Unit) {
-        callData(request, success, failed = {})
-    }
-
-    fun <T> callDataNoLoading(request: () -> Observable<BaseBean<T>>, success: (T) -> Unit) {
-        callDataNoLoading(request, success, failed = {})
-    }
-
-    fun <T> callDataNotLifecycle(request: () -> Observable<BaseBean<T>>, success: (T) -> Unit) {
-        callDataNotLifecycle(request, success, failed = {})
-    }
 
     /**
      * 显示菊花，RxHelper.handleResult()方式请求
@@ -107,19 +81,25 @@ open class OkViewModel : BaseViewModel() {
     fun <T> callData(
         request: () -> Observable<BaseBean<T>>,
         success: (T) -> Unit,
-        failed: () -> Unit
+        failed: (Int, String) -> Unit = { code, message -> YLogUtils.e("request error->code：$code，message：$message") },
+        needBindLifecycle: Boolean = true
     ) {
         loading.value = true
-        request.invoke()
-            .compose(RxHelper.handleResult())
-            .bindToLifecycle(getLifeCycleProvide())
-            .subscribe(RxObserver<T>(doNext = {
-                loading.value = false
-                success.invoke(it)
-            }, doError = { _, _ ->
-                loading.value = false
-                failed.invoke()
-            }))
+        var observer = request.invoke().compose(RxHelper.handleResult())
+        if (needBindLifecycle) {
+            observer.bindToLifecycle(getLifeCycleProvide()).also { observer = it }
+        }
+        observer.subscribe(RxObserver<T>(doNext = {
+            loading.value = false
+            success.invoke(it)
+        }, doError = { e, message ->
+            loading.value = false
+            if (e is ApiException)
+                failed.invoke(e.code, message)
+            else {
+                failed.invoke(-1, message)
+            }
+        }))
     }
 
     /**
@@ -128,32 +108,21 @@ open class OkViewModel : BaseViewModel() {
     fun <T> callDataNoLoading(
         request: () -> Observable<BaseBean<T>>,
         success: (T) -> Unit,
-        failed: () -> Unit
+        failed: (Int, String) -> Unit = { code, message -> YLogUtils.e("request error->code：$code，message：$message") },
+        needBindLifecycle: Boolean = true
     ) {
-        request.invoke()
-            .compose(RxHelper.handleResult())
-            .bindToLifecycle(getLifeCycleProvide())
-            .subscribe(RxObserver<T>(doNext = {
-                success.invoke(it)
-            }, doError = { _, _ ->
-                failed.invoke()
-            }))
-    }
-
-    /**
-     * 不绑定生命周期，RxHelper.handleResult()方式请求
-     */
-    fun <T> callDataNotLifecycle(
-        request: () -> Observable<BaseBean<T>>,
-        success: (T) -> Unit,
-        failed: () -> Unit
-    ) {
-        request.invoke()
-            .compose(RxHelper.handleResult())
-            .subscribe(RxObserver<T>(doNext = {
-                success.invoke(it)
-            }, doError = { _, _ ->
-                failed.invoke()
-            }))
+        var observer = request.invoke().compose(RxHelper.handleResult())
+        if (needBindLifecycle) {
+            observer.bindToLifecycle(getLifeCycleProvide()).also { observer = it }
+        }
+        observer.subscribe(RxObserver<T>(doNext = {
+            success.invoke(it)
+        }, doError = { e, message ->
+            if (e is ApiException)
+                failed.invoke(e.code, message)
+            else {
+                failed.invoke(-1, message)
+            }
+        }))
     }
 }

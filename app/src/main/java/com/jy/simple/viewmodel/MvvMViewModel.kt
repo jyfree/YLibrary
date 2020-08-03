@@ -32,8 +32,8 @@ class MvvMViewModel constructor(private val repository: BannerRepository) : OkVi
         }, success = {
             YLogUtils.i("获取banner--成功", it)
             setMessage(it.toString())
-        }, failed = {
-            setMessage("请求失败")
+        }, failed = { code, errorMsg ->
+            setMessage("code：$code，message：$errorMsg")
         })
 
 
@@ -46,8 +46,8 @@ class MvvMViewModel constructor(private val repository: BannerRepository) : OkVi
         }, success = {
             YLogUtils.i("testHttpParam--成功", it)
             setMessage(it.toString())
-        }, failed = {
-            setMessage("请求失败")
+        }, failed = { code, errorMsg ->
+            setMessage("code：$code，message：$errorMsg")
         })
 
 
