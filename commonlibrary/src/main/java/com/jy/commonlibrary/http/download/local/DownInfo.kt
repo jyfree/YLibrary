@@ -22,6 +22,9 @@ class DownInfo {
     var url: String? = null //url
     var updateProgress: Boolean = false //是否需要实时更新下载进度,避免线程的多次切换
 
+    constructor() {
+    }
+
     constructor(url: String?) {
         this.url = url
     }

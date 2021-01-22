@@ -34,7 +34,7 @@ YLibrary是使用kotlin&Java混合编写的，是YFramework的升级版本https:
 ## gradle引入方式
  1. 基础库 implementation 'com.jy.baselibrary:baselibrary:1.1.3'
  2. 社会化库 implementation 'com.jy.sociallibrary:sociallibrary:1.2.2'
- 3. 常用库 implementation 'com.jy.commonlibrary:commonlibrary:1.2.2'
+ 3. 常用库 implementation 'com.jy.commonlibrary:commonlibrary:1.2.3'
 
 注：三个库都可以单独使用， commonlibrary依赖于baselibrary， 引用sociallibrary需要把支付宝引入，如：implementation files("alipaySdk-15.6.2-20190416165036.aar")
 
