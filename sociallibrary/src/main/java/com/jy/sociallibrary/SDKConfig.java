@@ -1,7 +1,8 @@
 package com.jy.sociallibrary;
 
-import android.content.Context;
+import android.app.Application;
 
+import com.jy.sociallibrary.utils.SDKAppUtils;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
 
@@ -17,6 +18,7 @@ public class SDKConfig {
     private static String wb_appID;//appId
     private static String wb_redirectUrl;//回调地址
     private static String wb_scope;//作用域
+    private static boolean wb_lazyInit;//延迟初始化
 
     //QQ 配置信息
     private static String qq_appID;//appId
@@ -50,6 +52,7 @@ public class SDKConfig {
         wb_appID = builder.wb_appID;
         wb_redirectUrl = builder.wb_redirectUrl;
         wb_scope = builder.wb_scope;
+        wb_lazyInit = builder.wb_lazyInit;
 
         wx_appID = builder.wx_appID;
         wx_MchID = builder.wx_MchID;
@@ -72,6 +75,19 @@ public class SDKConfig {
 
     public static String getWb_scope() {
         return wb_scope;
+    }
+
+    public static boolean isWb_lazyInit() {
+        return wb_lazyInit;
+    }
+
+    public static void initWB() {
+        if (isWb_lazyInit()) {
+            WbSdk.install(SDKAppUtils.getApp(), new AuthInfo(SDKAppUtils.getApp(),
+                    getWb_appID(),
+                    getWb_redirectUrl(),
+                    getWb_scope()));
+        }
     }
 
     public static String getQq_appID() {
@@ -105,6 +121,11 @@ public class SDKConfig {
         private String wb_appID;
         private String wb_redirectUrl;
         private String wb_scope;
+        /**
+         * 微博延迟初始化，因为微博初始化时，有网络请求
+         * 政府某部门规定：app需要同意协议后才能有网络请求
+         */
+        private boolean wb_lazyInit = false;
 
         private String wx_appID;
         private String wx_MchID;
@@ -142,6 +163,11 @@ public class SDKConfig {
             return this;
         }
 
+        public Builder wbLazyInit(boolean wb_lazyInit) {
+            this.wb_lazyInit = wb_lazyInit;
+            return this;
+        }
+
         //*****************微信*******************
         public Builder wxAppID(String wx_appID) {
             this.wx_appID = wx_appID;
@@ -163,8 +189,11 @@ public class SDKConfig {
             return this;
         }
 
-        public void build(Context context) {
-            WbSdk.install(context, new AuthInfo(context, wb_appID, wb_redirectUrl, wb_scope));
+        public void build(Application application) {
+            if (!wb_lazyInit) {
+                WbSdk.install(application, new AuthInfo(application, wb_appID, wb_redirectUrl, wb_scope));
+            }
+            SDKAppUtils.init(application);
             getDefault().setBuilder(this);
         }
     }

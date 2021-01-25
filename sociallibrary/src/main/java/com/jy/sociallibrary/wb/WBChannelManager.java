@@ -45,6 +45,7 @@ public class WBChannelManager {
     public WBChannelManager(Context context, OnSocialSdkLoginListener listener) {
         this.mContext = context;
         this.listener = listener;
+        SDKConfig.initWB();
         init();
 
     }

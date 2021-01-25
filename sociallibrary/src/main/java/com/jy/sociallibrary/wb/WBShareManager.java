@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Patterns;
 
+import com.jy.sociallibrary.SDKConfig;
 import com.jy.sociallibrary.constant.SDKImageType;
 import com.jy.sociallibrary.constant.SDKSharePlatform;
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener;
@@ -53,6 +54,7 @@ public class WBShareManager implements WbShareCallback {
     public WBShareManager(Context context, OnSocialSdkShareListener listener) {
         this.mContext = context;
         this.listener = listener;
+        SDKConfig.initWB();
         initialize();
 
     }
