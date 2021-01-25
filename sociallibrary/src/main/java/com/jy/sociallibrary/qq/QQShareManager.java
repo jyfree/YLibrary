@@ -34,6 +34,7 @@ import java.util.ArrayList;
  * Administrator
  * created at 2016/11/10 10:06
  * TODO:QQ分享
+ * 若分享失败，查看文档：https://wiki.connect.qq.com/分享功能存储权限适配
  */
 public class QQShareManager extends QQChannelManager {
 

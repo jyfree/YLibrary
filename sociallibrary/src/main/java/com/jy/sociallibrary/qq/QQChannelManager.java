@@ -40,7 +40,7 @@ public class QQChannelManager {
 
     private void initQQLogin() {
         if (mTencent == null) {
-            mTencent = Tencent.createInstance(SDKConfig.getQq_appID(), mContext);
+            mTencent = Tencent.createInstance(SDKConfig.getQq_appID(), mContext, SDKConfig.getQq_fileProvider());
         }
 
     }

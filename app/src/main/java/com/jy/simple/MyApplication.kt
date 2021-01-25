@@ -74,6 +74,7 @@ class MyApplication : Application() {
     private fun initSocialSDK() {
         SDKConfig.beginBuilder()
             .qqAppID("1105229451")
+            .qqFileProvider("$packageName.FileProvider")
             .wxAppID("wx499feadd9f2855f8")
             .wbAppID("4044733576")
             .wbRedirectUrl("https://api.weibo.com/oauth2/default.html")

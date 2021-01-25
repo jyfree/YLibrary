@@ -41,5 +41,10 @@ public class BaseUIListener implements IUiListener {
         SDKLogUtils.i("qq回调--onCancel");
     }
 
+    @Override
+    public void onWarning(int i) {
+        SDKLogUtils.i("qq回调--onWarning：", i);
+    }
+
 
 }

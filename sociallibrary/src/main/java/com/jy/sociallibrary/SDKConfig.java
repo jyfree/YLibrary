@@ -20,6 +20,7 @@ public class SDKConfig {
 
     //QQ 配置信息
     private static String qq_appID;//appId
+    private static String qq_fileProvider;//FileProvider名
 
     //微信  配置信息
     private static String wx_appID;//appId
@@ -44,6 +45,7 @@ public class SDKConfig {
     private void setBuilder(Builder builder) {
 
         qq_appID = builder.qq_appID;
+        qq_fileProvider = builder.qq_fileProvider;
 
         wb_appID = builder.wb_appID;
         wb_redirectUrl = builder.wb_redirectUrl;
@@ -76,6 +78,10 @@ public class SDKConfig {
         return qq_appID;
     }
 
+    public static String getQq_fileProvider() {
+        return qq_fileProvider;
+    }
+
     public static String getWx_appID() {
         return wx_appID;
     }
@@ -94,6 +100,7 @@ public class SDKConfig {
 
     public static class Builder {
         private String qq_appID;
+        private String qq_fileProvider;
 
         private String wb_appID;
         private String wb_redirectUrl;
@@ -111,6 +118,11 @@ public class SDKConfig {
         //*****************QQ*******************
         public Builder qqAppID(String qq_appID) {
             this.qq_appID = qq_appID;
+            return this;
+        }
+
+        public Builder qqFileProvider(String qq_fileProvider) {
+            this.qq_fileProvider = qq_fileProvider;
             return this;
         }
 

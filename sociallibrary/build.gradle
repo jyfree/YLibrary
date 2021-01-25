@@ -32,8 +32,6 @@ dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     implementation rootProject.ext.dependencies.kotlin_stdlib_jdk7
     implementation rootProject.ext.dependencies.androidx_appcompat
-    //解决QQ不支持androidX问题
-    implementation rootProject.ext.dependencies.support_fragment
     //微信
     api rootProject.ext.dependencies.wechat
     //支付宝
