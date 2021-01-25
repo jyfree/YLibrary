@@ -49,7 +49,7 @@ ext {
             //基础库
             jy_baselibrary           : 'com.jy.baselibrary:baselibrary:1.1.3',
             //社会化库
-            jy_sociallibrary         : 'com.jy.sociallibrary:sociallibrary:1.2.2',
+            jy_sociallibrary         : 'com.jy.sociallibrary:sociallibrary:1.2.4',
             //常用库
             jy_commonlibrary         : 'com.jy.commonlibrary:commonlibrary:1.2.3',
             //数据库

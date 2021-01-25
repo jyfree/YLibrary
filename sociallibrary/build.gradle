@@ -18,7 +18,6 @@ android {
     }
 
 
-
     buildTypes {
         release {
             minifyEnabled false
@@ -37,6 +36,8 @@ dependencies {
     //支付宝
     api files(alipay)
     //微博
+    //注意：由于微博aar默认引入arm64-v8a、armeabi、armeabi-v7a架构，所以此sdk只需要引入x86、x86_64
+    //若需要指定平台so，请查看：https://github.com/sinaweibosdk/weibo_android_sdk
     api rootProject.ext.dependencies.weibo
 
     testImplementation 'junit:junit:4.12'
@@ -50,7 +51,7 @@ publish {
     userOrg = rootProject.userOrg//bintray.com用户名
     groupId = "com.jy.sociallibrary"//jcenter上的路径
     uploadName = artifactId//项目名称
-    publishVersion = "1.2.2"//版本号
+    publishVersion = "1.2.4"//版本号
     desc = "a easy API social to use for Android M "//项目介绍
     website = rootProject.website//项目主页
     licences = rootProject.licences
