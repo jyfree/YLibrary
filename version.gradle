@@ -12,7 +12,7 @@ ext {
             kotlin_stdlib_jdk7       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             //social
             wechat                   : 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+',
-            weibo                    : 'com.sina.weibo.sdk:core:4.3.6:openDefaultRelease@aar',
+            weibo                    : 'com.sina.weibo.sdk:core:4.4.4:openDefaultRelease@aar',
             //androidX
             androidx_appcompat       : 'androidx.appcompat:appcompat:1.1.0',
             androidx_core_ktx        : 'androidx.core:core-ktx:1.2.0',

@@ -101,6 +101,10 @@
 -keep class com.tencent.mm.sdk.modelmsg.** implements com.tencent.mm.sdk.modelmsg.WXMediaMessage$IMediaObject {*;}
 #微信分享 end
 
+#微博
+-keep class com.sina.weibo.sdk.** { *; }
+#微博 end
+
 #glide#
 #glide4.0
 -keep public class * implements com.bumptech.glide.module.GlideModule
