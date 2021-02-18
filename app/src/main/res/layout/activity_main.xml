@@ -114,12 +114,6 @@
             android:onClick="go2Act"
             android:text="拍照和图库示例" />
 
-        <Button
-            android:id="@+id/go_shadow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="go2Act"
-            android:text="selector示例" />
 
         <Button
             android:id="@+id/go_db"
@@ -162,6 +156,7 @@
             android:layout_height="wrap_content"
             android:onClick="go2Act"
             android:text="aop示例" />
+
         <Button
             android:id="@+id/go_queue_api"
             android:layout_width="wrap_content"

@@ -15,7 +15,6 @@ import com.jy.simple.mvvm.MvvMSimpleActivity
 import com.jy.simple.permission.PermissionSimpleActivity
 import com.jy.simple.pic.PicSimpleActivity
 import com.jy.simple.rxbus.RxBusSimpleActivity
-import com.jy.simple.selector.SelectorSimpleActivity
 import com.jy.simple.social.LoginSimpleActivity
 import com.jy.simple.social.PaySimpleActivity
 import com.jy.simple.social.ShareSimpleActivity
@@ -48,7 +47,6 @@ class MainActivity : BaseAppCompatActivity() {
             R.id.go_permission -> PermissionSimpleActivity.startAct(this)
             R.id.go_sp -> SpSimpleActivity.startAct(this)
             R.id.go_pic -> PicSimpleActivity.startAct(this)
-            R.id.go_shadow -> SelectorSimpleActivity.startAct(this)
             R.id.go_db -> DBSimpleActivity.startAct(this)
             R.id.go_lazy -> LazySimpleActivity.startAct(this)
             R.id.go_mvvm -> MvvMSimpleActivity.startAct(this)
