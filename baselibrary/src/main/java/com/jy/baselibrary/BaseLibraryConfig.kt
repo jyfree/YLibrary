@@ -1,7 +1,6 @@
 package com.jy.baselibrary
 
 import android.app.Application
-import com.jy.baselibrary.helper.LogCatHelper
 import com.jy.baselibrary.sp.SharedPreferencesConfigUtils
 import com.jy.baselibrary.thread.LoaderConfiguration
 import com.jy.baselibrary.thread.ThreadManage
@@ -29,8 +28,6 @@ object BaseLibraryConfig {
         ThreadManage.getInstance().loaderEngine.init(threadLoaderConfig);
         //初始化sp
         SharedPreferencesConfigUtils.getInstance().init();
-        //将logcat保存到文件
-        LogCatHelper.getInstance(application, "")?.start()
     }
 
 

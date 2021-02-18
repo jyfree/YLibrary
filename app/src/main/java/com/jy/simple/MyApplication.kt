@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Process
 import androidx.multidex.MultiDex
 import com.jy.baselibrary.BaseLibraryConfig
+import com.jy.baselibrary.helper.LogCatHelper
 import com.jy.baselibrary.loadsir.callback.SuccessCallback
 import com.jy.baselibrary.loadsir.core.LoadSir
 import com.jy.baselibrary.thread.LoaderConfiguration
@@ -46,7 +47,9 @@ class MyApplication : Application() {
             //初始化crash捕获
             initCrashUtils()
             //下载数据库配置
-            DownloadDBConfig.init(false);
+            DownloadDBConfig.init(false)
+            //将logcat保存到文件
+            LogCatHelper.getInstance(this, "")?.start()
         }
         //检查内存泄漏
         LeakCanary.install(this);
