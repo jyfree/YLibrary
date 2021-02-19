@@ -1,6 +1,5 @@
 package com.jy.baselibrary.utils
 
-import android.content.Context
 import android.view.ViewGroup.LayoutParams
 
 /**
@@ -10,22 +9,24 @@ import android.view.ViewGroup.LayoutParams
  */
 object YUnitUtils {
 
-    fun dp2px(context: Context?, dipValue: Float): Int {
-        if (context != null) {
-
-            if (LayoutParams.MATCH_PARENT.toFloat() == dipValue) {
-                return LayoutParams.MATCH_PARENT
-            }
-
-            if (LayoutParams.WRAP_CONTENT.toFloat() == dipValue) {
-                return LayoutParams.WRAP_CONTENT
-            }
-
-            val scale = context.resources.displayMetrics.density
-            return (dipValue * scale + 0.5f).toInt()
+    fun dp2px(dipValue: Float): Int {
+        if (LayoutParams.MATCH_PARENT.toFloat() == dipValue) {
+            return LayoutParams.MATCH_PARENT
         }
-        return dipValue.toInt()
+
+        if (LayoutParams.WRAP_CONTENT.toFloat() == dipValue) {
+            return LayoutParams.WRAP_CONTENT
+        }
+        val scale = BaseUtils.getApp().resources?.displayMetrics?.density ?: return dipValue.toInt()
+        return (dipValue * scale + 0.5f).toInt()
     }
+
+
+    fun px2dp(pxValue: Float): Int {
+        val scale = BaseUtils.getApp().resources?.displayMetrics?.density ?: return pxValue.toInt()
+        return (pxValue / scale + 0.5f).toInt()
+    }
+
 
     /**
      * 将px值转换为sp值，保证文字大小不变
@@ -33,8 +34,10 @@ object YUnitUtils {
      * @param pxValue
      * @return
      */
-    fun px2sp(pxValue: Float, context: Context): Int {
-        return (pxValue / context.resources.displayMetrics.scaledDensity + 0.5f).toInt()
+    fun px2sp(pxValue: Float): Int {
+        val scaledDensity =
+            BaseUtils.getApp().resources?.displayMetrics?.scaledDensity ?: return pxValue.toInt()
+        return (pxValue / scaledDensity + 0.5f).toInt()
     }
 
     /**
@@ -43,17 +46,10 @@ object YUnitUtils {
      * @param spValue
      * @return
      */
-    fun sp2px(spValue: Float, context: Context): Int {
-        return (spValue * context.resources.displayMetrics.scaledDensity + 0.5f).toInt()
+    fun sp2px(spValue: Float): Int {
+        val scaledDensity =
+            BaseUtils.getApp().resources?.displayMetrics?.scaledDensity ?: return spValue.toInt()
+        return (spValue * scaledDensity + 0.5f).toInt()
     }
-
-    fun px2dp(context: Context?, pxValue: Float): Int {
-        if (context != null) {
-            val scale = context.resources.displayMetrics.density
-            return (pxValue / scale + 0.5f).toInt()
-        }
-        return pxValue.toInt()
-    }
-
 
 }

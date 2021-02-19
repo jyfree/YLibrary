@@ -16,6 +16,10 @@ class DialogSimple(context: Context, themeResId: Int) : BaseDialog(context, them
     override fun getLayoutResId(): Int = R.layout.simple_dialog
 
     init {
-        initCustomWidthAndHeightContentView(Gravity.CENTER, YUnitUtils.dp2px(context, 200f), YUnitUtils.dp2px(context, 200f))
+        initCustomWidthAndHeightContentView(
+            Gravity.CENTER,
+            YUnitUtils.dp2px(200f),
+            YUnitUtils.dp2px(200f)
+        )
     }
 }
