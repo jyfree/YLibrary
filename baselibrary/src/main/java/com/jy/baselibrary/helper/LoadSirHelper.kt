@@ -3,13 +3,14 @@ package com.jy.baselibrary.helper
 import android.app.Activity
 import android.content.Context
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager.BadTokenException
-import com.jy.baselibrary.interceptor.PopupWindowTouchInterceptor
 import com.jy.baselibrary.loadsir.callback.SuccessCallback
 import com.jy.baselibrary.loadsir.core.LoadService
 import com.jy.baselibrary.loadsir.core.LoadSir
 import com.jy.baselibrary.utils.ScreenResolutionUtils
+import com.jy.baselibrary.utils.ViewUtils
 import com.jy.baselibrary.utils.YHandlerUtils.runOnUiThread
 import com.jy.baselibrary.utils.YLogUtils.e
 import com.jy.baselibrary.widget.CustomPopWindow
@@ -57,7 +58,7 @@ class LoadSirHelper {
             initPopupWindowLoading(context)
             if (customPopWindow == null) return
             if (flag) {
-                customPopWindow!!.showAtLocation(parent, Gravity.CENTER, 0, 0)
+                customPopWindow?.showAtLocation(parent, Gravity.CENTER, 0, 0)
             } else {
                 disMissPopWindow()
             }
@@ -84,5 +85,14 @@ class LoadSirHelper {
             loadService = loadSir.register(target!!)
         }
         loadService?.showCallback(if (flag) loadSir.loadingCallbackClass else SuccessCallback::class.java)
+    }
+
+    private class PopupWindowTouchInterceptor : View.OnTouchListener {
+        override fun onTouch(v: View, event: MotionEvent): Boolean {
+            when (event.action) {
+                MotionEvent.ACTION_UP -> v.performClick()
+            }
+            return !ViewUtils.isTouchInsideView(event, v)
+        }
     }
 }
