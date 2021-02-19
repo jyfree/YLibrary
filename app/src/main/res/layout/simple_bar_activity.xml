@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,22 +7,53 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="500pt"
+        android:layout_height="250dp"
         android:scaleType="centerCrop"
         android:src="@drawable/bg_bar" />
 
 
-    <LinearLayout
-        android:id="@+id/lLayout"
-        android:layout_width="match_parent"
-        android:layout_height="88pt"
-        android:orientation="horizontal" />
-
-    <TextView
-        android:layout_below="@id/lLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <Button
+        android:id="@+id/btn_full"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="this bar theme"
-        android:textColor="#ff0000" />
-</RelativeLayout>
+        android:onClick="onClickBar"
+        android:text="全屏"
+        android:textColor="#000000" />
+
+    <Button
+        android:id="@+id/btn_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="onClickBar"
+        android:text="状态栏白色"
+        android:textColor="#000000" />
+
+    <Button
+        android:id="@+id/btn_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="onClickBar"
+        android:text="状态栏紫色"
+        android:textColor="#000000" />
+
+    <Button
+        android:id="@+id/btn_gradual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="onClickBar"
+        android:text="状态栏渐变"
+        android:textColor="#000000" />
+
+    <Button
+        android:id="@+id/btn_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="onClickBar"
+        android:text="弹出对话框"
+        android:textColor="#000000" />
+</LinearLayout>

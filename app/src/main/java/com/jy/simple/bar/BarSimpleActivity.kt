@@ -1,16 +1,16 @@
 package com.jy.simple.bar
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import com.jy.baselibrary.base.BaseAppCompatActivity
 import com.jy.baselibrary.utils.ActivityUtils
-import com.jy.baselibrary.utils.AdaptScreenUtils
 import com.jy.baselibrary.utils.BarUtils
-import com.jy.simple.Constants
 import com.jy.simple.R
-import kotlinx.android.synthetic.main.simple_bar_activity.*
+import com.jy.simple.dialog.DialogSimple
+
 
 /**
 
@@ -30,14 +30,37 @@ class BarSimpleActivity : BaseAppCompatActivity() {
 
     override fun initUI(savedInstanceState: Bundle?) {
         BarUtils.setStatusBarColor(this, Color.TRANSPARENT)
-        BarUtils.addMarginTopEqualStatusBarHeight(lLayout)
     }
 
-    override fun getResources(): Resources =
-        AdaptScreenUtils.adaptHeight(super.getResources(), Constants.SYSTEM_DESIGN_HEIGHT)
+    private var statusBar: View? = null
 
-    override fun onDestroy() {
-        super.onDestroy()
-        AdaptScreenUtils.closeAdapt(resources)
+    fun onClickBar(view: View) {
+        when (view.id) {
+            R.id.btn_full -> {
+                statusBar?.visibility = View.GONE
+                BarUtils.setStatusBarColor(this, Color.TRANSPARENT)
+            }
+            R.id.btn_white -> {
+                statusBar?.visibility = View.GONE
+                BarUtils.setStatusBarColor(this, Color.WHITE)
+                BarUtils.setDarkMode(this)
+            }
+            R.id.btn_black -> {
+                statusBar?.visibility = View.GONE
+                BarUtils.setStatusBarColor(this, Color.parseColor("#9938e4"))
+                BarUtils.setLightMode(this)
+            }
+            R.id.btn_gradual -> {
+                if (statusBar == null) {
+                    statusBar = BarUtils.getView(this, R.drawable.gradual_bg)
+                    val contentView = findViewById<ViewGroup>(android.R.id.content)
+                    contentView.addView(statusBar)
+                }
+                BarUtils.setStatusBarCustom(statusBar!!)
+            }
+            R.id.btn_dialog -> {
+                DialogSimple(this, R.style.Theme_AppCompat_Dialog).show()
+            }
+        }
     }
 }
