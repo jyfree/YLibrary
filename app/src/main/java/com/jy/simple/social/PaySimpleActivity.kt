@@ -73,9 +73,16 @@ class PaySimpleActivity : BaseAppCompatActivity() {
                         YLogUtils.i("取消支付--类型：", type)
                     }
 
-                }).setWXListener(WXListener {
-                    YLogUtils.e("未安装微信")
-                })
+                }).setWXListener(object : WXListener {
+                    override fun startWX(isSucceed: Boolean) {
+                        YLogUtils.e("启动微信成功？", isSucceed)
+                    }
+
+                    override fun installWXAPP() {
+                        YLogUtils.e("未安装微信")
+                    }
+
+                }).registerObserve(this)
         }
         return sdkPayManager!!
     }

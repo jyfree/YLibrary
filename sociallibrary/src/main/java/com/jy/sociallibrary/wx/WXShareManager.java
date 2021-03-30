@@ -94,7 +94,7 @@ public class WXShareManager extends WXChannelManager {
         req.transaction = buildTransaction("webpage");
         req.message = msg;
         req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-        mWxAPI.sendReq(req);
+        sendReq(req);
 
     }
 
@@ -125,7 +125,7 @@ public class WXShareManager extends WXChannelManager {
         req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
 
         // 调用api接口发送数据到微信
-        mWxAPI.sendReq(req);
+        sendReq(req);
     }
 
     private void shareImage2Bitmap(Bitmap image, Bitmap thumb, boolean isTimelineCb) {
@@ -165,7 +165,7 @@ public class WXShareManager extends WXChannelManager {
             req.transaction = buildTransaction("img");
             req.message = msg;
             req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-            mWxAPI.sendReq(req);
+            sendReq(req);
 
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
@@ -202,7 +202,7 @@ public class WXShareManager extends WXChannelManager {
             req.transaction = buildTransaction("music");
             req.message = msg;
             req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-            mWxAPI.sendReq(req);
+            sendReq(req);
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -237,7 +237,7 @@ public class WXShareManager extends WXChannelManager {
             req.transaction = buildTransaction("video");
             req.message = msg;
             req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-            mWxAPI.sendReq(req);
+            sendReq(req);
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -245,4 +245,11 @@ public class WXShareManager extends WXChannelManager {
         }
     }
 
+    private void sendReq(SendMessageToWX.Req req) {
+        boolean startWXSuccess = mWxAPI.sendReq(req);
+        SDKLogUtils.i("wxShare--startWXSuccess", startWXSuccess);
+        if (listener != null) {
+            listener.startWX(startWXSuccess);
+        }
+    }
 }

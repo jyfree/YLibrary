@@ -5,7 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.jy.sociallibrary.constant.SDKLoginType
+import com.jy.sociallibrary.ext.SDKConstants
+import com.jy.sociallibrary.ext.data.StatusBean
 import com.jy.sociallibrary.ext.data.StatusLiveData
 import com.jy.sociallibrary.helper.LoginHelper
 import com.jy.sociallibrary.listener.OnSocialSdkLoginListener
@@ -34,6 +38,32 @@ class SDKLoginManager {
 
     fun setWXListener(wxListener: WXListener): SDKLoginManager {
         this.wxListener = wxListener
+        return this
+    }
+
+    /**
+     * 必需注册LiveData，用于微信回调
+     * todo 注意：从任务管理器切换回app是无法收到微信回调的
+     */
+    fun registerObserve(owner: LifecycleOwner): SDKLoginManager {
+        StatusLiveData.getInstance().observe(owner, Observer<StatusBean?> {
+            it?.let {
+                when (it.status) {
+                    SDKConstants.LoginStatus.WX_LOGIN_SUCCEED -> {
+                        SDKLogUtils.i("接收到MutableLiveData--微信登录授权--成功--code", it.code)
+                        onResultToWXAuthSuccess(null, it.code)
+                    }
+                    SDKConstants.LoginStatus.WX_LOGIN_FAIL -> {
+                        SDKLogUtils.e("接收到MutableLiveData--微信登录授权--失败--errCode", it.errCode)
+                        onResultToWXAuthFail(null, it.errCode)
+                    }
+                    SDKConstants.LoginStatus.WX_LOGIN_CANCEL -> {
+                        SDKLogUtils.i("接收到MutableLiveData--微信登录授权--取消")
+                        onResultToWXAuthCancel(null)
+                    }
+                }
+            }
+        })
         return this
     }
 
@@ -89,10 +119,24 @@ class SDKLoginManager {
                     loginListener?.loginCancel(type)
                 }
             })
-        loginHelper?.setWXListener {
-            onDestroy(activity)
-            wxListener?.installWXAPP()
-        }
+        loginHelper?.setWXListener(object : WXListener {
+            override fun startWX(isSucceed: Boolean) {
+                if (isSucceed) {
+                    showProgress(false)
+                    activity.finish()
+                } else {
+                    onDestroy(activity)
+                }
+                wxListener?.startWX(isSucceed)
+            }
+
+            override fun installWXAPP() {
+                SDKLogUtils.e("未安装微信")
+                onDestroy(activity)
+                wxListener?.installWXAPP()
+            }
+
+        })
     }
 
     fun checkLogin(activity: Activity, intent: Intent?) {
@@ -119,17 +163,17 @@ class SDKLoginManager {
         loginHelper?.result2Activity(requestCode, resultCode, data)
     }
 
-    fun onResultToWXAuthSuccess(activity: Activity, message: String?) {
+    private fun onResultToWXAuthSuccess(activity: Activity?, message: String?) {
         onDestroy(activity)
         loginListener?.loginAuthSuccess(SDKLoginType.TYPE_WX, "", message)
     }
 
-    fun onResultToWXAuthCancel(activity: Activity) {
+    private fun onResultToWXAuthCancel(activity: Activity?) {
         onDestroy(activity)
         loginListener?.loginCancel(SDKLoginType.TYPE_WX)
     }
 
-    fun onResultToWXAuthFail(activity: Activity, errCode: Int) {
+    private fun onResultToWXAuthFail(activity: Activity?, errCode: Int) {
         onDestroy(activity)
         loginListener?.loginFail(SDKLoginType.TYPE_WX, "错误码：$errCode")
     }

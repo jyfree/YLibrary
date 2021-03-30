@@ -3,6 +3,7 @@ package com.jy.sociallibrary.wx;
 import android.content.Context;
 
 import com.jy.sociallibrary.SDKConfig;
+import com.jy.sociallibrary.utils.SDKLogUtils;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -18,7 +19,7 @@ public class WXChannelManager {
 
     public Context mContext;
 
-    private WXListener listener;
+    public WXListener listener;
 
     public WXChannelManager(Context context) {
         this.mContext = context;
@@ -47,7 +48,11 @@ public class WXChannelManager {
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "none";
-        mWxAPI.sendReq(req);
+        boolean startWXSuccess = mWxAPI.sendReq(req);
+        SDKLogUtils.i("wxLogin--startWXSuccess", startWXSuccess);
+        if (listener != null) {
+            listener.startWX(startWXSuccess);
+        }
     }
 
 

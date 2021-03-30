@@ -7,4 +7,6 @@ package com.jy.sociallibrary.wx;
  */
 public interface WXListener {
     void installWXAPP();
+
+    void startWX(boolean isSucceed);
 }

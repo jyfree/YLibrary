@@ -9,6 +9,7 @@ import com.jy.baselibrary.utils.YLogUtils
 import com.jy.simple.R
 import com.jy.sociallibrary.constant.SDKLoginType
 import com.jy.sociallibrary.ext.login.SDKLogin
+import com.jy.sociallibrary.ext.login.SDKLoginManager
 import com.jy.sociallibrary.listener.OnSocialSdkLoginListener
 import com.jy.sociallibrary.wx.WXListener
 
@@ -27,6 +28,7 @@ class LoginSimpleActivity : BaseAppCompatActivity() {
         }
     }
 
+    var sdkLoginManager: SDKLoginManager? = null
 
     override fun initLayoutID(): Int = R.layout.simple_login_activity
 
@@ -43,20 +45,31 @@ class LoginSimpleActivity : BaseAppCompatActivity() {
     }
 
     private fun request(loginType: Int) {
-        SDKLogin.instance.sdkLoginManager.setLoginListener(object : OnSocialSdkLoginListener {
-            override fun loginAuthSuccess(type: Int, token: String?, info: String?) {
-                YLogUtils.i("登录授权成功--类型：", type, "token", token, "info", info)
-            }
+        if (sdkLoginManager == null) {
+            sdkLoginManager = SDKLogin.instance.sdkLoginManager.setLoginListener(object :
+                OnSocialSdkLoginListener {
+                override fun loginAuthSuccess(type: Int, token: String?, info: String?) {
+                    YLogUtils.i("登录授权成功--类型：", type, "token", token, "info", info)
+                }
 
-            override fun loginFail(type: Int, error: String?) {
-                YLogUtils.e("登录授权失败--类型：", type, "error", error)
-            }
+                override fun loginFail(type: Int, error: String?) {
+                    YLogUtils.e("登录授权失败--类型：", type, "error", error)
+                }
 
-            override fun loginCancel(type: Int) {
-                YLogUtils.i("取消登录--类型：", type)
-            }
-        }).setWXListener(WXListener {
-            YLogUtils.e("未安装微信")
-        }).request(this, loginType)
+                override fun loginCancel(type: Int) {
+                    YLogUtils.i("取消登录--类型：", type)
+                }
+            }).setWXListener(object : WXListener {
+                override fun startWX(isSucceed: Boolean) {
+                    YLogUtils.e("启动微信成功？", isSucceed)
+                }
+
+                override fun installWXAPP() {
+                    YLogUtils.e("未安装微信")
+                }
+
+            }).registerObserve(this)
+        }
+        sdkLoginManager?.request(this, loginType)
     }
 }

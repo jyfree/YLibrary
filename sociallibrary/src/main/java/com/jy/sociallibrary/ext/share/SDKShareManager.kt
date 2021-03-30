@@ -4,10 +4,14 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.jy.sociallibrary.R
 import com.jy.sociallibrary.bean.SDKShareChannel
 import com.jy.sociallibrary.constant.SDKSharePlatform
 import com.jy.sociallibrary.dialog.SDKShareDialog
+import com.jy.sociallibrary.ext.SDKConstants
+import com.jy.sociallibrary.ext.data.StatusBean
 import com.jy.sociallibrary.ext.data.StatusLiveData
 import com.jy.sociallibrary.helper.ShareHelper
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener
@@ -38,6 +42,32 @@ class SDKShareManager {
 
     fun setWXListener(wxListener: WXListener): SDKShareManager {
         this.wxListener = wxListener
+        return this
+    }
+
+    /**
+     * 必需注册LiveData，用于微信回调
+     * todo 注意：从任务管理器切换回app是无法收到微信回调的
+     */
+    fun registerObserve(owner: LifecycleOwner): SDKShareManager {
+        StatusLiveData.getInstance().observe(owner, Observer<StatusBean?> {
+            it?.let {
+                when (it.status) {
+                    SDKConstants.ShareStatus.WX_SHARE_SUCCESS -> {
+                        SDKLogUtils.i("接收到MutableLiveData--微信分享--成功")
+                        onResultToWXShareSuccess(null)
+                    }
+                    SDKConstants.ShareStatus.WX_SHARE_FAIL -> {
+                        SDKLogUtils.e("接收到MutableLiveData--微信分享--失败--errCode", it.errCode)
+                        onResultToWXShareFail(null, it.errCode)
+                    }
+                    SDKConstants.ShareStatus.WX_SHARE_CANCEL -> {
+                        SDKLogUtils.i("接收到MutableLiveData--微信分享--取消")
+                        onResultToWXShareCancel(null)
+                    }
+                }
+            }
+        })
         return this
     }
 
@@ -90,10 +120,23 @@ class SDKShareManager {
                     shareListener?.shareCancel(sharePlatform)
                 }
             })
-        shareHelper?.setWXListener {
-            onDestroy(activity)
-            wxListener?.installWXAPP()
-        }
+        shareHelper?.setWXListener(object : WXListener {
+            override fun startWX(isSucceed: Boolean) {
+                if (isSucceed) {
+                    activity.finish()
+                } else {
+                    onDestroy(activity)
+                }
+                wxListener?.startWX(isSucceed)
+            }
+
+            override fun installWXAPP() {
+                SDKLogUtils.e("未安装微信")
+                onDestroy(activity)
+                wxListener?.installWXAPP()
+            }
+
+        })
     }
 
 
@@ -218,17 +261,17 @@ class SDKShareManager {
     }
 
 
-    fun onResultToWXShareSuccess(activity: Activity) {
+    private fun onResultToWXShareSuccess(activity: Activity?) {
         onDestroy(activity)
         shareListener?.shareSuccess(sharePlatform)
     }
 
-    fun onResultToWXShareCancel(activity: Activity) {
+    private fun onResultToWXShareCancel(activity: Activity?) {
         onDestroy(activity)
         shareListener?.shareCancel(sharePlatform)
     }
 
-    fun onResultToWXShareFail(activity: Activity, errCode: Int) {
+    private fun onResultToWXShareFail(activity: Activity?, errCode: Int) {
         onDestroy(activity)
         shareListener?.shareFail(sharePlatform, "错误码：$errCode")
     }

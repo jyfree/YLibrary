@@ -334,7 +334,11 @@ public class WXPayManager {
             return;
         }
         msgApi.registerApp(SDKConfig.getWx_appID());
-        msgApi.sendReq(req);
+        boolean startWXSuccess = msgApi.sendReq(req);
+        SDKLogUtils.i("wxPay-startWXSuccess", startWXSuccess);
+        if (listener != null) {
+            listener.startWX(startWXSuccess);
+        }
     }
 
 

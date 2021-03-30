@@ -5,7 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.jy.sociallibrary.constant.SDKPayType
+import com.jy.sociallibrary.ext.SDKConstants
+import com.jy.sociallibrary.ext.data.StatusBean
 import com.jy.sociallibrary.ext.data.StatusLiveData
 import com.jy.sociallibrary.helper.PayHelper
 import com.jy.sociallibrary.listener.OnSocialSdkPayListener
@@ -29,6 +33,7 @@ class SDKPayManager {
     val ORDER_ID = "orderId"
     private val ALI_PAY_INFO = "aliPayInfo"
     private val WX_PAY_INFO = "wxPayInfo"
+    var orderId = ""
 
     fun setPayListener(payListener: OnSocialSdkPayListener): SDKPayManager {
         this.payListener = payListener
@@ -37,6 +42,32 @@ class SDKPayManager {
 
     fun setWXListener(wxListener: WXListener): SDKPayManager {
         this.wxListener = wxListener
+        return this
+    }
+
+    /**
+     * 必需注册LiveData，用于微信回调
+     * todo 注意：从任务管理器切换回app是无法收到微信回调的
+     */
+    fun registerObserve(owner: LifecycleOwner): SDKPayManager {
+        StatusLiveData.getInstance().observe(owner, Observer<StatusBean?> {
+            it?.let {
+                when (it.status) {
+                    SDKConstants.PayStatus.WX_PAY_SUCCESS -> {
+                        SDKLogUtils.i("接收到MutableLiveData--微信支付--成功")
+                        onResultToWXPaySuccess(null, orderId)
+                    }
+                    SDKConstants.PayStatus.WX_PAY_FAIL -> {
+                        SDKLogUtils.e("接收到MutableLiveData--微信支付--失败--errCode", it.errCode)
+                        onResultToWXPayFail(null, it.errCode)
+                    }
+                    SDKConstants.PayStatus.WX_PAY_CANCEL -> {
+                        SDKLogUtils.i("接收到MutableLiveData--微信支付--取消")
+                        onResultToWXPayCancel(null)
+                    }
+                }
+            }
+        })
         return this
     }
 
@@ -93,11 +124,24 @@ class SDKPayManager {
                     payListener?.payCancel(type)
                 }
             })
-        payHelper?.setWxListener {
-            SDKLogUtils.e("未安装微信")
-            onDestroy(activity)
-            wxListener?.installWXAPP()
-        }
+        payHelper?.setWxListener(object : WXListener {
+            override fun startWX(isSucceed: Boolean) {
+                if (isSucceed) {
+                    showProgress(false)
+                    activity.finish()
+                } else {
+                    onDestroy(activity)
+                }
+                wxListener?.startWX(isSucceed)
+            }
+
+            override fun installWXAPP() {
+                SDKLogUtils.e("未安装微信")
+                onDestroy(activity)
+                wxListener?.installWXAPP()
+            }
+
+        })
     }
 
 
@@ -113,6 +157,8 @@ class SDKPayManager {
             onDestroy(activity)
             return
         }
+
+        orderId = intent.getStringExtra(ORDER_ID) ?: ""
 
         when (intent.getIntExtra(PAY_TYPE, 0)) {
             SDKPayType.TYPE_WX -> {
@@ -150,17 +196,17 @@ class SDKPayManager {
     }
 
 
-    fun onResultToWXPaySuccess(activity: Activity, orderId: String) {
+    private fun onResultToWXPaySuccess(activity: Activity?, orderId: String) {
         onDestroy(activity)
         payListener?.paySuccess(SDKPayType.TYPE_WX, orderId)
     }
 
-    fun onResultToWXPayCancel(activity: Activity) {
+    private fun onResultToWXPayCancel(activity: Activity?) {
         onDestroy(activity)
         payListener?.payCancel(SDKPayType.TYPE_WX)
     }
 
-    fun onResultToWXPayFail(activity: Activity, errCode: Int) {
+    private fun onResultToWXPayFail(activity: Activity?, errCode: Int) {
         onDestroy(activity)
         payListener?.payFail(SDKPayType.TYPE_WX, "错误码：$errCode")
     }

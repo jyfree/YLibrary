@@ -88,9 +88,16 @@ class ShareSimpleActivity : BaseAppCompatActivity() {
                     YLogUtils.i("取消分享--平台：", sharePlatform)
                 }
 
-            }).setWXListener(WXListener {
-                YLogUtils.e("未安装微信")
-            })
+            }).setWXListener(object : WXListener {
+                override fun startWX(isSucceed: Boolean) {
+                    YLogUtils.e("启动微信成功？", isSucceed)
+                }
+
+                override fun installWXAPP() {
+                    YLogUtils.e("未安装微信")
+                }
+
+            }).registerObserve(this)
         }
         return sdkShareManager!!
     }
