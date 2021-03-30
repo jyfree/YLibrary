@@ -10,8 +10,8 @@ public interface OnSocialSdkLoginListener {
     /**
      * 微博登录回调
      *
-     * @param token
-     * @param info
+     * @param token 微博=token，qq=token，微信=""
+     * @param info  微博=uid，qq=openId，微信=code
      */
     void loginAuthSuccess(int type, String token, String info);
 
