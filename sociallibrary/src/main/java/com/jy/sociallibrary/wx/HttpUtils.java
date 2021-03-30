@@ -1,7 +1,8 @@
 package com.jy.sociallibrary.wx;
 
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
+
+import com.jy.sociallibrary.utils.SDKLogUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -24,20 +25,32 @@ public class HttpUtils {
 
     private static final String TAG = "SDK_HttpUtil";
 
-    public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
+    public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle, final int maxSize) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        bmp.compress(CompressFormat.PNG, 100, output);
+        int quality = 100;
+        bmp.compress(Bitmap.CompressFormat.JPEG, quality, output);
+
+        int outputLength = output.toByteArray().length;
+        while (outputLength / 1024 > maxSize) {
+            output.reset();
+            if (quality >= 10) {
+                quality = quality - 10;
+            }
+            bmp.compress(Bitmap.CompressFormat.JPEG, quality, output);
+            outputLength = output.toByteArray().length;
+            if (quality == 0) break;
+        }
+
         if (needRecycle) {
             bmp.recycle();
         }
-
         byte[] result = output.toByteArray();
         try {
             output.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+//        SDKLogUtils.i("compress bitmap", result.length / 1024, "KB");
         return result;
     }
 

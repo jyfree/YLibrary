@@ -130,7 +130,7 @@ public class WBShareManager implements WbShareCallback {
         hasText = true;
         hasImage = false;
         hasWebPage = false;
-        shareMultiMsg(text, null, null, null, null, null, null, null);
+        shareMultiMsg(text, null, null, null, null, null, null, null, null);
     }
 
     /**
@@ -142,7 +142,7 @@ public class WBShareManager implements WbShareCallback {
         hasText = false;
         hasImage = true;
         hasWebPage = false;
-        shareMultiMsg(null, imagePath, null, null, null, null, null, null);
+        shareMultiMsg(null, imagePath, null, null, null, null, null, null, null);
     }
 
     /**
@@ -154,7 +154,19 @@ public class WBShareManager implements WbShareCallback {
         hasText = false;
         hasImage = true;
         hasWebPage = false;
-        shareMultiMsg(null, null, bitmap, null, null, null, null, null);
+        shareMultiMsg(null, null, bitmap, null, null, null, null, null, null);
+    }
+
+    /**
+     * 分享图片消息
+     *
+     * @param bytes bitmap byte数组
+     */
+    public void shareImageMsg(byte[] bytes) {
+        hasText = false;
+        hasImage = true;
+        hasWebPage = false;
+        shareMultiMsg(null, null, null, bytes, null, null, null, null, null);
     }
 
     /**
@@ -170,7 +182,7 @@ public class WBShareManager implements WbShareCallback {
         hasText = false;
         hasImage = false;
         hasWebPage = true;
-        shareMultiMsg(null, null, null, title, description, defaultText, targetUrl, thumbImage);
+        shareMultiMsg(null, null, null, null, title, description, defaultText, targetUrl, thumbImage);
     }
 
     /**
@@ -199,21 +211,22 @@ public class WBShareManager implements WbShareCallback {
      * @param targetUrl   目标链接地址（网页消息分享）
      * @param thumbImage  缩略图（网页消息分享）
      */
-    public void shareMultiMsg(String text, String imagePath, Bitmap imageBitmap, String title, String description, String defaultText, String targetUrl, Bitmap thumbImage) {
+    public void shareMultiMsg(String text, String imagePath, Bitmap imageBitmap, byte[] imageByteArray, String title, String description, String defaultText, String targetUrl, Bitmap thumbImage) {
         // 1. 初始化微博的分享消息
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         if (hasText) {
             weiboMessage.textObject = getTextObj(text);
         }
         if (hasImage) {
-            if (imagePath == null && imageBitmap == null) {
+            if (imagePath == null && imageBitmap == null && imageByteArray == null) {
                 SDKLogUtils.e("微博分享--image is null");
             } else if (imageBitmap != null) {
                 weiboMessage.imageObject = getImageObj(imageBitmap);
+            } else if (imageByteArray != null) {
+                weiboMessage.imageObject = getImageObj(imageByteArray);
             } else {
                 weiboMessage.imageObject = getImageObj(imagePath);
             }
-
         }
         if (hasWebPage) {
             weiboMessage.mediaObject = getWebpageObj(title, description, defaultText, targetUrl, thumbImage);
@@ -231,11 +244,13 @@ public class WBShareManager implements WbShareCallback {
 
             JYWeb jyWeb = (JYWeb) media;
             Bitmap bitmap = JYImageUtils.getImageBitmap(mContext, jyWeb.thumb);
-            shareMultiMsg(null, null, bitmap, jyWeb.title, jyWeb.description, jyWeb.description, jyWeb.webUrl, bitmap);
+            shareMultiMsg(null, null, bitmap, null, jyWeb.title, jyWeb.description, jyWeb.description, jyWeb.webUrl, bitmap);
         } else if (media instanceof JYImage) {
             JYImage jyImage = (JYImage) media;
             if (jyImage.imageType == SDKImageType.URL_IMAGE) {
                 shareImageMsg(JYImageUtils.getImagePath(jyImage));
+            } else if (jyImage.imageType == SDKImageType.BYTE_ARRAY) {
+                shareImageMsg(JYImageUtils.getImageByteArray(jyImage));
             } else {
                 shareImageMsg(JYImageUtils.getImageBitmap(mContext, jyImage));
             }
@@ -290,6 +305,18 @@ public class WBShareManager implements WbShareCallback {
     private ImageObject getImageObj(Bitmap bitmap) {
         ImageObject imageObject = new ImageObject();
         imageObject.setImageObject(bitmap);
+        return imageObject;
+    }
+
+    /**
+     * 创建图片消息对象。
+     *
+     * @param bytes 图片byte数组
+     * @return 图片消息对象
+     */
+    private ImageObject getImageObj(byte[] bytes) {
+        ImageObject imageObject = new ImageObject();
+        imageObject.imageData = bytes;
         return imageObject;
     }
 

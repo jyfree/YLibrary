@@ -8,6 +8,11 @@ import com.jy.sociallibrary.utils.SDKLogUtils;
 
 import java.io.File;
 
+/**
+ * @description 分享图片媒体、缩略图媒体 ，注意：分享大图建议使用byte数组，因为intent传输有限制，导致bitmap无法获取
+ * @date: 2021/3/30 15:36
+ * @author: jy
+ */
 public class JYImage extends BaseMediaObject {
 
     public int imageType;
@@ -34,6 +39,10 @@ public class JYImage extends BaseMediaObject {
         init(resId);
     }
 
+    public JYImage(byte[] bytes) {
+        this.mObject = bytes;
+        init(bytes);
+    }
 
     protected JYImage(Parcel in) {
         imageType = in.readInt();
@@ -74,6 +83,8 @@ public class JYImage extends BaseMediaObject {
             imageType = SDKImageType.RES_IMAGE;
         } else if (mObject instanceof Bitmap) {
             imageType = SDKImageType.BITMAP_IMAGE;
+        } else if (mObject instanceof byte[]) {
+            imageType = SDKImageType.BYTE_ARRAY;
         } else {
             SDKLogUtils.e("不支持的JYImage构建类型，您传入的类型为:", mObject.getClass().getSimpleName());
         }
@@ -90,6 +101,9 @@ public class JYImage extends BaseMediaObject {
             case SDKImageType.BITMAP_IMAGE:
                 mObject = in.readParcelable(Bitmap.class.getClassLoader());
                 break;
+            case SDKImageType.BYTE_ARRAY:
+                mObject = in.createByteArray();
+                break;
         }
     }
 
@@ -103,6 +117,9 @@ public class JYImage extends BaseMediaObject {
                 break;
             case SDKImageType.BITMAP_IMAGE:
                 dest.writeParcelable((Bitmap) mObject, flags);
+                break;
+            case SDKImageType.BYTE_ARRAY:
+                dest.writeByteArray((byte[]) mObject);
                 break;
         }
     }

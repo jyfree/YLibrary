@@ -90,7 +90,8 @@ public class QQShareManager extends QQChannelManager {
 
             JYImage jyImage = (JYImage) media;
             if (jyImage.imageType == SDKImageType.RES_IMAGE
-                    || jyImage.imageType == SDKImageType.BITMAP_IMAGE) {
+                    || jyImage.imageType == SDKImageType.BITMAP_IMAGE
+                    || jyImage.imageType == SDKImageType.BYTE_ARRAY) {
                 qqShareListener.shareFail(sharePlatform, "QQ只支持本地纯图片分享");
                 return;
             }

@@ -4,6 +4,8 @@ package com.jy.simple.social
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import androidx.core.app.ShareCompat
@@ -18,6 +20,8 @@ import com.jy.sociallibrary.ext.share.SDKShareManager
 import com.jy.sociallibrary.listener.OnSocialSdkShareListener
 import com.jy.sociallibrary.media.*
 import com.jy.sociallibrary.wx.WXListener
+import java.io.ByteArrayOutputStream
+import java.io.File
 
 
 /**
@@ -112,10 +116,11 @@ class ShareSimpleActivity : BaseAppCompatActivity() {
     }
 
     private fun getImage(): JYImage {
-        val jyImage = JYImage("/storage/emulated/0/200317190044044.jpg")
+//        val jyImage = JYImage("/storage/emulated/0/200317190044044.jpg")
 //        val jyImage = JYImage(R.drawable.share_icon)
 //        val jyImage = JYImage(BitmapFactory.decodeResource(resources, R.drawable.share_icon))
 //        val jyImage = JYImage(File("/storage/emulated/0/200317190044044.jpg"))
+        val jyImage = JYImage(bmp2ByteArray(BitmapFactory.decodeResource(resources, R.drawable.bg_bar)))
 
         jyImage.thumb = JYImage(R.drawable.share_icon)
         return jyImage
@@ -168,5 +173,17 @@ class ShareSimpleActivity : BaseAppCompatActivity() {
         if (shareIntent.resolveActivity(packageManager) != null) {
             startActivity(shareIntent)
         }
+    }
+
+    private fun bmp2ByteArray(bitmap: Bitmap): ByteArray {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val datas = baos.toByteArray()
+        try {
+            baos.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return datas
     }
 }

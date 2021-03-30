@@ -51,6 +51,9 @@ public class WXShareManager extends WXChannelManager {
             if (jyImage.imageType == SDKImageType.URL_IMAGE) {
                 SDKLogUtils.i("微信图片分享--图片路径分享");
                 shareImage2Path(JYImageUtils.getImagePath(jyImage), JYImageUtils.getImageBitmap(mContext, jyImage.thumb), isTimelineCb);
+            } else if (jyImage.imageType == SDKImageType.BYTE_ARRAY) {
+                SDKLogUtils.i("微信图片分享--byte array分享");
+                shareImage2ByteArray(JYImageUtils.getImageByteArray(jyImage), JYImageUtils.getImageBitmap(mContext, jyImage.thumb), isTimelineCb);
             } else {
                 SDKLogUtils.i("微信图片分享--图片bitmap分享");
                 shareImage2Bitmap(JYImageUtils.getImageBitmap(mContext, jyImage), JYImageUtils.getImageBitmap(mContext, jyImage.thumb), isTimelineCb);
@@ -87,7 +90,7 @@ public class WXShareManager extends WXChannelManager {
         msg.title = title;
         msg.description = description;
         if (thumb != null) {
-            msg.thumbData = HttpUtils.bmpToByteArray(thumb, true);
+            msg.thumbData = HttpUtils.bmpToByteArray(thumb, true, 32);
         }
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
@@ -143,6 +146,13 @@ public class WXShareManager extends WXChannelManager {
 
     }
 
+    private void shareImage2ByteArray(byte[] bytes, Bitmap thumb, boolean isTimelineCb) {
+        WXImageObject imgObj = new WXImageObject();
+        imgObj.imageData = bytes;
+        shareImage(imgObj, thumb, isTimelineCb);
+
+    }
+
     /**
      * 分享图片
      *
@@ -158,7 +168,7 @@ public class WXShareManager extends WXChannelManager {
             WXMediaMessage msg = new WXMediaMessage();
             msg.mediaObject = imgObj;
             if (thumb != null) {
-                msg.thumbData = HttpUtils.bmpToByteArray(thumb, true);
+                msg.thumbData = HttpUtils.bmpToByteArray(thumb, true, 32);
             }
 
             SendMessageToWX.Req req = new SendMessageToWX.Req();
@@ -195,7 +205,7 @@ public class WXShareManager extends WXChannelManager {
             msg.title = title;
             msg.description = description;
             if (thumb != null) {
-                msg.thumbData = HttpUtils.bmpToByteArray(thumb, true);
+                msg.thumbData = HttpUtils.bmpToByteArray(thumb, true, 32);
             }
 
             SendMessageToWX.Req req = new SendMessageToWX.Req();
@@ -230,7 +240,7 @@ public class WXShareManager extends WXChannelManager {
             msg.title = title;
             msg.description = description;
             if (thumb != null) {
-                msg.thumbData = HttpUtils.bmpToByteArray(thumb, true);
+                msg.thumbData = HttpUtils.bmpToByteArray(thumb, true, 32);
             }
 
             SendMessageToWX.Req req = new SendMessageToWX.Req();

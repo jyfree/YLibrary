@@ -54,6 +54,15 @@ public class SDKBitmapUtils {
         }
     }
 
+    public static Bitmap getBitmap(byte[] bytes) {
+        try {
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        } catch (OutOfMemoryError e) {
+            SDKLogUtils.e(e.getMessage());
+            return null;
+        }
+    }
+
     private static float sampleSize(float width, float height, float maxWidth, float maxHeight) {
         if (width <= maxHeight && height <= maxHeight) {
             return -1.0F;

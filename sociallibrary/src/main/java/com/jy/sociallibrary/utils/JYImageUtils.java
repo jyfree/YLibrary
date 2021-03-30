@@ -28,6 +28,9 @@ public class JYImageUtils {
             case SDKImageType.RES_IMAGE:
                 bitmap = SDKBitmapUtils.getBitmap(context, (Integer) jyImage.mObject);
                 break;
+            case SDKImageType.BYTE_ARRAY:
+                bitmap = SDKBitmapUtils.getBitmap((byte[]) jyImage.mObject);
+                break;
         }
         SDKLogUtils.i("getImageBitmap--bitmap:", bitmap);
         return bitmap;
@@ -43,5 +46,18 @@ public class JYImageUtils {
             return "";
         }
         return jyImage.mObject.toString();
+    }
+
+
+    public static byte[] getImageByteArray(JYImage jyImage) {
+        if (jyImage == null) {
+            SDKLogUtils.e("getImageByteArray--JYImage is null");
+            return null;
+        }
+        if (jyImage.mObject == null) {
+            SDKLogUtils.e("getImageByteArray--JYImage mObject is null");
+            return null;
+        }
+        return (byte[]) jyImage.mObject;
     }
 }
