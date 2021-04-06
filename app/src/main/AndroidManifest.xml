@@ -56,6 +56,10 @@
             android:screenOrientation="unspecified" />
 
         <activity
+            android:name=".social.common.ShareSimpleCommonActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
             android:name=".social.PaySimpleActivity"
             android:screenOrientation="unspecified">
             <intent-filter>
@@ -66,7 +70,21 @@
         </activity>
 
         <activity
+            android:name=".social.common.PaySimpleCommonActivity"
+            android:screenOrientation="unspecified">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="${WX_VALUE}" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".social.LoginSimpleActivity"
+            android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".social.common.LoginSimpleCommonActivity"
             android:screenOrientation="unspecified" />
 
         <activity
@@ -119,7 +137,7 @@
             android:screenOrientation="unspecified" />
         <!--**********************************************************************-->
 
-        <!--*****************************二次封装透明activity**********************************-->
+        <!--**************二次封装透明activity（接口的实现方式才需要注册）**************************-->
 
         <activity
             android:name="com.jy.sociallibrary.ext.login.SDKLoginActivity"

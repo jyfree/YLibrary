@@ -52,6 +52,7 @@ class PaySimpleActivity : BaseAppCompatActivity() {
                 wxPayVo.nonceStr = "jx4ia8vddbc9h646fu8ggjm6cmdk4y2k"
                 wxPayVo.timeStamp = "1570526872"
                 wxPayVo.sign = "0B47048F589697A9D1A467B8B2EBF80A"
+                wxPayVo.orderId = "1699"
                 getSdkPayManager().requestWXPay(this, wxPayVo)
             }
         }

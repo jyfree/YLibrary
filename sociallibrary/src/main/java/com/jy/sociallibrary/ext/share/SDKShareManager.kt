@@ -200,7 +200,7 @@ class SDKShareManager {
             }
         }
 
-        return sdkShareChannels;
+        return sdkShareChannels
     }
 
 

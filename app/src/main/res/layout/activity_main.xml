@@ -70,21 +70,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="go2Act"
-            android:text="分享示例" />
+            android:text="分享示例(接口方式)" />
+
+        <Button
+            android:id="@+id/go_shareCommon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="分享示例(继承父类方式)" />
 
         <Button
             android:id="@+id/go_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="go2Act"
-            android:text="登录示例" />
+            android:text="登录示例(接口方式)" />
+
+        <Button
+            android:id="@+id/go_loginCommon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="登录示例(继承父类方式)" />
 
         <Button
             android:id="@+id/go_pay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="go2Act"
-            android:text="支付示例" />
+            android:text="支付示例(接口方式)" />
+
+        <Button
+            android:id="@+id/go_payCommon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:text="支付示例(继承父类方式)" />
 
         <Button
             android:id="@+id/go_timer"

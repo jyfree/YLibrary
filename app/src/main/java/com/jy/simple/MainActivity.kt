@@ -18,6 +18,9 @@ import com.jy.simple.rxbus.RxBusSimpleActivity
 import com.jy.simple.social.LoginSimpleActivity
 import com.jy.simple.social.PaySimpleActivity
 import com.jy.simple.social.ShareSimpleActivity
+import com.jy.simple.social.common.LoginSimpleCommonActivity
+import com.jy.simple.social.common.PaySimpleCommonActivity
+import com.jy.simple.social.common.ShareSimpleCommonActivity
 import com.jy.simple.sp.SpSimpleActivity
 import com.jy.simple.timer.TimerSimpleActivity
 import com.jy.simple.workers.WorkSimpleActivity
@@ -41,8 +44,11 @@ class MainActivity : BaseAppCompatActivity() {
             R.id.showDialog -> DialogSimple(this, R.style.Theme_AppCompat_Dialog).show()
             R.id.go_bar -> BarSimpleActivity.startAct(this)
             R.id.go_share -> ShareSimpleActivity.startAct(this)
+            R.id.go_shareCommon -> ShareSimpleCommonActivity.startAct(this)
             R.id.go_login -> LoginSimpleActivity.startAct(this)
+            R.id.go_loginCommon -> LoginSimpleCommonActivity.startAct(this)
             R.id.go_pay -> PaySimpleActivity.startAct(this)
+            R.id.go_payCommon -> PaySimpleCommonActivity.startAct(this)
             R.id.go_timer -> TimerSimpleActivity.startAct(this)
             R.id.go_permission -> PermissionSimpleActivity.startAct(this)
             R.id.go_sp -> SpSimpleActivity.startAct(this)
