@@ -1,172 +1,303 @@
 package com.jy.baselibrary.utils;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Toast;
 
-import java.lang.reflect.Field;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
 
 /**
- * @Author Administrator
- * @Date 2019/5/30-17:35
- * @TODO toast工具类
- * 注意：避免showToast调用不当，造成Toast里的mContext内存泄漏，
- * showToast不提供Context上下文的传参，直接内部调用BaseUtils.getApp()即application
+ * @description toast工具类
+ * @date: 2021/4/7 14:22
+ * @author: jy
  */
 public class ToastUtils {
-    private static final String TAG = "ToastUtil";
-    private static Toast mToast;
-    private static Field sField_TN;
-    private static Field sField_TN_Handler;
-    private static boolean sIsHookFieldInit = false;
-    private static final String FIELD_NAME_TN = "mTN";
-    private static final String FIELD_NAME_HANDLER = "mHandler";
+    private final static String TAG = ToastUtils.class.getSimpleName();
 
-
-    public static void showToast(CharSequence text) {
-        showToast(BaseUtils.getApp(), text, Toast.LENGTH_SHORT);
-    }
-
-    public static void showToast(CharSequence text, int duration) {
-        showToast(BaseUtils.getApp(), text, duration);
+    private ToastUtils() {
     }
 
     /**
-     * Non-blocking showing Toast
+     * 显示时间短的Toast
      *
-     * @param context  context，Application or Activity
-     * @param text     the text show on the Toast
-     * @param duration Toast.LENGTH_SHORT（default,2s） or Toast.LENGTH_LONG（3.5s）
+     * @param msg 显示的内容
      */
-    private static void showToast(final Context context, final CharSequence text, final int duration) {
-        try {
-            if (context == null) return;
-            ToastRunnable toastRunnable = new ToastRunnable(context, text, duration);
-            if (context instanceof Activity) {
-                final Activity activity = (Activity) context;
-                if (!activity.isFinishing()) {
-                    activity.runOnUiThread(toastRunnable);
-                }
-            } else {
-                Handler handler = new Handler(context.getMainLooper());
-                handler.post(toastRunnable);
-            }
-        } catch (Exception e) {
-            YLogUtils.INSTANCE.eTag(TAG, e.getMessage());
-        }
+    public static Toast showToast(CharSequence msg) {
+        return showToast(msg, Toast.LENGTH_SHORT);
+    }
+
+
+    /**
+     * 显示时间短的Toast
+     *
+     * @param resId 显示的资源ID
+     */
+    public static Toast showToast(@StringRes int resId) {
+        return showToast(resId, Toast.LENGTH_SHORT);
     }
 
     /**
-     * cancel the toast
+     * 显示时间短的Toast
+     *
+     * @param msg 显示的内容
      */
-    public static void cancelToast() {
-        if (null == mToast) return;
-        Looper looper = Looper.getMainLooper();
-        if (looper.getThread() == Thread.currentThread()) {
-            mToast.cancel();
+    public static Toast showToastShortWithGravity(CharSequence msg, int gravity) {
+        return showToast(msg, Toast.LENGTH_SHORT, gravity, 0, 0);
+    }
+
+    /**
+     * 显示时间短的Toast
+     *
+     * @param resId 显示的资源ID
+     */
+    public static Toast showToastShortWithGravity(@StringRes int resId, int gravity) {
+        return showToast(resId, Toast.LENGTH_SHORT, gravity, 0, 0);
+    }
+
+    /**
+     * 显示时间长的Toast
+     *
+     * @param msg 显示的内容
+     */
+    public static Toast showToastLong(CharSequence msg) {
+        return showToast(msg, Toast.LENGTH_LONG);
+    }
+
+    /**
+     * 显示时间长的Toast
+     *
+     * @param resId 显示的资源ID
+     */
+    public static Toast showToastLong(@StringRes int resId) {
+        return showToast(resId, Toast.LENGTH_LONG);
+    }
+
+    /**
+     * 显示时间长的Toast
+     *
+     * @param msg     显示的内容
+     * @param gravity 要显示的文本重心
+     */
+    public static Toast showToastLongWithGravity(CharSequence msg, int gravity) {
+        return showToast(msg, Toast.LENGTH_LONG, gravity, 0, 0);
+    }
+
+    /**
+     * 显示时间长的Toast
+     *
+     * @param resId   显示的资源ID
+     * @param gravity 要显示的文本重心
+     */
+    public static Toast showToastLongWithGravity(@StringRes int resId, int gravity) {
+        return showToast(resId, Toast.LENGTH_LONG, gravity, 0, 0);
+    }
+
+    /**
+     * 显示时间短的Toast
+     *
+     * @param resId   显示的资源ID
+     * @param gravity 要显示的文本重心
+     * @param bgResId 背景颜色
+     */
+    public static Toast showToastShortWithGravity(@StringRes int resId, int gravity, @DrawableRes int bgResId) {
+        return showToast(resId, Toast.LENGTH_SHORT, gravity, 0, 0, bgResId);
+    }
+
+    /**
+     * 显示时间短的Toast
+     *
+     * @param text    显示的文字
+     * @param gravity 要显示的文本重心
+     * @param bgResId 背景颜色
+     */
+    public static Toast showToastShortWithGravity(final CharSequence text, int gravity, @DrawableRes int bgResId) {
+        return showToast(text, Toast.LENGTH_SHORT, gravity, 0, 0, bgResId);
+    }
+
+
+    /**
+     * 显示Toast，自动处理主线程与非主线程
+     *
+     * @param resId    显示的资源ID
+     * @param duration 时长
+     */
+    public static Toast showToast(@StringRes int resId, int duration) {
+        String text = getString(resId);
+        return showToast(text, duration, Gravity.NO_GRAVITY, 0, 0, 0);
+    }
+
+    /**
+     * 显示Toast，自动处理主线程与非主线程
+     *
+     * @param text     要显示的toast内容
+     * @param duration 时长
+     */
+    public static Toast showToast(final CharSequence text, final int duration) {
+        return showToast(text, duration, Gravity.NO_GRAVITY, 0, 0, 0);
+    }
+
+    /**
+     * 显示Toast，自动处理主线程与非主线程
+     *
+     * @param resId    显示的资源ID
+     * @param duration 时长
+     * @param gravity  要显示的文本重心
+     * @param offsetX
+     * @param offsetY
+     */
+    private static Toast showToast(@StringRes final int resId,
+                                   final int duration, final int gravity, final int offsetX, final int offsetY) {
+        String text = getString(resId);
+        return showToast(text, duration, gravity, offsetX, offsetY, 0);
+    }
+
+    /**
+     * 显示Toast，自动处理主线程与非主线程
+     *
+     * @param text     要显示的toast内容
+     * @param duration 时长
+     * @param gravity  要显示的文本重心
+     * @param offsetX
+     * @param offsetY
+     */
+    private static Toast showToast(final CharSequence text, final int duration,
+                                   final int gravity, final int offsetX, final int offsetY) {
+        return showToast(text, duration, gravity, offsetX, offsetY, 0);
+    }
+
+    /**
+     * 显示Toast，自动处理主线程与非主线程
+     *
+     * @param resId    显示的资源ID
+     * @param duration 时长
+     * @param gravity  要显示的文本重心
+     * @param offsetX
+     * @param offsetY
+     * @param bgResId  背景颜色
+     */
+    private static Toast showToast(final int resId, final int duration, final int gravity, final int offsetX, final int offsetY, @DrawableRes final int bgResId) {
+        String text = getString(resId);
+        return showToast(text, duration, gravity, offsetX, offsetY, bgResId);
+    }
+
+    /**
+     * 显示Toast，自动处理主线程与非主线程
+     *
+     * @param text     要显示的toast内容
+     * @param duration 时长
+     * @param gravity  要显示的文本重心
+     * @param offsetX
+     * @param offsetY
+     */
+    private static Toast showToast(final CharSequence text, final int duration, final int gravity, final int offsetX, final int offsetY, @DrawableRes final int bgResId) {
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            Toast toast = Toast.makeText(BaseUtils.getApp(), text, duration);
+            if (gravity != Gravity.NO_GRAVITY) {
+                toast.setGravity(gravity, offsetX, offsetY);
+            }
+            if (bgResId != 0) {
+                toast.getView().setBackgroundResource(bgResId);
+            }
+            try {
+                toast.show();
+            } catch (Throwable throwable) {
+                Log.e(TAG, "showToast()>>ToastUtils#toast问题1:" + throwable.toString());
+            }
+            return toast;
         } else {
-            new Handler(looper).post(new Runnable() {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    mToast.cancel();
+                    Toast toast = Toast.makeText(BaseUtils.getApp(), text, duration);
+                    if (gravity != Gravity.NO_GRAVITY) {
+                        toast.setGravity(gravity, offsetX, offsetY);
+                    }
+                    if (bgResId != 0) {
+                        toast.getView().setBackgroundResource(bgResId);
+                    }
+                    try {
+                        toast.show();
+                    } catch (Throwable throwable) {
+                        Log.e(TAG, "showToast()>>ToastUtils#toast问题2:" + throwable.toString());
+                    }
                 }
             });
         }
+        return null;
     }
 
-    /**
-     * Hook Toast,fix the BadTokenException happened on the device 7.x while showing Toast which will cause your app to crash
-     *
-     * @param toast
-     */
-    private static void hookToast(Toast toast) {
-        if (!isNeedHook()) {
-            return;
+
+    private static Toast showToast(final View view, final int duration, final int gravity,
+                                   final int offsetX, final int offsetY, @DrawableRes final int bgResId) {
+        if (view == null) {
+            return null;
         }
-        try {
-            if (!sIsHookFieldInit) {
-                sField_TN = Toast.class.getDeclaredField(FIELD_NAME_TN);
-                sField_TN.setAccessible(true);
-                sField_TN_Handler = sField_TN.getType().getDeclaredField(FIELD_NAME_HANDLER);
-                sField_TN_Handler.setAccessible(true);
-                sIsHookFieldInit = true;
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            Toast toast = new Toast(BaseUtils.getApp());
+            toast.setDuration(duration);
+            if (gravity != Gravity.NO_GRAVITY) {
+                toast.setGravity(gravity, offsetX, offsetY);
             }
-            Object tn = sField_TN.get(toast);
-            Handler originHandler = (Handler) sField_TN_Handler.get(tn);
-            sField_TN_Handler.set(tn, new SafelyHandlerWarpper(originHandler));
-        } catch (Exception e) {
-            YLogUtils.INSTANCE.eTag(TAG, "Hook toast exception=", e);
-        }
-    }
-
-    /**
-     * Check if Toast need hook，only hook the device 7.x(api = 24/25)
-     *
-     * @return true for need hook to fit system bug,false for don't need hook
-     */
-    private static boolean isNeedHook() {
-        return Build.VERSION.SDK_INT == Build.VERSION_CODES.N_MR1 ||
-                Build.VERSION.SDK_INT == Build.VERSION_CODES.N;
-    }
-
-    private static class ToastRunnable implements Runnable {
-        private Context context;
-        private CharSequence text;
-        private int duration;
-
-        public ToastRunnable(Context context, CharSequence text, int duration) {
-            this.context = context;
-            this.text = text;
-            this.duration = duration;
-        }
-
-        @SuppressLint("ShowToast")
-        @Override
-        public void run() {
-            if (mToast == null) {
-                mToast = Toast.makeText(context, text, duration);
-            } else {
-                mToast.setText(text);
-                mToast.setDuration(duration);
+            if (bgResId != 0) {
+                toast.getView().setBackgroundResource(bgResId);
             }
-            hookToast(mToast);
-            mToast.show();
-        }
-    }
-
-    /**
-     * Safe outside Handler class which just warps the system origin handler object in the Toast.class
-     */
-    private static class SafelyHandlerWarpper extends Handler {
-        private Handler originHandler;
-
-        public SafelyHandlerWarpper(Handler originHandler) {
-            this.originHandler = originHandler;
-        }
-
-        @Override
-        public void dispatchMessage(Message msg) {
-            // The outside hanlder SafelyHandlerWarpper object just catches the Exception while dispatch the message
-            // if the the inside system origin hanlder object throw the BadTokenException，the outside safe SafelyHandlerWarpper object
-            // just catches the exception here to avoid the app crashing
+            if (view != null) {
+                toast.setView(view);
+            }
             try {
-                super.dispatchMessage(msg);
-            } catch (Exception e) {
-                YLogUtils.INSTANCE.eTag(TAG, "Catch system toast exception:", e);
+                toast.show();
+            } catch (Throwable throwable) {
+                Log.e(TAG, "showToast()>>ToastUtils#toast问题3:" + throwable.toString());
+                throwable.printStackTrace();
             }
+            return toast;
+        } else {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast toast = new Toast(BaseUtils.getApp());
+                    toast.setDuration(duration);
+                    toast.setView(view);
+                    if (gravity != Gravity.NO_GRAVITY) {
+                        toast.setGravity(gravity, offsetX, offsetY);
+                    }
+                    if (bgResId != 0) {
+                        toast.getView().setBackgroundResource(bgResId);
+                    }
+                    try {
+                        toast.show();
+                    } catch (Throwable throwable) {
+                        Log.e(TAG, "showToast()>>ToastUtils#toast问题4:" + throwable.toString());
+                    }
+                }
+            });
         }
+        return null;
+    }
 
-        @Override
-        public void handleMessage(Message msg) {
-            //just pass the Message to the origin handler object to handle
-            if (originHandler != null) {
-                originHandler.handleMessage(msg);
-            }
+    /**
+     * 获取 String 资源
+     *
+     * @param
+     * @return
+     */
+    private static String getString(@StringRes int strRes) {
+        String str = BaseUtils.getApp().getString(strRes);
+        if (TextUtils.isEmpty(str)) {
+            str = BaseUtils.getApp().getResources().getString(strRes);
         }
+        return str;
+    }
+
+    /**
+     * 取消toast
+     */
+    public static void cancelToast() {
+        //方便后续更改
     }
 }
