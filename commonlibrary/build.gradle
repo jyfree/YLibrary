@@ -41,10 +41,10 @@ dependencies {
     implementation rootProject.ext.dependencies.kotlin_stdlib_jdk7
 
     //maven导入方式
-    api rootProject.ext.dependencies.jy_baselibrary//基础库
+//    api rootProject.ext.dependencies.jy_baselibrary//基础库
 
     //module导入方式
-//    api project(':baselibrary')//基础库
+    api project(':baselibrary')//基础库
 
     //RxJava
     api rootProject.ext.dependencies.rxjava

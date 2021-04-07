@@ -1,6 +1,7 @@
 package com.jy.baselibrary.utils
 
 import android.util.Log
+import com.jy.baselibrary.helper.LogCatHelper
 import java.util.*
 
 /**
@@ -188,12 +189,13 @@ object YLogUtils {
         )
         if (level == LogLevel.ALL || logLevel == level) {
             when (logLevel) {
-                YLogUtils.LogLevel.INFO -> Log.i(tag, messageWithTime)
-                YLogUtils.LogLevel.WARN -> Log.w(tag, messageWithTime)
-                YLogUtils.LogLevel.DEBUG -> Log.d(tag, messageWithTime)
-                YLogUtils.LogLevel.ERROR -> Log.e(tag, messageWithTime)
+                LogLevel.INFO -> Log.i(tag, messageWithTime)
+                LogLevel.WARN -> Log.w(tag, messageWithTime)
+                LogLevel.DEBUG -> Log.d(tag, messageWithTime)
+                LogLevel.ERROR -> Log.e(tag, messageWithTime)
                 else -> Log.i(tag, messageWithTime)
             }
+            LogCatHelper.getInstance().writeLogFile("$tag--$messageWithTime")
         }
     }
 

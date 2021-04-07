@@ -32,6 +32,10 @@ class MyApplication : Application() {
         val pid = Process.myPid() //进程id
         val process: String? = AppUtils.getCurProcessName(this, pid) //进程名
         if (null == process || applicationContext.packageName == process) {
+            //初始化logcat任务
+            LogCatHelper.getInstance().init(this, "")
+            //启动log保存到文件任务(需要sdcard权限，若开启sdcard权限后，需要调用reset方法，否则无法写入文件)
+            LogCatHelper.getInstance().start()
             //初始化基础库
             BaseLibraryConfig.init(this, LoaderConfiguration.beginBuilder().build(), true)
             //初始化imageLoad
@@ -48,8 +52,6 @@ class MyApplication : Application() {
             initCrashUtils()
             //下载数据库配置
             DownloadDBConfig.init(false)
-            //将logcat保存到文件
-            LogCatHelper.getInstance(this, "")?.start()
         }
         //检查内存泄漏
         LeakCanary.install(this);
