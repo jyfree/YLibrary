@@ -33,11 +33,17 @@ class MyApplication : Application() {
         val process: String? = AppUtils.getCurProcessName(this, pid) //进程名
         if (null == process || applicationContext.packageName == process) {
             //初始化logcat任务
-            LogCatHelper.getInstance().init(this, "")
-            //启动log保存到文件任务(需要sdcard权限，若开启sdcard权限后，需要调用reset方法，否则无法写入文件)
+            LogCatHelper.getInstance().init(
+                this,
+                LogCatHelper.beginBuilder()
+                    .setBuffSize(100)//缓存区大小，单位kb
+                    .setQueueCapacity(500)//缓冲队列大小
+                    .setShowLog(true)//是否开启log
+            )
+            //启动log保存到文件任务(需要sdcard权限，若开启sdcard权限后，需要调用restart方法，否则无法写入文件)
             LogCatHelper.getInstance().start()
             //初始化基础库
-            BaseLibraryConfig.init(this, LoaderConfiguration.beginBuilder().build(), true)
+            BaseLibraryConfig.init(this, LoaderConfiguration.beginBuilder().build())
             //初始化imageLoad
             ImageLoaderConfiguration.getInstance().initImageResId(
                 R.drawable.load_default_image,

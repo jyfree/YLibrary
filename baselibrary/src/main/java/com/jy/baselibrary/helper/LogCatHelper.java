@@ -27,11 +27,10 @@ public class LogCatHelper {
     private static LogCatHelper instance = null;
 
     private String dirPath;//保存路径
-    //日志缓冲队列
-    private ArrayBlockingQueue<String> mCacheLog = new ArrayBlockingQueue<>(500);
-    //缓存区大小100k
-    private final int BUFF_SIZE = 100;
+    private ArrayBlockingQueue<String> mCacheLog;//日志缓冲队列
+    private int buffSize;//缓存区大小
     private LogThread logThread;
+    private boolean canWrite = false;
 
     public static LogCatHelper getInstance() {
         if (instance == null) {
@@ -40,28 +39,36 @@ public class LogCatHelper {
         return instance;
     }
 
-    public void init(Context mContext, String path) {
-        if (TextUtils.isEmpty(path)) {
+    public void init(Context mContext, Builder builder) {
+        if (TextUtils.isEmpty(builder.path)) {
             dirPath = Environment.getExternalStorageDirectory().getAbsolutePath()
                     + File.separator + "seeker" + File.separator + mContext.getPackageName();
         } else {
-            dirPath = path;
+            dirPath = builder.path;
         }
+        createPath();
+        buffSize = builder.buffSize;
+        mCacheLog = new ArrayBlockingQueue<>(builder.queueCapacity);
+    }
+
+    /**
+     * 创建保存路径
+     */
+    private void createPath() {
         File dir = new File(dirPath);
         if (!dir.exists()) {
             dir.mkdirs();
         }
+        canWrite = dir.exists() && dir.canWrite();
+        YLogUtils.INSTANCE.iTag(TAG, "日志文件是否可以写入", canWrite, "路径", dirPath);
     }
 
     /**
-     * 重置
-     *
-     * @param mContext
-     * @param path
+     * 重新启动
      */
-    public void reset(Context mContext, String path) {
+    public void restart() {
+        createPath();
         stop();
-        init(mContext, path);
         start();
     }
 
@@ -69,12 +76,14 @@ public class LogCatHelper {
      * 启动log日志保存
      */
     public void start() {
-        if (TextUtils.isEmpty(dirPath)) {
-            YLogUtils.INSTANCE.eTag(TAG, "请先在全局Application中调用init(mContext,path)初始化！");
+        if (TextUtils.isEmpty(dirPath) || null == mCacheLog) {
+            YLogUtils.INSTANCE.eTag(TAG, "请先在全局Application中调用init(mContext,builder)初始化！");
             return;
         }
-        logThread = new LogThread(dirPath);
-        logThread.start();
+        if (YLogUtils.INSTANCE.getSHOW_LOG()) {
+            logThread = new LogThread(dirPath);
+            logThread.start();
+        }
     }
 
     public void stop() {
@@ -90,6 +99,7 @@ public class LogCatHelper {
      */
     public void writeLogFile(String msg) {
         try {
+            if (!canWrite || null == mCacheLog) return;
             mCacheLog.offer(msg, 100, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -99,29 +109,29 @@ public class LogCatHelper {
     private class LogThread extends Thread {
 
         private FileOutputStream fos;
-        String dirPath;
-        String fileName;
+        private BufferedOutputStream mOutputStream;
+        private String dirPath;
+        private String fileName;
         private boolean openWrite = true;
 
         public LogThread(String dirPath) {
             this.dirPath = dirPath;
-            try {
-                fileName = FormatDate.getFormatDate();
-                File file = new File(dirPath, fileName + ".log");
-                if (!file.exists()) {
-                    file.createNewFile();
-                }
-                fos = new FileOutputStream(file, true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         @Override
         public void run() {
             try {
+                //创建log文件
+                fileName = FormatDate.getFormatDate();
+                File file = new File(dirPath, fileName + ".log");
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                //过滤历史log文件，并删除
                 filter(dirPath, fileName);
-                BufferedOutputStream mOutputStream = new BufferedOutputStream(fos, BUFF_SIZE);
+
+                fos = new FileOutputStream(file, true);
+                mOutputStream = new BufferedOutputStream(fos, buffSize);
 
                 while (openWrite && !isInterrupted()) {
                     if (mCacheLog.size() > 0) {
@@ -134,10 +144,15 @@ public class LogCatHelper {
                 e.printStackTrace();
             } finally {
                 try {
+                    if (mOutputStream != null) {
+                        //缓冲区未满时，可将缓冲区内容写入文件，因为close会调用flush方法
+                        mOutputStream.close();
+                    }
                     if (fos != null) {
                         fos.close();
                         fos = null;
                     }
+
                 } catch (Exception e2) {
                     e2.printStackTrace();
                 }
@@ -150,7 +165,7 @@ public class LogCatHelper {
         }
     }
 
-    private static void filter(String dirPath, String nowFileName) {
+    private void filter(String dirPath, String nowFileName) {
         try {
             int nowTime = 0;
             if (!TextUtils.isEmpty(nowFileName)) {
@@ -215,6 +230,36 @@ public class LogCatHelper {
         public static String getFormatTime() {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS  ");
             return sdf.format(System.currentTimeMillis());
+        }
+    }
+
+    public static Builder beginBuilder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private String path;
+        private int queueCapacity = 500;
+        private int buffSize = 100;
+
+        public Builder setPath(String path) {
+            this.path = path;
+            return this;
+        }
+
+        public Builder setQueueCapacity(int queueCapacity) {
+            this.queueCapacity = queueCapacity;
+            return this;
+        }
+
+        public Builder setBuffSize(int buffSize) {
+            this.buffSize = buffSize;
+            return this;
+        }
+
+        public Builder setShowLog(boolean showLog) {
+            YLogUtils.INSTANCE.setSHOW_LOG(showLog);
+            return this;
         }
     }
 }
