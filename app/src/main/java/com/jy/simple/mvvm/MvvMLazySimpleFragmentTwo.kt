@@ -3,6 +3,7 @@ package com.jy.simple.mvvm
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import com.jy.baselibrary.base.mvvm.MvvMBaseLazyFragment
+import com.jy.baselibrary.utils.YLogUtils
 import com.jy.simple.BR
 import com.jy.simple.R
 import com.jy.simple.databinding.SimpleMvvmFragmentBinding
@@ -41,8 +42,11 @@ class MvvMLazySimpleFragmentTwo :
     }
 
     override fun lazyLoad() {
+        YLogUtils.i("lazyLoad：${javaClass.simpleName}")
     }
 
     override fun visibleToUser() {
+        YLogUtils.i("visibleToUser：${javaClass.simpleName}")
     }
+
 }

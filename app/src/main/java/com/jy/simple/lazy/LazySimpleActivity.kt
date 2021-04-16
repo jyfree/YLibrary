@@ -67,7 +67,8 @@ class LazySimpleActivity : BaseFragmentActivity() {
     }
 
 
-    private inner class MyFragmentPagerAdapter : FragmentPagerAdapter(supportFragmentManager) {
+    private inner class MyFragmentPagerAdapter :
+        FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getItem(position: Int): Fragment = list[position]
 
         override fun getCount(): Int = list.size
