@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
-import com.jy.baselibrary.base.BaseAppCompatActivity;
+import com.jy.baselibrary.base.BaseActivity;
 
 
 /**
@@ -14,7 +14,7 @@ import com.jy.baselibrary.base.BaseAppCompatActivity;
  * @Date 2019/11/1-10:36
  * @TODO
  */
-public abstract class MvvMBaseNoViewModelActivity<DBinding extends ViewDataBinding> extends BaseAppCompatActivity {
+public abstract class MvvMBaseNoViewModelActivity<DBinding extends ViewDataBinding> extends BaseActivity {
 
     protected DBinding dataBinding;
 

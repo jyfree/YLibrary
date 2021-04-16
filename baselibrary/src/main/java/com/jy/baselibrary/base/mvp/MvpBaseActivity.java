@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
-import com.jy.baselibrary.base.BaseAppCompatActivity;
+import com.jy.baselibrary.base.BaseActivity;
 import com.jy.baselibrary.base.broker.BaseContract;
 import com.jy.baselibrary.base.broker.BaseViewModel;
 
@@ -16,7 +16,7 @@ import com.jy.baselibrary.base.broker.BaseViewModel;
  * created at 2018/11/7 14:53
  * TODO:AppCompatActivity  mvp模式基类
  */
-public abstract class MvpBaseAppCompatActivity<P extends BaseContract.BasePresenter> extends BaseAppCompatActivity {
+public abstract class MvpBaseActivity<P extends BaseContract.BasePresenter> extends BaseActivity {
 
     protected P mPresenter;
 

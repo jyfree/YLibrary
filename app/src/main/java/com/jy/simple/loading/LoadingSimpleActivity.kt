@@ -3,7 +3,7 @@ package com.jy.simple.loading
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YHandlerUtils
 import com.jy.simple.R
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.simple_loading_activity.*
  * @Date 2019/9/26-11:38
  * @TODO
  */
-class LoadingSimpleActivity : BaseAppCompatActivity() {
+class LoadingSimpleActivity : BaseActivity() {
 
     companion object {
 

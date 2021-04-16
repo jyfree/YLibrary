@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
-import com.jy.baselibrary.base.BaseAppcompatDialogFragment;
+import com.jy.baselibrary.base.BaseDialogFragment;
 import com.jy.baselibrary.base.broker.BaseContract;
 import com.jy.baselibrary.base.broker.BaseViewModel;
 
@@ -15,7 +15,7 @@ import com.jy.baselibrary.base.broker.BaseViewModel;
  * created at 2019/9/26 15:43
  * TODO:DialogFragment mvp模式基类
  */
-public abstract class MvpBaseAppcompatDialogFragment<P extends BaseContract.BasePresenter> extends BaseAppcompatDialogFragment {
+public abstract class MvpBaseDialogFragment<P extends BaseContract.BasePresenter> extends BaseDialogFragment {
 
     protected P mPresenter;
 

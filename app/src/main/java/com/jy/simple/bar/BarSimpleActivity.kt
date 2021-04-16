@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.BarUtils
 import com.jy.simple.R
@@ -18,7 +18,7 @@ import com.jy.simple.dialog.DialogSimple
  * @Date 2019/9/28-15:34
  * @TODO bar示例
  */
-class BarSimpleActivity : BaseAppCompatActivity() {
+class BarSimpleActivity : BaseActivity() {
 
     companion object {
         fun startAct(context: Context) {

@@ -3,7 +3,7 @@ package com.jy.simple.sp
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.sp.SharedPreferencesConfigUtils
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
@@ -16,7 +16,7 @@ import com.jy.simple.R
  * @Date 2019/10/14-14:20
  * @TODO
  */
-class SpSimpleActivity : BaseAppCompatActivity() {
+class SpSimpleActivity : BaseActivity() {
 
     companion object {
         fun startAct(context: Context) {

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.jy.baselibrary.base.broker.BaseViewModel
-import com.jy.baselibrary.base.mvp.MvpBaseAppCompatActivity
+import com.jy.baselibrary.base.mvp.MvpBaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.commonlibrary.glide.setImageDefaultLoadIconUrl
 import com.jy.simple.R
@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.simple_api_test_activity.*
  * @Date 2019/9/27-9:43
  * @TODO mvp 请求
  */
-class MvpApiSimpleActivity : MvpBaseAppCompatActivity<ApiSimplePresenter>(),
+class MvpApiSimpleActivity : MvpBaseActivity<ApiSimplePresenter>(),
     ApiSimpleContract.View {
 
     companion object {

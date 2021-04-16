@@ -9,7 +9,7 @@ import android.view.View
 import com.jy.baselibrary.acp.Acp
 import com.jy.baselibrary.acp.AcpListener
 import com.jy.baselibrary.acp.AcpOptions
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.ToastUtils
 import com.jy.baselibrary.utils.YLogUtils
@@ -22,7 +22,7 @@ import com.jy.simple.http.download.DownloadSimple
  * @Date 2019/9/27-16:06
  * @TODO 下载示例
  */
-class DownloadSimpleActivity : BaseAppCompatActivity() {
+class DownloadSimpleActivity : BaseActivity() {
 
     private val url = "https://cdn.9mitao.com/apk/android/9mitao_4.3.8.apk"
 

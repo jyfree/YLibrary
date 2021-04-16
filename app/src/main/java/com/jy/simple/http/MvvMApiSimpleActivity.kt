@@ -3,7 +3,7 @@ package com.jy.simple.http
 import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
-import com.jy.baselibrary.base.mvvm.MvvMBaseAppCompatActivity
+import com.jy.baselibrary.base.mvvm.MvvMBaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.simple.R
 import com.jy.simple.databinding.SimpleMvvmApiActivityBinding
@@ -19,7 +19,7 @@ import com.jy.simple.viewmodel.MvvMViewModelFactory
  * @TODO
  */
 class MvvMApiSimpleActivity :
-    MvvMBaseAppCompatActivity<MvvMViewModel, SimpleMvvmApiActivityBinding>() {
+    MvvMBaseActivity<MvvMViewModel, SimpleMvvmApiActivityBinding>() {
     companion object {
         fun startAct(context: Context) {
             ActivityUtils.startActivity(context, MvvMApiSimpleActivity::class.java)

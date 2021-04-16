@@ -15,7 +15,7 @@ import com.jy.baselibrary.base.broker.BaseViewModel;
  * @Date 2019/11/1-11:06
  * @TODO
  */
-public abstract class MvvMBaseAppCompatActivity<VM extends BaseViewModel, DBinding extends ViewDataBinding> extends MvvMBaseNoViewModelActivity<DBinding> {
+public abstract class MvvMBaseActivity<VM extends BaseViewModel, DBinding extends ViewDataBinding> extends MvvMBaseNoViewModelActivity<DBinding> {
 
     protected VM viewModel;
 

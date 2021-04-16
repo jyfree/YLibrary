@@ -10,7 +10,7 @@ import android.view.View
 import com.jy.baselibrary.acp.Acp
 import com.jy.baselibrary.acp.AcpListener
 import com.jy.baselibrary.acp.AcpOptions
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.ToastUtils
 import com.jy.baselibrary.utils.YLogUtils
@@ -24,7 +24,7 @@ import java.io.File
  * @Date 2019/10/12-14:49
  * @TODO
  */
-class PermissionSimpleActivity : BaseAppCompatActivity() {
+class PermissionSimpleActivity : BaseActivity() {
 
     companion object {
         fun startAct(context: Context) {

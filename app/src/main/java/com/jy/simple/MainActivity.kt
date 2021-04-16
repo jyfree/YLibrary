@@ -2,7 +2,7 @@ package com.jy.simple
 
 import android.os.Bundle
 import android.view.View
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.simple.aspect.AspectSimpleActivity
 import com.jy.simple.bar.BarSimpleActivity
 import com.jy.simple.db.DBSimpleActivity
@@ -25,7 +25,7 @@ import com.jy.simple.sp.SpSimpleActivity
 import com.jy.simple.timer.TimerSimpleActivity
 import com.jy.simple.workers.WorkSimpleActivity
 
-class MainActivity : BaseAppCompatActivity() {
+class MainActivity : BaseActivity() {
 
 
     override fun initLayoutID(): Int = R.layout.activity_main

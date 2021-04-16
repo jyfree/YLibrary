@@ -3,7 +3,7 @@ package com.jy.simple.aspect
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.commonlibrary.aspect.CheckNetwork
@@ -17,7 +17,7 @@ import com.jy.simple.R
  * @Date 2019/11/8-11:55
  * @TODO
  */
-class AspectSimpleActivity : BaseAppCompatActivity() {
+class AspectSimpleActivity : BaseActivity() {
 
     companion object {
         fun startAct(context: Context) {

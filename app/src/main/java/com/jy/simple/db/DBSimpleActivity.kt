@@ -3,7 +3,7 @@ package com.jy.simple.db
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.thread.lifecycle.ThreadRequest
 import com.jy.baselibrary.thread.lifecycle.ThreadResultCallback
 import com.jy.baselibrary.utils.ActivityUtils
@@ -19,7 +19,7 @@ import java.util.*
  * @Date 2019/10/24-18:30
  * @TODO 1、实现CoroutineRequest可以使用协程访问数据库  2、实现ThreadRequest可以使用子线程访问数据库
  */
-class DBSimpleActivity : BaseAppCompatActivity(), CoroutineRequest, ThreadRequest {
+class DBSimpleActivity : BaseActivity(), CoroutineRequest, ThreadRequest {
 
     companion object {
         fun startAct(context: Context) {

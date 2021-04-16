@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.commonlibrary.deque.FunTaskManager
 import com.jy.commonlibrary.http.RxHelper
@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.simple_api_test_activity_queue.*
  * @Date 2020/3/12-11:38
  * @TODO mvc 任务队列请求
  */
-class QueueApiSimpleActivity : BaseAppCompatActivity() {
+class QueueApiSimpleActivity : BaseActivity() {
 
     companion object {
         fun startAct(context: Context) {

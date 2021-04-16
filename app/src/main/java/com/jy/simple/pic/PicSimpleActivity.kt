@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.helper.PicHelper
 import com.jy.baselibrary.pic.PicListener
 import com.jy.baselibrary.pic.PicOptions
@@ -25,7 +25,7 @@ import java.io.File
  * @Date 2019/10/18-11:37
  * @TODO 拍照&图库
  */
-class PicSimpleActivity : BaseAppCompatActivity(), PicListener {
+class PicSimpleActivity : BaseActivity(), PicListener {
 
     companion object {
         fun startAct(context: Context) {

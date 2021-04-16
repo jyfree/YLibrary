@@ -3,7 +3,7 @@ package com.jy.simple.timer
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.helper.CountDownTimerHelper
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.simple.R
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.simple_timer_activity.*
  * @Date 2019/10/10-11:22
  * @TODO 倒计时示例
  */
-class TimerSimpleActivity : BaseAppCompatActivity() {
+class TimerSimpleActivity : BaseActivity() {
 
     companion object {
         fun startAct(context: Context) {

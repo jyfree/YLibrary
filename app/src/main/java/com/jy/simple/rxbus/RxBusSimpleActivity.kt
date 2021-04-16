@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.baselibrary.utils.ToastUtils
 import com.jy.commonlibrary.rxbus.RxBus
@@ -18,7 +18,7 @@ import com.jy.simple.R
  * created at 2019/9/25 18:54
  * TODO: RxBus 测试
  */
-class RxBusSimpleActivity : BaseAppCompatActivity() {
+class RxBusSimpleActivity : BaseActivity() {
 
     companion object {
 

@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
-import com.jy.baselibrary.base.BaseAppCompatActivity
+import com.jy.baselibrary.base.BaseActivity
 import com.jy.baselibrary.utils.ActivityUtils
 import com.jy.commonlibrary.glide.setImageDefaultLoadIconUrl
 import com.jy.commonlibrary.http.RxHelper
@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.simple_api_test_activity.*
  * @Date 2019/9/26-11:38
  * @TODO mvc 请求
  */
-class ApiSimpleActivity : BaseAppCompatActivity() {
+class ApiSimpleActivity : BaseActivity() {
 
     companion object {
         fun startAct(context: Context) {
