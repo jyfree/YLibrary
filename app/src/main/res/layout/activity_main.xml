@@ -191,6 +191,14 @@
             android:layout_height="wrap_content"
             android:onClick="go2Act"
             android:text="work示例" />
+
+        <Button
+            android:id="@+id/go_viewBinding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="go2Act"
+            android:textAllCaps="false"
+            android:text="viewBinding示例" />
     </LinearLayout>
 
 </ScrollView>

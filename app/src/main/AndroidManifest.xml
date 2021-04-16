@@ -135,6 +135,10 @@
         <activity
             android:name=".workers.WorkSimpleActivity"
             android:screenOrientation="unspecified" />
+
+        <activity
+            android:name=".viewbinding.TestVBActivity"
+            android:screenOrientation="unspecified" />
         <!--**********************************************************************-->
 
         <!--**************二次封装透明activity（接口的实现方式才需要注册）**************************-->

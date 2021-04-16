@@ -59,6 +59,11 @@ android {
         enabled true
     }
 
+    //启动viewBinding
+    viewBinding {
+        enabled = true
+    }
+
 }
 
 aspectjx {
