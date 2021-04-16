@@ -31,8 +31,14 @@ open class BaseViewModel : ViewModel() {
         this.lifecycleOwner = lifecycleOwner
     }
 
+    /**
+     * 绑定生命周期--方法之一，如RxJava的bindToLifecycle
+     */
     fun getLifeCycleProvide(): LifecycleProvider<*> = lifecycle!!
 
+    /**
+     * 绑定生命周期--方法之二，如RxJava的autoDispose（AutoDispose2的扩展方法）
+     */
     fun getLifecycleOwner(): LifecycleOwner = lifecycleOwner!!
 
 }
