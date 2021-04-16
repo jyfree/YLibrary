@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import com.jy.baselibrary.base.mvvm.MvvMBaseAppCompatActivity
 import com.jy.baselibrary.utils.ActivityUtils
-import com.jy.simple.BR
 import com.jy.simple.R
 import com.jy.simple.databinding.SimpleMvvmApiActivityBinding
 import com.jy.simple.repository.BannerRepository
@@ -19,7 +18,8 @@ import com.jy.simple.viewmodel.MvvMViewModelFactory
  * @Date 2019/11/1-15:48
  * @TODO
  */
-class MvvMApiSimpleActivity : MvvMBaseAppCompatActivity<MvvMViewModel, SimpleMvvmApiActivityBinding>() {
+class MvvMApiSimpleActivity :
+    MvvMBaseAppCompatActivity<MvvMViewModel, SimpleMvvmApiActivityBinding>() {
     companion object {
         fun startAct(context: Context) {
             ActivityUtils.startActivity(context, MvvMApiSimpleActivity::class.java)
@@ -34,11 +34,8 @@ class MvvMApiSimpleActivity : MvvMBaseAppCompatActivity<MvvMViewModel, SimpleMvv
             .get(MvvMViewModel::class.java)
     }
 
-    override fun getViewModelId(): Int = BR.test
-
-
     override fun initView(savedInstanceState: Bundle?) {
-
+        dataBinding.test = viewModel
     }
 
 

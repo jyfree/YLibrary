@@ -27,7 +27,6 @@ public abstract class MvvMBaseLazyFragment<VM extends BaseViewModel, DBinding ex
         viewModel.setLifecycleOwner(this);
 
         dataBinding.setLifecycleOwner(this);
-        dataBinding.setVariable(getViewModelId(), viewModel);
 
         initObserve();
         initView(savedInstanceState);
@@ -43,14 +42,6 @@ public abstract class MvvMBaseLazyFragment<VM extends BaseViewModel, DBinding ex
      * @return
      */
     protected abstract VM initViewModel();
-
-
-    /**
-     * 初始化ViewModel的variableId
-     *
-     * @return
-     */
-    protected abstract int getViewModelId();
 
 
     /**

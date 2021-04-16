@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import com.jy.baselibrary.base.mvvm.MvvMBaseLazyFragment
 import com.jy.baselibrary.utils.YLogUtils
-import com.jy.simple.BR
 import com.jy.simple.R
 import com.jy.simple.databinding.SimpleMvvmApiFragmentBinding
 import com.jy.simple.repository.BannerRepository
@@ -36,10 +35,8 @@ class MvvMLazySimpleFragmentOne :
             .get(MvvMViewModel::class.java)
     }
 
-    override fun getViewModelId(): Int = BR.sharedViewModel
-
     override fun initView(savedInstanceState: Bundle?) {
-
+        dataBinding.sharedViewModel = viewModel
     }
 
 
