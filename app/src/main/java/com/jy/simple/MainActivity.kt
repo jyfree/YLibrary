@@ -23,6 +23,7 @@ import com.jy.simple.social.common.PaySimpleCommonActivity
 import com.jy.simple.social.common.ShareSimpleCommonActivity
 import com.jy.simple.sp.SpSimpleActivity
 import com.jy.simple.timer.TimerSimpleActivity
+import com.jy.simple.viewbinding.TestVBActivity
 import com.jy.simple.workers.WorkSimpleActivity
 
 class MainActivity : BaseActivity() {
@@ -61,6 +62,7 @@ class MainActivity : BaseActivity() {
             R.id.go_aop -> AspectSimpleActivity.startAct(this)
             R.id.go_queue_api -> QueueApiSimpleActivity.startAct(this)
             R.id.go_work -> WorkSimpleActivity.startAct(this)
+            R.id.go_viewBinding -> TestVBActivity.startAct(this)
         }
     }
 
