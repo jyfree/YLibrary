@@ -96,13 +96,13 @@ dependencies {
     implementation rootProject.ext.dependencies.blankj_free_proguard
 
     //maven导入方式
-//    implementation rootProject.ext.dependencies.jy_commonlibrary//常用库
-//    implementation rootProject.ext.dependencies.jy_sociallibrary//社会化库
-//    implementation files(alipay)//支付宝
+    implementation rootProject.ext.dependencies.jy_commonlibrary//常用库
+    implementation rootProject.ext.dependencies.jy_sociallibrary//社会化库
+    implementation files(alipay)//支付宝
 
     //module导入方式
-    implementation project(':commonlibrary')//常用库
-    implementation project(':sociallibrary')//社会化库
+//    implementation project(':commonlibrary')//常用库
+//    implementation project(':sociallibrary')//社会化库
 
     //数据库自动生成代码
     kapt rootProject.ext.dependencies.litedb_compiler
