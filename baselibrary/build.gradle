@@ -34,8 +34,8 @@ dependencies {
     implementation rootProject.ext.dependencies.kotlin_stdlib_jdk7
     implementation rootProject.ext.dependencies.androidx_appcompat
     //RxLifecycle
-    api rootProject.ext.dependencies.rxlifecycle2_components
-    api rootProject.ext.dependencies.rxlifecycle2_kotlin
+    api rootProject.ext.dependencies.rxlifecycle4_components
+    api rootProject.ext.dependencies.rxlifecycle4_kotlin
     //Mvvm
     api rootProject.ext.dependencies.mvvm_lifecycle
 

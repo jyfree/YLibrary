@@ -3,8 +3,8 @@ package com.jy.commonlibrary.http.download.local
 import android.os.Handler
 import com.jy.commonlibrary.http.download.local.listener.DownloadProgressListener
 import com.jy.commonlibrary.http.download.local.listener.HttpDownOnNextListener
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
 import java.lang.ref.SoftReference
 
 

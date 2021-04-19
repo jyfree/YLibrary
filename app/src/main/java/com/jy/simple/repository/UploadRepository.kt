@@ -5,8 +5,8 @@ import com.jy.commonlibrary.http.RxFileUploadObserver
 import com.jy.commonlibrary.http.RxHelper
 import com.jy.commonlibrary.http.UploadFileRequestBody
 import com.jy.simple.network.Api
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.File
 
 /**

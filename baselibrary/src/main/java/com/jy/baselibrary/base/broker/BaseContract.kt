@@ -1,6 +1,7 @@
 package com.jy.baselibrary.base.broker
 
-import com.trello.rxlifecycle2.LifecycleProvider
+import com.trello.rxlifecycle4.LifecycleProvider
+
 
 /**
  * @Author Administrator

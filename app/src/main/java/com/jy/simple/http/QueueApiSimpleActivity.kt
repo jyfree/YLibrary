@@ -16,7 +16,7 @@ import com.jy.simple.repository.BannerRepository
 import com.jy.simple.repository.UserRepository
 import com.jy.simple.viewmodel.MvpViewModel
 import com.jy.simple.viewmodel.MvpViewModelFactory
-import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import com.trello.rxlifecycle4.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.simple_api_test_activity_queue.*
 
 /**

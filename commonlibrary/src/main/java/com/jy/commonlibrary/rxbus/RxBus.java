@@ -9,17 +9,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.BackpressureStrategy;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.functions.Predicate;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+import io.reactivex.rxjava3.subjects.Subject;
+
 
 @SuppressWarnings("unused")
 public class RxBus {
@@ -391,7 +392,7 @@ public class RxBus {
         YLogUtils.INSTANCE.iTag(TAG, "发送RxBus", message.object);
     }
 
-    private class Message {
+    private static class Message {
         private int code;
         private Object object;
 

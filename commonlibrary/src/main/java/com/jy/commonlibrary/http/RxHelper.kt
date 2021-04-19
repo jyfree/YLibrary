@@ -4,11 +4,12 @@ import com.google.gson.Gson
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.commonlibrary.http.bean.BaseBean
 import com.jy.commonlibrary.http.bean.SingleBaseBean
-import io.reactivex.Observable
-import io.reactivex.ObservableSource
-import io.reactivex.ObservableTransformer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableSource
+import io.reactivex.rxjava3.core.ObservableTransformer
+import io.reactivex.rxjava3.schedulers.Schedulers
+
 
 object RxHelper {
 

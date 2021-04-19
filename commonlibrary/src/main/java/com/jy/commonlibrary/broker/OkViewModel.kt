@@ -6,8 +6,8 @@ import com.jy.commonlibrary.http.ApiException
 import com.jy.commonlibrary.http.RxHelper
 import com.jy.commonlibrary.http.RxObserver
 import com.jy.commonlibrary.http.bean.BaseBean
-import com.trello.rxlifecycle2.kotlin.bindToLifecycle
-import io.reactivex.Observable
+import com.trello.rxlifecycle4.kotlin.bindToLifecycle
+import io.reactivex.rxjava3.core.Observable
 
 /**
  * @description 封装viewModel网络请求

@@ -5,7 +5,7 @@ import com.jy.commonlibrary.http.bean.HttpParam
 import com.jy.commonlibrary.http.bean.SingleBaseBean
 import com.jy.simple.bean.BannerInfoListVo
 import com.jy.simple.network.bean.HttpRequest
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.Body
 import retrofit2.http.POST
 

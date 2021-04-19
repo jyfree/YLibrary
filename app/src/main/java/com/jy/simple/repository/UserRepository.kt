@@ -5,7 +5,7 @@ import com.jy.commonlibrary.http.bean.SingleBaseBean
 import com.jy.simple.bean.SendGiftVo
 import com.jy.simple.network.Api
 import com.jy.simple.network.bean.HttpRequest
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 
 
 /**

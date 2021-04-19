@@ -1,7 +1,7 @@
 package com.jy.simple.network.api
 
 import com.jy.commonlibrary.http.bean.BaseBean
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.POST

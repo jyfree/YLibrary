@@ -5,12 +5,12 @@ import android.os.Looper
 import com.jy.baselibrary.utils.FileUtils
 import com.jy.baselibrary.utils.YLogUtils
 import com.jy.commonlibrary.http.download.local.listener.DownloadInterceptor
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.io.IOException
@@ -79,7 +79,7 @@ object HttpDownManager {
             val retrofit = Retrofit.Builder()
                 .client(builder.build())
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .baseUrl(baseUrl)
                 .build()
             httpService = retrofit.create(HttpDownService::class.java)

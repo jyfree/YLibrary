@@ -2,8 +2,8 @@ package com.jy.commonlibrary.http
 
 import com.jy.baselibrary.utils.ToastUtils
 import com.jy.baselibrary.utils.YLogUtils
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException

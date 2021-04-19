@@ -10,11 +10,11 @@ import com.jy.baselibrary.pic.PicListener
 import com.jy.baselibrary.pic.PicOptions
 import com.jy.baselibrary.utils.*
 import com.jy.simple.R
-import com.trello.rxlifecycle2.kotlin.bindToLifecycle
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.trello.rxlifecycle4.kotlin.bindToLifecycle
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.simple_api_test_activity.imageView
 import kotlinx.android.synthetic.main.simple_pic_activity.*
 import java.io.File

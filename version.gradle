@@ -19,19 +19,17 @@ ext {
             androidx_constraintlayout: 'androidx.constraintlayout:constraintlayout:1.1.3',
             androidx_design          : "com.google.android.material:material:1.0.0",
             //RxLifecycle
-            rxlifecycle2_components  : 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1',
-            rxlifecycle2_kotlin      : 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.1',
+            rxlifecycle4_components  : 'com.trello.rxlifecycle4:rxlifecycle-components:4.0.2',
+            rxlifecycle4_kotlin      : 'com.trello.rxlifecycle4:rxlifecycle-kotlin:4.0.2',
             //Mvvm
             mvvm_lifecycle           : 'android.arch.lifecycle:extensions:1.1.1',
-            //support
-            support_fragment         : 'com.android.support:support-fragment:28.0.0',
             //RxJava
-            rxjava                   : 'io.reactivex.rxjava2:rxjava:2.2.12',
-            rxandroid                : 'io.reactivex.rxjava2:rxandroid:2.1.1',
+            rxjava                   : 'io.reactivex.rxjava3:rxjava:3.0.4',
+            rxandroid                : 'io.reactivex.rxjava3:rxandroid:3.0.0',
             //retrofit
-            retrofit_base            : 'com.squareup.retrofit2:retrofit:2.6.2',
-            retrofit_converter_gson  : 'com.squareup.retrofit2:converter-gson:2.6.0',
-            retrofit_adapter         : 'com.squareup.retrofit2:adapter-rxjava2:2.6.0',
+            retrofit_base            : 'com.squareup.retrofit2:retrofit:2.9.0',
+            retrofit_converter_gson  : 'com.squareup.retrofit2:converter-gson:2.9.0',
+            retrofit_adapter         : 'com.squareup.retrofit2:adapter-rxjava3:2.9.0',
             //okHttp
             okhttp                   : 'com.squareup.okhttp3:okhttp:4.2.0',
             //coroutines

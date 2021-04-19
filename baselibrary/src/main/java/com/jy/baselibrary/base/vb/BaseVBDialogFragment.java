@@ -12,8 +12,8 @@ import androidx.viewbinding.ViewBinding;
 import com.jy.baselibrary.base.broker.BaseContract;
 import com.jy.baselibrary.helper.LoadSirHelper;
 import com.jy.baselibrary.utils.ToastUtils;
-import com.trello.rxlifecycle2.LifecycleProvider;
-import com.trello.rxlifecycle2.components.support.RxAppCompatDialogFragment;
+import com.trello.rxlifecycle4.LifecycleProvider;
+import com.trello.rxlifecycle4.components.support.RxAppCompatDialogFragment;
 
 import org.jetbrains.annotations.NotNull;
 

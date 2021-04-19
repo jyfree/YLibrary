@@ -3,7 +3,7 @@ package com.jy.baselibrary.base.broker
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.trello.rxlifecycle2.LifecycleProvider
+import com.trello.rxlifecycle4.LifecycleProvider
 
 /**
 

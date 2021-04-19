@@ -1,8 +1,8 @@
 package com.jy.commonlibrary.http
 
 import com.jy.baselibrary.utils.ToastUtils
-import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DefaultObserver
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.observers.DefaultObserver
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
