@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 
-import com.jy.baselibrary.base.BaseLazyFragment;
+import com.jy.baselibrary.base.BaseFragment;
 import com.jy.baselibrary.base.broker.BaseViewModel;
 
 
@@ -20,7 +20,7 @@ import com.jy.baselibrary.base.broker.BaseViewModel;
  * @Date 2019/11/1-10:36
  * @TODO
  */
-public abstract class MvvMBaseLazyFragment<DBinding extends ViewDataBinding> extends BaseLazyFragment {
+public abstract class MvvMBaseFragment<DBinding extends ViewDataBinding> extends BaseFragment {
 
     protected DBinding dataBinding;
 
@@ -32,6 +32,7 @@ public abstract class MvvMBaseLazyFragment<DBinding extends ViewDataBinding> ext
         mView = dataBinding.getRoot();
         return mView;
     }
+
 
     /**
      * 挂载ViewModel
@@ -48,5 +49,4 @@ public abstract class MvvMBaseLazyFragment<DBinding extends ViewDataBinding> ext
             }
         });
     }
-
 }

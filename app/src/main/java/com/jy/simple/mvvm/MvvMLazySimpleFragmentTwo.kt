@@ -1,6 +1,7 @@
 package com.jy.simple.mvvm
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.jy.baselibrary.base.mvvm.MvvMBaseLazyFragment
 import com.jy.baselibrary.utils.YLogUtils
@@ -16,8 +17,7 @@ import com.jy.simple.viewmodel.MvvMViewModelFactory
  * @Date 2019/11/5-9:51
  * @TODO
  */
-class MvvMLazySimpleFragmentTwo :
-    MvvMBaseLazyFragment<MvvMViewModel, SimpleMvvmFragmentBinding>() {
+class MvvMLazySimpleFragmentTwo : MvvMBaseLazyFragment<SimpleMvvmFragmentBinding>() {
 
     companion object {
         @JvmStatic
@@ -29,13 +29,13 @@ class MvvMLazySimpleFragmentTwo :
 
     override fun initLayoutID(): Int = R.layout.simple_mvvm_fragment
 
-    override fun initViewModel(): MvvMViewModel {
-        return ViewModelProviders.of(activity!!, MvvMViewModelFactory(BannerRepository()))
+    private val viewModel: MvvMViewModel by lazy {
+        ViewModelProviders.of(activity!!, MvvMViewModelFactory(BannerRepository()))
             .get(MvvMViewModel::class.java)
-
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun initUI(view: View?, savedInstanceState: Bundle?) {
+        attachViewModel(viewModel)
         dataBinding.sharedViewModel = viewModel
     }
 

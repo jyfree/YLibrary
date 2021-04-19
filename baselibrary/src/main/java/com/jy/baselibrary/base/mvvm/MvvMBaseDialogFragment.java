@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 
-import com.jy.baselibrary.base.BaseLazyFragment;
+import com.jy.baselibrary.base.BaseDialogFragment;
 import com.jy.baselibrary.base.broker.BaseViewModel;
 
 
@@ -20,7 +20,7 @@ import com.jy.baselibrary.base.broker.BaseViewModel;
  * @Date 2019/11/1-10:36
  * @TODO
  */
-public abstract class MvvMBaseLazyFragment<DBinding extends ViewDataBinding> extends BaseLazyFragment {
+public abstract class MvvMBaseDialogFragment<DBinding extends ViewDataBinding> extends BaseDialogFragment {
 
     protected DBinding dataBinding;
 
@@ -48,5 +48,4 @@ public abstract class MvvMBaseLazyFragment<DBinding extends ViewDataBinding> ext
             }
         });
     }
-
 }

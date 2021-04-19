@@ -18,8 +18,7 @@ import com.jy.simple.viewmodel.MvvMViewModelFactory
  * @Date 2019/11/1-15:48
  * @TODO
  */
-class MvvMApiSimpleActivity :
-    MvvMBaseActivity<MvvMViewModel, SimpleMvvmApiActivityBinding>() {
+class MvvMApiSimpleActivity : MvvMBaseActivity<SimpleMvvmApiActivityBinding>() {
     companion object {
         fun startAct(context: Context) {
             ActivityUtils.startActivity(context, MvvMApiSimpleActivity::class.java)
@@ -28,13 +27,13 @@ class MvvMApiSimpleActivity :
 
     override fun initLayoutID(): Int = R.layout.simple_mvvm_api_activity
 
-
-    override fun initViewModel(): MvvMViewModel {
-        return ViewModelProviders.of(this, MvvMViewModelFactory(BannerRepository()))
+    private val viewModel: MvvMViewModel by lazy {
+        ViewModelProviders.of(this, MvvMViewModelFactory(BannerRepository()))
             .get(MvvMViewModel::class.java)
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun initUI(savedInstanceState: Bundle?) {
+        attachViewModel(viewModel)
         dataBinding.test = viewModel
     }
 

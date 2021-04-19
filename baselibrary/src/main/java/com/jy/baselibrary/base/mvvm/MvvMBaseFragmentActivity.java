@@ -13,7 +13,7 @@ import com.jy.baselibrary.base.broker.BaseViewModel;
 import com.jy.baselibrary.helper.LoadSirHelper;
 import com.jy.baselibrary.utils.ToastUtils;
 import com.trello.rxlifecycle4.LifecycleProvider;
-import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle4.components.support.RxFragmentActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
  * @Date 2019/11/1-11:06
  * @TODO
  */
-public abstract class MvvMBaseActivity<DBinding extends ViewDataBinding> extends RxAppCompatActivity implements BaseContract.BaseView {
+public abstract class MvvMBaseFragmentActivity<DBinding extends ViewDataBinding> extends RxFragmentActivity implements BaseContract.BaseView {
 
     protected DBinding dataBinding;
     private LoadSirHelper loadSirHelper = new LoadSirHelper();
